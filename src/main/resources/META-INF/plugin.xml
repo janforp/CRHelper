@@ -36,5 +36,8 @@
         <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="替换中文字符">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
+        <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="驼峰转换">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
