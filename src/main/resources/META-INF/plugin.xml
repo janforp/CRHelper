@@ -42,7 +42,10 @@
         <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="Auto gen code">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
-        <action id="MarkBookAction" class="com.janita.plugin.markbook.MarkBookAction" text="源码笔记" description="Add a note" icon="/img/mark.png">
+        <!--        <action id="MarkBookAction" class="com.janita.plugin.markbook.MarkBookAction" text="源码笔记" description="Add a note" icon="/img/mark.png">-->
+        <!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CreateCrQuestionAction" text="提CR问题" description="Create a CR question">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
