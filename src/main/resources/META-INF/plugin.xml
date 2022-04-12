@@ -33,5 +33,8 @@
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
         </action>
+        <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="替换中文字符">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
