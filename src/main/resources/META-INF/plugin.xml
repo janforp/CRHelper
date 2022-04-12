@@ -33,14 +33,17 @@
             <add-to-group group-id="ToolsMenu" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
         </action>
-        <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="替换中文字符">
+        <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="Replace Chinese Char">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
-        <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="驼峰转换">
+        <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="Camel tran">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
-        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="自动生成代码">
+        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="Auto gen code">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+        <action id="MarkBookAction" class="com.janita.plugin.markbook.MarkBookAction" text="源码笔记" description="Add a note" icon="/img/mark.png">
+            <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
 </idea-plugin>
