@@ -6,24 +6,24 @@ import com.intellij.notification.Notifications;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 类说明：
+ * 类说明：开启新线程弹出提示框
  *
  * @author zhucj
  * @since 2020/3/8 - 下午4:41
  */
 public class NotificationThread extends Thread {
 
-    private Notification notification;
+    private final Notification notification;
 
-    private int sleepTime;
+    private final int sleepTime;
 
-    NotificationThread(Notification notification, int sleepTime) {
+    public NotificationThread(Notification notification, int sleepTime) {
         this.notification = notification;
         this.sleepTime = sleepTime;
     }
 
     public NotificationThread(Notification notification) {
-        this(notification, 4);
+        this(notification, 6);
     }
 
     @Override
@@ -36,5 +36,4 @@ public class NotificationThread extends Thread {
         }
         this.notification.expire();
     }
-
 }

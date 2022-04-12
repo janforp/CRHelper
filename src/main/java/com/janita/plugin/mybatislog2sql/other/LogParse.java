@@ -2,6 +2,7 @@ package com.janita.plugin.mybatislog2sql.other;
 
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
+import com.janita.plugin.common.domain.Pair;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,35 +17,14 @@ import java.util.Objects;
 public class LogParse {
 
     public static String toSql(String log) {
-        String sqlLine = null;
-        String valueLine = null;
-        String[] logArr = log.split(LogConstants.BREAK_LINE);
-        for (String line : logArr) {
-            if (line.contains(LogConstants.PREFIX_SQL)) {
-                sqlLine = line;
-            } else if (line.contains(LogConstants.PREFIX_PARAMS)) {
-                valueLine = line;
-            } else if (line.contains(LogConstants.PREFIX_PARAMS_WITHOUT_SPACE)) {
-                valueLine = line + LogConstants.SPACE;
-            }
-        }
+        Pair<String, String> pair = getLogPair(log);
+        String sqlLine = pair.getLeft();
+        String valueLine = pair.getRight();
 
-        if (Objects.isNull(sqlLine)) {
-            //右下角的提示
-            new NotificationThread(new Notification(
-                    "Copy As Executable Sql",
-                    "Copy As executable sql",
-                    "selected log with \"Preparing:\" line, nothing will send to clipboard",
-                    NotificationType.WARNING
-            )).start();
-            return LogConstants.EMPTY;
-        } else if (Objects.isNull(valueLine)) {
-            new NotificationThread(new Notification(
-                    "Copy As Executable Sql",
-                    "Copy As executable sql",
-                    "selected log with \"Parameters:\" line, nothing will send to clipboard",
-                    NotificationType.WARNING
-            )).start();
+        // 二者任一为空的时候
+        boolean failOfInvalidLog = Objects.isNull(sqlLine) || Objects.isNull(valueLine);
+        if (failOfInvalidLog) {
+            showNotification(sqlLine);
             return LogConstants.EMPTY;
         }
 
@@ -97,5 +77,31 @@ public class LogParse {
         // 参数类型
         String type = paramValue.substring(lastLeftBracketIndex + 1, lastRightBracketIndex);
         return LogConstants.NON_QUOTED_TYPES.contains(type) ? param : String.format("'%s'", param);
+    }
+
+    private static Pair<String, String> getLogPair(String log) {
+        String sqlLine = null;
+        String valueLine = null;
+        String[] logArr = log.split(LogConstants.BREAK_LINE);
+        for (String line : logArr) {
+            if (line.contains(LogConstants.PREFIX_SQL)) {
+                sqlLine = line;
+            } else if (line.contains(LogConstants.PREFIX_PARAMS)) {
+                valueLine = line;
+            } else if (line.contains(LogConstants.PREFIX_PARAMS_WITHOUT_SPACE)) {
+                valueLine = line + LogConstants.SPACE;
+            }
+        }
+        return Pair.of(sqlLine, valueLine);
+    }
+
+    private static void showNotification(String sqlLine) {
+        String content = Objects.isNull(sqlLine) ? "selected log with \"Preparing:\" line, nothing will send to clipboard" : "selected log with \"Parameters:\" line, nothing will send to clipboard";
+        Notification notification = new Notification(
+                "Copy As Executable Sql",
+                "Copy As executable sql", content,
+                NotificationType.WARNING
+        );
+        new NotificationThread(notification).start();
     }
 }

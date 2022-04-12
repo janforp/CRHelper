@@ -2,16 +2,15 @@ package com.janita.plugin.mybatislog2sql;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
-import java.awt.datatransfer.StringSelection;
-
 import com.intellij.openapi.actionSystem.PlatformDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.janita.plugin.mybatislog2sql.other.LogParse;
 import com.janita.plugin.mybatislog2sql.other.SqlFormatter;
 import org.apache.commons.lang.StringUtils;
+
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 
 /**
  * mybatis日志转换为可执行大sql
@@ -29,7 +28,6 @@ import org.apache.commons.lang.StringUtils;
  * where
  * id = '1'
  * and name = '张三'
- *
  *
  * @author zhucj
  * @since 202003
@@ -50,8 +48,13 @@ public class MybatisLog2SqlAction extends AnAction {
         if (StringUtils.isEmpty(sql)) {
             return;
         }
+
+        // 拿到剪贴板
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-        StringSelection stringSelection = new StringSelection(SqlFormatter.format(sql));
+
+        // 格式化之后的sql
+        String formatSql = SqlFormatter.format(sql);
+        StringSelection stringSelection = new StringSelection(formatSql);
         clipboard.setContents(stringSelection, null);
     }
 }
