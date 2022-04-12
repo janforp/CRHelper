@@ -39,5 +39,8 @@
         <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="驼峰转换">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
+        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="自动生成代码">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
