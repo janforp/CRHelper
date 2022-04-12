@@ -1,0 +1,37 @@
+<idea-plugin>
+    <id>com.janita.plugin.CRHelper</id>
+    <name>CRHelper</name>
+    <vendor email="janforp@163.com" url="janforp@163.com">janita</vendor>
+    <idea-version since-build="171.0"/>
+    <description><![CDATA[
+        sdfsdfsdfsdfsdfsdfsdfsdfasdfasdfasdfasdfasdfasfasfasfdasdfasfasfdasfasf
+        ]]></description>
+
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
+         on how to target different products -->
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="ActionDemo" class="com.janita.plugin.demo.ActionPopupMessage" text="弹出文字" description="测试弹出文字">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+        <action id="ActionPopupDialog" class="com.janita.plugin.demo.ActionPopupDialog" text="弹出输入框" description="测试弹出输入框">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+        <action id="PluginApiAction" class="com.janita.plugin.demo.PluginApiAction" text="测试插件api" description="测试插件api">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+        <action id="TestTranslateAction" class="com.janita.plugin.demo.GetUserSelectedTextAction" text="弹出用户选择的文本" description="拿到用户选择的文本">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+        </action>
+        <action id="MybatisLog2SqlAction" class="com.janita.plugin.mybatislog2sql.MybatisLog2SqlAction" text="MyBatis日志转SQL" description="myBatis日志转SQL">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
+        </action>
+    </actions>
+</idea-plugin>
