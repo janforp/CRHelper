@@ -22,17 +22,17 @@ import javax.swing.*;
 @State(name = "com.janita.plugin.autgencode.component.AutoCodeConfigComponent", storages = { @com.intellij.openapi.components.Storage(file = "$APP_CONFIG$/auto-gen-code.xml") })
 public class AutoCodeConfigComponent implements BaseComponent, Configurable, PersistentStateComponent<AutoCodeConfigComponent> {
 
-    private String databaseUrl = "";
+    private String databaseUrl = "dev.mydhouse.com:3306/test";
 
-    private String databaseUser = "";
+    private String databaseUser = "cms";
 
-    private String databasePwd = "";
+    private String databasePwd = "1qaz@WSX";
 
-    private String creator = "";
+    private String creator = "janita";
 
     private String projectPath;
 
-    private String email = "@qq.com";
+    private String email = "804979367@qq.com";
 
     private String packageName = "com.janita.demo";
 
