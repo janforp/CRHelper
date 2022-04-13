@@ -9,10 +9,10 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.util.CommonUtils;
 
-import java.util.List;
+import java.util.Date;
 
 /**
- * QuestionService
+ * CrQuestionUtils
  *
  * @author zhucj
  * @since 20220324
@@ -21,13 +21,6 @@ public class CrQuestionUtils {
 
     public static void saveQuestion(CrQuestion question) {
         CrQuestionHouse.add(question);
-
-        List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
-        for (int i = 0; i < crQuestionList.size(); i++) {
-            System.out.println((i + 1));
-            System.out.println(crQuestionList.get(i));
-            System.out.println("==================================================================");
-        }
     }
 
     public static CrQuestion buildQuestion(AnActionEvent e) {
@@ -51,6 +44,10 @@ public class CrQuestionUtils {
         question.setFromAccount(CommonUtils.getGitUser(e).getName());
         question.setToAccount(null);
         question.setGitBranchName(vcsPair.getRight());
+        question.setSolveGitBranchName(null);
+        question.setSolve(false);
+        question.setCreateTime(new Date());
+        question.setSolveTime(null);
         return question;
     }
 }

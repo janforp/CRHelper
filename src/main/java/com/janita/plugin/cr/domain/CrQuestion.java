@@ -1,5 +1,7 @@
 package com.janita.plugin.cr.domain;
 
+import java.util.Date;
+
 /**
  * CrQuestion
  *
@@ -63,6 +65,26 @@ public class CrQuestion {
      */
     private String gitBranchName;
 
+    /**
+     * 解决版本
+     */
+    private String solveGitBranchName;
+
+    /**
+     * 是否已经解决
+     */
+    private Boolean solve;
+
+    /**
+     * 提问时间
+     */
+    private Date createTime;
+
+    /**
+     * 解决时间
+     */
+    private Date solveTime;
+
     public String getType() {
         return type;
     }
@@ -83,6 +105,22 @@ public class CrQuestion {
         return questionCode;
     }
 
+    public void setSolveGitBranchName(String solveGitBranchName) {
+        this.solveGitBranchName = solveGitBranchName;
+    }
+
+    public void setSolve(Boolean solve) {
+        this.solve = solve;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setSolveTime(Date solveTime) {
+        this.solveTime = solveTime;
+    }
+
     public String getBetterCode() {
         return betterCode;
     }
@@ -93,6 +131,22 @@ public class CrQuestion {
 
     public String getFromAccount() {
         return fromAccount;
+    }
+
+    public String getSolveGitBranchName() {
+        return solveGitBranchName;
+    }
+
+    public Boolean getSolve() {
+        return solve;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public Date getSolveTime() {
+        return solveTime;
     }
 
     public String getToAccount() {
@@ -165,6 +219,10 @@ public class CrQuestion {
                 ", fromAccount='" + fromAccount + '\'' +
                 ", toAccount='" + toAccount + '\'' +
                 ", gitBranchName='" + gitBranchName + '\'' +
+                ", solveGitBranchName='" + solveGitBranchName + '\'' +
+                ", solve=" + solve +
+                ", createTime=" + createTime +
+                ", solveTime=" + solveTime +
                 '}';
     }
 }
