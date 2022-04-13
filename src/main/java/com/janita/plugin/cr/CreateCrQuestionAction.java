@@ -27,5 +27,12 @@ public class CreateCrQuestionAction extends AnAction {
         String className = e.getRequiredData(CommonDataKeys.PSI_FILE).getViewProvider().getVirtualFile().getName();
         System.out.println(questionCode);
         System.out.println(className);
+
+        /*
+         * 1.组装 CrQuestion 对象
+         * 2.弹出对话框
+         * 3.然后再输入其他信息
+         * 4.点击保存就可以创建一个CR问题
+         */
     }
 }
