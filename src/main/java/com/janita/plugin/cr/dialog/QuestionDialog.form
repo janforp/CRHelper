@@ -89,19 +89,6 @@
               <text value="描述"/>
             </properties>
           </component>
-          <scrollpane id="d49c7">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
-            </constraints>
-            <properties/>
-            <border type="none"/>
-            <children>
-              <component id="f6e4f" class="javax.swing.JComboBox" binding="questionTypeBox">
-                <constraints/>
-                <properties/>
-              </component>
-            </children>
-          </scrollpane>
           <scrollpane id="5410e">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -156,6 +143,12 @@
             <properties>
               <model/>
             </properties>
+          </component>
+          <component id="6853f" class="javax.swing.JComboBox" binding="questionTypeBox">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="2" anchor="8" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+            <properties/>
           </component>
         </children>
       </grid>
