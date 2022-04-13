@@ -42,7 +42,7 @@ public class QuestionDialog extends JDialog {
     /**
      * 问题类型列表
      */
-    private JComboBox<String> questionTypeList;
+    private JComboBox<String> questionTypeBox;
 
     /**
      * 问题代码
@@ -58,6 +58,11 @@ public class QuestionDialog extends JDialog {
      * 描述
      */
     private JTextArea descArea;
+
+    /**
+     * 指派给的人员列表
+     */
+    private JComboBox<String> toAccountBox;
 
     public QuestionDialog(Project project) {
         this.project = project;
@@ -120,9 +125,14 @@ public class QuestionDialog extends JDialog {
      * 建议，性能， 缺陷， 规范
      */
     private void initQuestionTypeList() {
-        questionTypeList.addItem("建议");
-        questionTypeList.addItem("性能");
-        questionTypeList.addItem("缺陷");
-        questionTypeList.addItem("规范");
+        questionTypeBox.addItem("建议");
+        questionTypeBox.addItem("性能");
+        questionTypeBox.addItem("缺陷");
+        questionTypeBox.addItem("规范");
+
+        toAccountBox.addItem("王尚飞");
+        toAccountBox.addItem("朱晨剑");
+        toAccountBox.addItem("张丹");
+        toAccountBox.addItem("杨艳斌");
     }
 }
