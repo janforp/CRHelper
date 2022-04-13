@@ -23,6 +23,7 @@ dependencies {
 intellij {
     version = '2017.3'
     updateSinceUntilBuild=false
+    plugins = ['git4idea']
 }
 patchPluginXml {
     changeNotes = """

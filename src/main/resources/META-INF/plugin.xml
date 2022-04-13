@@ -7,9 +7,10 @@
         sdfsdfsdfsdfsdfsdfsdfsdfasdfasdfasdfasdfasdfasfasfasfdasdfasfasfdasfasf
         ]]></description>
 
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
-         on how to target different products -->
+    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+    <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- 添加右边的 CrQuestion 菜单 -->

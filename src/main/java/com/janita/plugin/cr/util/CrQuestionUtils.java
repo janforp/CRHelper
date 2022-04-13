@@ -48,7 +48,7 @@ public class CrQuestionUtils {
         question.setQuestionCode(questionCode);
         question.setBetterCode(null);
         question.setDesc(null);
-        question.setFromAccount(null);
+        question.setFromAccount(CommonUtils.getGitUser(e).getName());
         question.setToAccount(null);
         question.setGitBranchName(vcsPair.getRight());
         return question;

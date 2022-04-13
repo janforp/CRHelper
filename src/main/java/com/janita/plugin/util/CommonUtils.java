@@ -11,7 +11,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.vcs.log.VcsUser;
 import com.janita.plugin.common.domain.Pair;
+import git4idea.GitUserRegistry;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -77,4 +79,11 @@ public class CommonUtils {
         // 当前文件的名称
         return e.getRequiredData(CommonDataKeys.PSI_FILE).getViewProvider().getVirtualFile().getName();
     }
+
+    public static VcsUser getGitUser(AnActionEvent e) {
+        Project project = e.getRequiredData(CommonDataKeys.PROJECT);
+        GitUserRegistry instance = GitUserRegistry.getInstance(project);
+        return instance.getOrReadUser(project.getBaseDir());
+    }
+
 }
