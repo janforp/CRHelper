@@ -19,7 +19,7 @@ public class CrQuestionListWindowFactory implements ToolWindowFactory {
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
-        CrQuestionListWindow window = new CrQuestionListWindow();
+        CrQuestionListWindow window = new CrQuestionListWindow(toolWindow);
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent((JComponent) window.getContentPane(), "", false);
         toolWindow.getContentManager().addContent(content);
