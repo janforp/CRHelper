@@ -10,7 +10,6 @@ import com.intellij.openapi.editor.Caret;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.EditorModificationUtil;
 import com.intellij.openapi.project.Project;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -28,7 +27,7 @@ public class ToggleCamelCaseAction extends AnAction {
         Caret caret = e.getData(PlatformDataKeys.CARET);
 
         String selectedText = caret.getEditor().getSelectionModel().getSelectedText();
-        if (StringUtils.isEmpty(selectedText)) {
+        if (selectedText == null || selectedText.length() == 0) {
             editor.getSelectionModel().selectWordAtCaret(true);
             return;
         }
