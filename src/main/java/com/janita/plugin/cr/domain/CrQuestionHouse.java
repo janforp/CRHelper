@@ -11,9 +11,13 @@ import java.util.List;
  */
 public class CrQuestionHouse {
 
-    public static List<CrQuestion> questionList = new ArrayList<>();
+    private static final List<CrQuestion> CR_QUESTION_LIST = new ArrayList<>();
 
     public static void add(CrQuestion question) {
-        questionList.add(question);
+        CR_QUESTION_LIST.add(question);
+    }
+
+    public static List<CrQuestion> getCrQuestionList() {
+        return CR_QUESTION_LIST;
     }
 }

@@ -28,7 +28,6 @@ public class GetUserSelectedTextAction extends AnAction {
         SelectionModel model = editor.getSelectionModel();
         //获取模型中的文本
         String selectedText = model.getSelectedText();
-        System.out.println(selectedText);
 
         Project project = e.getData(PlatformDataKeys.PROJECT);
         Messages.showMessageDialog(project, "你选择的是：" + selectedText, "标题", Messages.getInformationIcon());

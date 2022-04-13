@@ -3,7 +3,6 @@ package com.janita.plugin.cr.dialog;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 
 import javax.swing.*;
@@ -98,7 +97,6 @@ public class CrCreateQuestionDialog extends JDialog {
     }
 
     private void onOK() {
-        System.out.println(question);
         rebuildQuestion();
         CrQuestionUtils.saveQuestion(question);
         dispose();
@@ -109,7 +107,6 @@ public class CrCreateQuestionDialog extends JDialog {
         question.setBetterCode(betterCodeArea.getText());
         question.setDesc(descArea.getText());
         question.setToAccount((String) toAccountBox.getSelectedItem());
-        CrQuestionHouse.add(question);
     }
 
     private void onCancel() {

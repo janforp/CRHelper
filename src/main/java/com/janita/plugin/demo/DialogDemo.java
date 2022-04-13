@@ -61,7 +61,6 @@ public class DialogDemo extends JDialog {
         String name = nameField.getText();
         char[] fieldPassword = passwordField.getPassword();
         String password = new String(fieldPassword);
-        System.out.println(name + password);
         dispose();
     }
 
