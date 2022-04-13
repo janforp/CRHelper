@@ -12,7 +12,8 @@
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <!-- Add your extensions here -->
+        <!-- 添加右边的 CrQuestion 菜单 -->
+        <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CrQuestion" anchor="right" icon="/img/mark.png"/>
     </extensions>
 
     <actions>
