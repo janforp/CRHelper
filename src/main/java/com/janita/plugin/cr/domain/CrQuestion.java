@@ -11,7 +11,7 @@ public class CrQuestion {
     /**
      * 问题类型
      */
-    private QuestionType type;
+    private String type;
 
     /**
      * 起始行
@@ -58,7 +58,7 @@ public class CrQuestion {
      */
     private String gitBranchName;
 
-    public QuestionType getType() {
+    public String getType() {
         return type;
     }
 
@@ -94,7 +94,7 @@ public class CrQuestion {
         return toAccount;
     }
 
-    public void setType(QuestionType type) {
+    public void setType(String type) {
         this.type = type;
     }
 
