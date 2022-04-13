@@ -19,7 +19,11 @@ import java.util.Date;
  */
 public class CrQuestionUtils {
 
-    public static void saveQuestion(CrQuestion question) {
+    public static void saveQuestion(Boolean update, Integer editIndex, CrQuestion question) {
+        if (update) {
+            CrQuestionHouse.update(editIndex, question);
+            return;
+        }
         CrQuestionHouse.add(question);
     }
 

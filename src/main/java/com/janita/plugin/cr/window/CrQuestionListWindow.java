@@ -130,7 +130,7 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
-                CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
+                CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project);
                 dialog.open(question);
             }
         });

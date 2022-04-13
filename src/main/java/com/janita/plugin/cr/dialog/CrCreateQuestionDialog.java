@@ -65,7 +65,18 @@ public class CrCreateQuestionDialog extends JDialog {
      */
     private JComboBox<String> toAccountBox;
 
+    /**
+     * 修改还是添加
+     */
+    private Boolean update;
+
+    /**
+     * 被编辑的序号
+     */
+    private Integer editIndex;
+
     public CrCreateQuestionDialog(Project project) {
+        this.update = false;
         this.project = project;
         setContentPane(contentPane);
         setModal(true);
@@ -96,9 +107,15 @@ public class CrCreateQuestionDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    public CrCreateQuestionDialog(Integer index, Project project) {
+        this(project);
+        this.update = true;
+        this.editIndex = index;
+    }
+
     private void onOK() {
         rebuildQuestion();
-        CrQuestionUtils.saveQuestion(question);
+        CrQuestionUtils.saveQuestion(update, editIndex, question);
         dispose();
     }
 

@@ -42,4 +42,11 @@ public class CrQuestionHouse {
         CR_QUESTION_LIST.remove(row);
         TABLE_MODEL.removeRow(row);
     }
+
+    public static void update(Integer editIndex, CrQuestion question) {
+        CR_QUESTION_LIST.set(editIndex, question);
+        TABLE_MODEL.removeRow(editIndex);
+        String[] raw = convertToRaw(question);
+        TABLE_MODEL.insertRow(editIndex, raw);
+    }
 }
