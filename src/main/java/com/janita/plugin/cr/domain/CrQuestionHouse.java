@@ -9,7 +9,7 @@ import java.util.List;
  * @author zhucj
  * @since 20220324
  */
-public class DataStorehouse {
+public class CrQuestionHouse {
 
     public static List<CrQuestion> questionList = new ArrayList<>();
 

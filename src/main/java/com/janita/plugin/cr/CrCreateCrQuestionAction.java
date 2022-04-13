@@ -13,7 +13,7 @@ import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.cr.dialog.QuestionDialog;
+import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import java.util.Set;
  * @author zhucj
  * @since 20220324
  */
-public class CreateCrQuestionAction extends AnAction {
+public class CrCreateCrQuestionAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
@@ -60,7 +60,7 @@ public class CreateCrQuestionAction extends AnAction {
         question.setFromAccount(null);
         question.setToAccount(null);
         question.setGitBranchName(vcsPair.getRight());
-        QuestionDialog dialog = new QuestionDialog(project);
+        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
         dialog.open(question);
     }
 

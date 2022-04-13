@@ -3,7 +3,8 @@ package com.janita.plugin.cr.dialog;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.domain.DataStorehouse;
+import com.janita.plugin.cr.domain.CrQuestionHouse;
+import com.janita.plugin.cr.util.CrQuestionUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class QuestionDialog extends JDialog {
+public class CrCreateQuestionDialog extends JDialog {
 
     /**
      * 工程
@@ -65,7 +66,7 @@ public class QuestionDialog extends JDialog {
      */
     private JComboBox<String> toAccountBox;
 
-    public QuestionDialog(Project project) {
+    public CrCreateQuestionDialog(Project project) {
         this.project = project;
         setContentPane(contentPane);
         setModal(true);
@@ -99,6 +100,7 @@ public class QuestionDialog extends JDialog {
     private void onOK() {
         System.out.println(question);
         rebuildQuestion();
+        CrQuestionUtils.saveQuestion(question);
         dispose();
     }
 
@@ -107,7 +109,7 @@ public class QuestionDialog extends JDialog {
         question.setBetterCode(betterCodeArea.getText());
         question.setDesc(descArea.getText());
         question.setToAccount((String) toAccountBox.getSelectedItem());
-        DataStorehouse.add(question);
+        CrQuestionHouse.add(question);
     }
 
     private void onCancel() {
