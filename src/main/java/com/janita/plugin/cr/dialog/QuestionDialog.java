@@ -47,17 +47,17 @@ public class QuestionDialog extends JDialog {
     /**
      * 问题代码
      */
-    private JScrollPane questionCodePane;
+    private JTextArea questionCodeArea;
 
     /**
      * 建议写法
      */
-    private JScrollPane betterCodePane;
+    private JTextArea betterCodeArea;
 
     /**
      * 描述
      */
-    private JScrollPane descPane;
+    private JTextArea descArea;
 
     public QuestionDialog(Project project) {
         this.project = project;
@@ -102,6 +102,10 @@ public class QuestionDialog extends JDialog {
     public void open(CrQuestion question) {
         this.question = question;
         initQuestionTypeList();
+        questionCodeArea.setText(question.getQuestionCode());
+        questionCodeArea.setEditable(false);
+        betterCodeArea.setText("建议写法");
+        descArea.setText("描述");
         pack();
         setTitle(question.getGitBranchName() + "-" + question.getClassName());
         setMinimumSize(new Dimension(800, 600));
