@@ -7,10 +7,12 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.dialog.QuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 
@@ -31,24 +33,33 @@ public class CreateCrQuestionAction extends AnAction {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         SelectionModel selectionModel = editor.getSelectionModel();
+        VisualPosition startPosition = selectionModel.getSelectionStartPosition();
+        VisualPosition endPosition = selectionModel.getSelectionEndPosition();
+        int startLine = 0, endLine = 0;
+        if (startPosition != null) {
+            startLine = startPosition.getLine();
+        }
+        if (endPosition != null) {
+            endLine = endPosition.getLine();
+        }
 
         // 用户选择的文本
         String questionCode = selectionModel.getSelectedText();
         // 当前文件的名称
         String className = e.getRequiredData(CommonDataKeys.PSI_FILE).getViewProvider().getVirtualFile().getName();
-        System.out.println(questionCode);
-        System.out.println(className);
+        Pair<String, String> vcsPair = getCurrentBranchName(e, project);
         CrQuestion question = new CrQuestion();
+        question.setProjectName(vcsPair.getLeft());
         question.setType(null);
-        question.setLineFrom(null);
-        question.setLineTo(null);
+        question.setLineFrom(startLine);
+        question.setLineTo(endLine);
         question.setClassName(className);
         question.setQuestionCode(questionCode);
         question.setBetterCode(null);
         question.setDesc(null);
         question.setFromAccount(null);
         question.setToAccount(null);
-        question.setGitBranchName(getCurrentBranchName(e, project));
+        question.setGitBranchName(vcsPair.getRight());
         QuestionDialog dialog = new QuestionDialog(project);
         dialog.open(question);
     }
@@ -69,11 +80,14 @@ public class CreateCrQuestionAction extends AnAction {
         return relatedRepositorySet;
     }
 
-    private String getCurrentBranchName(AnActionEvent e, Project project) {
+    private Pair<String, String> getCurrentBranchName(AnActionEvent e, Project project) {
         Set<Repository> repositorySet = relatedRepositorySet(e, project);
         if (repositorySet.size() == 0) {
-            return null;
+            return Pair.of(null, null);
         }
-        return new ArrayList<>(repositorySet).get(0).getCurrentBranchName();
+        Repository repository = new ArrayList<>(repositorySet).get(0);
+        String projectName = repository.getRoot().getName();
+        String currentBranchName = repository.getCurrentBranchName();
+        return Pair.of(projectName, currentBranchName);
     }
 }

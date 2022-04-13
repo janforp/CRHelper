@@ -122,7 +122,7 @@ public class QuestionDialog extends JDialog {
         betterCodeArea.setText("建议写法");
         descArea.setText("描述");
         pack();
-        setTitle(question.getGitBranchName() + "-" + question.getClassName());
+        setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName() + "-" + question.getLineFrom() + "到" + question.getLineTo());
         setMinimumSize(new Dimension(800, 600));
         //两个屏幕处理出现问题，跳到主屏幕去了
         setLocationRelativeTo(WindowManager.getInstance().getFrame(this.project));

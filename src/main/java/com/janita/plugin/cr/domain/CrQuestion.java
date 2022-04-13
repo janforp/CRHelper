@@ -9,6 +9,11 @@ package com.janita.plugin.cr.domain;
 public class CrQuestion {
 
     /**
+     * 项目名称
+     */
+    private String projectName;
+
+    /**
      * 问题类型
      */
     private String type;
@@ -126,6 +131,14 @@ public class CrQuestion {
         this.fromAccount = fromAccount;
     }
 
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
     public void setToAccount(String toAccount) {
         this.toAccount = toAccount;
     }
@@ -141,15 +154,17 @@ public class CrQuestion {
     @Override
     public String toString() {
         return "CrQuestion{" +
-                "type=" + type +
+                "projectName='" + projectName + '\'' +
+                ", type='" + type + '\'' +
                 ", lineFrom=" + lineFrom +
                 ", lineTo=" + lineTo +
                 ", className='" + className + '\'' +
-                ", wrongCode='" + questionCode + '\'' +
+                ", questionCode='" + questionCode + '\'' +
                 ", betterCode='" + betterCode + '\'' +
                 ", desc='" + desc + '\'' +
                 ", fromAccount='" + fromAccount + '\'' +
                 ", toAccount='" + toAccount + '\'' +
+                ", gitBranchName='" + gitBranchName + '\'' +
                 '}';
     }
 }
