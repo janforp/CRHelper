@@ -39,9 +39,9 @@
         <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="Camel tran">
             <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
-        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="Auto gen code">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
+        <!--        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="Auto gen code">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
         <action id="MarkBookAction" class="com.janita.plugin.markbook.MarkBookAction" text="源码笔记" description="Add a note" icon="/img/mark.png">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
