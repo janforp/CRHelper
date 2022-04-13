@@ -1,9 +1,13 @@
 package com.janita.plugin.cr.window;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
+import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
+import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,6 +24,9 @@ import java.awt.event.WindowEvent;
  */
 public class CrQuestionListWindow extends JDialog {
 
+    /**
+     * 框架
+     */
     private JPanel contentPane;
 
     /**
@@ -37,8 +44,13 @@ public class CrQuestionListWindow extends JDialog {
      */
     private JTable questionTable;
 
-    public CrQuestionListWindow(ToolWindow toolWindow) {
+    /**
+     * 项目
+     */
+    private final Project project;
 
+    public CrQuestionListWindow(Project project, ToolWindow toolWindow) {
+        this.project = project;
         initCrQuestionList();
 
         setContentPane(contentPane);
@@ -63,6 +75,15 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                Point p = e.getPoint();
+                int row = questionTable.rowAtPoint(p);
+                questionTable.setRowSelectionInterval(row, row);
+                int button = e.getButton();
+                if (button != MouseEvent.BUTTON3) {
+                    return;
+                }
+                JPopupMenu popupMenu = createPopupWhenClickRightMouse(row);
+                popupMenu.show(questionTable, e.getX(), e.getY());
             }
         });
 
@@ -91,20 +112,34 @@ public class CrQuestionListWindow extends JDialog {
         questionTable.setEnabled(false);
     }
 
-    private void onOK() {
-        // add your code here
-        dispose();
+    private JPopupMenu createPopupWhenClickRightMouse(int row) {
+        // 右键框
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem deleteItem = new JMenuItem();
+        deleteItem.setText("delete");
+        deleteItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CrQuestionHouse.delete(row);
+            }
+        });
+
+        JMenuItem detailItem = new JMenuItem();
+        detailItem.setText("detail");
+        detailItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
+                dialog.open(question);
+            }
+        });
+        popupMenu.add(deleteItem);
+        popupMenu.add(detailItem);
+        return popupMenu;
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
-    //
-    //    public static void main(String[] args) {
-    //        CrQuestionListWindow dialog = new CrQuestionListWindow();
-    //        dialog.pack();
-    //        dialog.setVisible(true);
-    //        System.exit(0);
-    //    }
 }

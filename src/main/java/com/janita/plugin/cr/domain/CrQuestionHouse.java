@@ -18,10 +18,6 @@ public class CrQuestionHouse {
 
     public static DefaultTableModel TABLE_MODEL = new DefaultTableModel(null, HEAD);
 
-    static {
-        // TODO 首先要去远程拉问题列表
-    }
-
     public static void add(CrQuestion question) {
         CR_QUESTION_LIST.add(question);
         String[] raw = convertToRaw(question);
@@ -40,5 +36,10 @@ public class CrQuestionHouse {
         raw[3] = question.getToAccount();
         raw[4] = question.getFromAccount();
         return raw;
+    }
+
+    public static void delete(int row) {
+        CR_QUESTION_LIST.remove(row);
+        TABLE_MODEL.removeRow(row);
     }
 }
