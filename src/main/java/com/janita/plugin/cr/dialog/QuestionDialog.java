@@ -14,15 +14,50 @@ import java.awt.event.WindowEvent;
 
 public class QuestionDialog extends JDialog {
 
+    /**
+     * 工程
+     */
     private final Project project;
 
+    /**
+     * 问题
+     */
     private CrQuestion question;
 
+    /**
+     * 主框架
+     */
     private JPanel contentPane;
 
+    /**
+     * 保存
+     */
     private JButton buttonOK;
 
+    /**
+     * 取消
+     */
     private JButton buttonCancel;
+
+    /**
+     * 问题类型列表
+     */
+    private JComboBox<String> questionTypeList;
+
+    /**
+     * 问题代码
+     */
+    private JScrollPane questionCodePane;
+
+    /**
+     * 建议写法
+     */
+    private JScrollPane betterCodePane;
+
+    /**
+     * 描述
+     */
+    private JScrollPane descPane;
 
     public QuestionDialog(Project project) {
         this.project = project;
@@ -66,11 +101,24 @@ public class QuestionDialog extends JDialog {
 
     public void open(CrQuestion question) {
         this.question = question;
+        initQuestionTypeList();
         pack();
-        setTitle("Mark");
+        setTitle(question.getGitBranchName() + "-" + question.getClassName());
         setMinimumSize(new Dimension(800, 600));
         //两个屏幕处理出现问题，跳到主屏幕去了
         setLocationRelativeTo(WindowManager.getInstance().getFrame(this.project));
         setVisible(true);
+    }
+
+    /**
+     * 时候可以去远程拉去
+     *
+     * 建议，性能， 缺陷， 规范
+     */
+    private void initQuestionTypeList() {
+        questionTypeList.addItem("建议");
+        questionTypeList.addItem("性能");
+        questionTypeList.addItem("缺陷");
+        questionTypeList.addItem("规范");
     }
 }
