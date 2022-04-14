@@ -55,6 +55,9 @@ public class CommonUtils {
             return Pair.of(null, null);
         }
         Repository repository = new ArrayList<>(repositorySet).get(0);
+        if (repository == null) {
+            return Pair.of("", "");
+        }
         String projectName = repository.getRoot().getName();
         String currentBranchName = repository.getCurrentBranchName();
         return Pair.of(projectName, currentBranchName);
@@ -102,7 +105,7 @@ public class CommonUtils {
     public static JMenuItem buildJMenuItem(String title, String icon, ActionListener listener) {
         JMenuItem item = new JMenuItem();
         item.setText(title);
-        ImageIcon imageIcon = getImageIcon(icon, 15, 15);
+        ImageIcon imageIcon = getImageIcon(icon, 20, 20);
         item.setIcon(imageIcon);
         item.addActionListener(listener);
         return item;
