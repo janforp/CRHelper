@@ -7,6 +7,7 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,11 +51,12 @@ public class CrQuestionListWindow extends JDialog {
     private final Project project;
 
     public CrQuestionListWindow(Project project, ToolWindow toolWindow) {
+        // 列表内容局中
+        tableTextCenter();
         this.project = project;
         initCrQuestionList();
 
         setContentPane(contentPane);
-        //        setModal(true);
         getRootPane().setDefaultButton(exportButton);
 
         exportButton.addActionListener(new ActionListener() {
@@ -103,6 +105,12 @@ public class CrQuestionListWindow extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private void tableTextCenter() {
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        questionTable.setDefaultRenderer(Object.class, renderer);
+    }
+
     private void export() {
         // TODO 导出
     }
@@ -125,7 +133,7 @@ public class CrQuestionListWindow extends JDialog {
         });
 
         JMenuItem detailItem = new JMenuItem();
-        detailItem.setText("detail");
+        detailItem.setText("edit");
         detailItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
