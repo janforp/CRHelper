@@ -159,7 +159,8 @@ public class CrQuestionListWindow extends JDialog {
         JMenuItem deleteItem = CommonUtils.buildJMenuItem("删除", "/img/delete.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CrQuestionHouse.delete(row);
+                CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                CrQuestionHouse.delete(row, question);
             }
         });
 

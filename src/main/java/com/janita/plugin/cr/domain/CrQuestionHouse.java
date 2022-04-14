@@ -40,8 +40,9 @@ public class CrQuestionHouse {
         return raw;
     }
 
-    public static void delete(int row) {
+    public static void delete(int row, CrQuestion question) {
         CR_QUESTION_LIST.remove(row);
+        question.setState("已关闭");
         TABLE_MODEL.removeRow(row);
     }
 
