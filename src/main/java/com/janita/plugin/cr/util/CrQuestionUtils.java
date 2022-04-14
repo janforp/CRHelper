@@ -12,6 +12,7 @@ import com.janita.plugin.util.DateUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -67,23 +68,62 @@ public class CrQuestionUtils {
         CrQuestionUtils.saveQuestion(true, index, question);
     }
 
-    public static void emptyIfNull(List<CrQuestion> crQuestionList) {
+    @SuppressWarnings("all")
+    public static List<CrQuestion> processBeforeExport(List<CrQuestion> crQuestionList) {
         if (crQuestionList == null) {
-            return;
+            return new ArrayList<>(0);
         }
+
+        List<CrQuestion> questionList = new ArrayList<>(crQuestionList.size());
         for (CrQuestion question : crQuestionList) {
-            question.setProjectName(StringUtils.defaultIfBlank(question.getProjectName(), StringUtils.EMPTY));
-            question.setGitBranchName(StringUtils.defaultIfBlank(question.getGitBranchName(), StringUtils.EMPTY));
-            question.setClassName(StringUtils.defaultIfBlank(question.getClassName(), StringUtils.EMPTY));
-            question.setLineFrom(ObjectUtils.defaultIfNull(question.getLineFrom(), 0));
-            question.setLineTo(ObjectUtils.defaultIfNull(question.getLineTo(), 0));
-            question.setType(StringUtils.defaultIfBlank(question.getType(), StringUtils.EMPTY));
-            question.setToAccount(StringUtils.defaultIfBlank(question.getToAccount(), StringUtils.EMPTY));
-            question.setLevel(StringUtils.defaultIfBlank(question.getLevel(), StringUtils.EMPTY));
-            question.setState(StringUtils.defaultIfBlank(question.getState(), StringUtils.EMPTY));
-            question.setQuestionCode(StringUtils.defaultIfBlank(question.getQuestionCode(), StringUtils.EMPTY));
-            question.setBetterCode(StringUtils.defaultIfBlank(question.getBetterCode(), StringUtils.EMPTY));
-            question.setDesc(StringUtils.defaultIfBlank(question.getDesc(), StringUtils.EMPTY));
+            CrQuestion clone = new CrQuestion();
+            clone.setProjectName(StringUtils.defaultIfBlank(question.getProjectName(), StringUtils.EMPTY));
+            clone.setGitBranchName(StringUtils.defaultIfBlank(question.getGitBranchName(), StringUtils.EMPTY));
+            clone.setClassName(StringUtils.defaultIfBlank(question.getClassName(), StringUtils.EMPTY));
+            clone.setLineFrom(ObjectUtils.defaultIfNull(question.getLineFrom(), 0));
+            clone.setLineTo(ObjectUtils.defaultIfNull(question.getLineTo(), 0));
+            clone.setType(StringUtils.defaultIfBlank(question.getType(), StringUtils.EMPTY));
+            clone.setToAccount(StringUtils.defaultIfBlank(question.getToAccount(), StringUtils.EMPTY));
+            clone.setLevel(StringUtils.defaultIfBlank(question.getLevel(), StringUtils.EMPTY));
+            clone.setState(StringUtils.defaultIfBlank(question.getState(), StringUtils.EMPTY));
+            clone.setQuestionCode(setCodeMark(StringUtils.defaultIfBlank(question.getQuestionCode(), StringUtils.EMPTY)));
+            clone.setBetterCode(setCodeMark(StringUtils.defaultIfBlank(question.getBetterCode(), StringUtils.EMPTY)));
+            clone.setDesc(StringUtils.defaultIfBlank(question.getDesc(), StringUtils.EMPTY));
+
+            questionList.add(clone);
         }
+        return questionList;
+    }
+
+    private static String setCodeMark(String text) {
+        if (text == null || text.length() == 0) {
+            return text;
+        }
+        String result = "";
+        String[] split = text.split("\n");
+        for (String str : split) {
+            if (str.trim().length() == 0) {
+                continue;
+            }
+            str = ">>" + str;
+            result = result + "\n" + str;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String a = "Object[] args = joinPoint.getArgs();\n"
+                + "        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();\n"
+                + "        String[] parameterNames = methodSignature.getParameterNames();\n"
+                + "        for (int i = 0; i < parameterNames.length; i++) {\n"
+                + "            if (StringUtils.equals(fieldName, parameterNames[i])) {\n"
+                + "                Object arg = args[i];\n"
+                + "                if (arg != null) {\n"
+                + "                    return clazz.cast(arg);\n"
+                + "                }\n"
+                + "            }";
+
+        String s = setCodeMark(a);
+        System.out.println(s);
     }
 }

@@ -158,8 +158,8 @@ public class CrQuestionListWindow extends JDialog {
         MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
         try {
             List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
-            CrQuestionUtils.emptyIfNull(crQuestionList);
-            processor.process(fileName, fullPath, crQuestionList);
+            List<CrQuestion> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
+            processor.process(fileName, fullPath, exportList);
             NotificationGroup notificationGroup = new NotificationGroup("codeReview", NotificationDisplayType.BALLOON, true);
             Notification notification = notificationGroup.createNotification("导出" + fullPath + "成功", MessageType.INFO);
             Notifications.Bus.notify(notification);

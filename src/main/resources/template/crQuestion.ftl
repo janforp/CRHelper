@@ -13,9 +13,9 @@
 ${question.questionCode}
 ```
 >####建议写法
-```java
-    ${question.betterCode}
-```
+>>```java
+${question.betterCode}
+>>```
 >####描述
 >><font color = 'black'>${question.desc}</font>
 <table bgcolor="#ffebcd" height="20"></table>
