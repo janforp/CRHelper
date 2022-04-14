@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Set;
 
 /**
  * cr问题列表
@@ -59,6 +60,11 @@ public class CrQuestionListWindow extends JDialog {
     private JTable questionTable;
 
     /**
+     * 刷新按钮
+     */
+    private JButton refreshButton;
+
+    /**
      * 项目
      */
     private final Project project;
@@ -82,6 +88,14 @@ public class CrQuestionListWindow extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 // 关闭即可
                 toolWindow.hide(null);
+            }
+        });
+
+        refreshButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Set<String> projectNameSet = CommonUtils.getProjectNameSet(e);
+                CrQuestionHouse.refresh(projectNameSet);
             }
         });
 
@@ -129,6 +143,7 @@ public class CrQuestionListWindow extends JDialog {
         questionTable.setDefaultRenderer(Object.class, renderer);
     }
 
+    @SuppressWarnings("unused")
     private void export() {
         VirtualFile virtualFile = FileChooser.chooseFile(FileChooserDescriptorFactory.createSingleFolderDescriptor(), project, project.getBaseDir());
         if (virtualFile == null) {

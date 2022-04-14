@@ -16,9 +16,11 @@ import com.janita.plugin.common.domain.Pair;
 import git4idea.GitUserRegistry;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 import java.util.ArrayList;
@@ -111,6 +113,12 @@ public class CommonUtils {
         return item;
     }
 
+    public static void clearDefaultTableModel(DefaultTableModel model) {
+        for (int i = model.getRowCount() - 1; i >= 0; i--) {
+            model.removeRow(i);
+        }
+    }
+
     public static JPopupMenu buildJPopupMenu(JMenuItem... items) {
         JPopupMenu menu = new JPopupMenu();
         if (items == null || items.length == 0) {
@@ -133,5 +141,9 @@ public class CommonUtils {
         ImageIcon icon = new ImageIcon(resource);
         icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         return icon;
+    }
+
+    public static Set<String> getProjectNameSet(ActionEvent e) {
+        return null;
     }
 }
