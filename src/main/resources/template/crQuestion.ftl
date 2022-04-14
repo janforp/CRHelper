@@ -9,9 +9,9 @@
 >####状态
 >>${question.state}
 >####问题代码
-```java
+>>```java
 ${question.questionCode}
-```
+>>```
 >####建议写法
 >>```java
 ${question.betterCode}

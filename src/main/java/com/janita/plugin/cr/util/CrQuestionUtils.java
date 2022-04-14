@@ -3,7 +3,6 @@ package com.janita.plugin.cr.util;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.project.Project;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
@@ -33,7 +32,6 @@ public class CrQuestionUtils {
 
     public static CrQuestion buildQuestion(AnActionEvent e) {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
-        Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         Pair<Integer, Integer> startAndEndLine = CommonUtils.getStartAndEndLine(editor);
         // 用户选择的文本
         String questionCode = CommonUtils.getSelectedText(e);
@@ -99,31 +97,15 @@ public class CrQuestionUtils {
         if (text == null || text.length() == 0) {
             return text;
         }
-        String result = "";
+        StringBuilder result = new StringBuilder();
         String[] split = text.split("\n");
         for (String str : split) {
             if (str.trim().length() == 0) {
                 continue;
             }
-            str = ">>" + str;
-            result = result + "\n" + str;
+            str = ">>" + str + "\n";
+            result.append(str);
         }
-        return result;
-    }
-
-    public static void main(String[] args) {
-        String a = "Object[] args = joinPoint.getArgs();\n"
-                + "        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();\n"
-                + "        String[] parameterNames = methodSignature.getParameterNames();\n"
-                + "        for (int i = 0; i < parameterNames.length; i++) {\n"
-                + "            if (StringUtils.equals(fieldName, parameterNames[i])) {\n"
-                + "                Object arg = args[i];\n"
-                + "                if (arg != null) {\n"
-                + "                    return clazz.cast(arg);\n"
-                + "                }\n"
-                + "            }";
-
-        String s = setCodeMark(a);
-        System.out.println(s);
+        return result.toString();
     }
 }
