@@ -11,6 +11,16 @@ import java.util.Date;
 public class CrQuestion {
 
     /**
+     * id
+     */
+    private Long id;
+
+    /**
+     * 该问题的级别,类似复杂程度,数字越大问题越复杂
+     */
+    private String level;
+
+    /**
      * 项目名称
      */
     private String projectName;
@@ -71,9 +81,10 @@ public class CrQuestion {
     private String solveGitBranchName;
 
     /**
-     * 是否已经解决
+     * 状态
+     * 未解决,已解决,重复问题,已关闭
      */
-    private Boolean solve;
+    private String state;
 
     /**
      * 提问时间
@@ -109,8 +120,8 @@ public class CrQuestion {
         this.solveGitBranchName = solveGitBranchName;
     }
 
-    public void setSolve(Boolean solve) {
-        this.solve = solve;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public void setCreateTime(Date createTime) {
@@ -137,8 +148,8 @@ public class CrQuestion {
         return solveGitBranchName;
     }
 
-    public Boolean getSolve() {
-        return solve;
+    public String getState() {
+        return state;
     }
 
     public Date getCreateTime() {
@@ -220,9 +231,25 @@ public class CrQuestion {
                 ", toAccount='" + toAccount + '\'' +
                 ", gitBranchName='" + gitBranchName + '\'' +
                 ", solveGitBranchName='" + solveGitBranchName + '\'' +
-                ", solve=" + solve +
+                ", solve=" + state +
                 ", createTime=" + createTime +
                 ", solveTime=" + solveTime +
                 '}';
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 }

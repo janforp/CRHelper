@@ -49,7 +49,7 @@ public class CrQuestionUtils {
         question.setToAccount(null);
         question.setGitBranchName(vcsPair.getRight());
         question.setSolveGitBranchName(null);
-        question.setSolve(false);
+        question.setState("未解决");
         question.setCreateTime(new Date());
         question.setSolveTime(null);
         return question;

@@ -12,8 +12,30 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Arrays;
+import java.util.List;
 
 public class CrCreateQuestionDialog extends JDialog {
+
+    /**
+     * 问题类型
+     */
+    private static final List<String> QUESTION_TYPE_LIST = Arrays.asList("建议", "性能", "缺陷", "规范");
+
+    /**
+     * 账户
+     */
+    private static final List<String> ACCOUNT_LIST = Arrays.asList("王尚飞", "朱晨剑", "张丹", "杨艳斌");
+
+    /**
+     * 问题级别
+     */
+    private static final List<String> LEVEL_LIST = Arrays.asList("1", "2", "3", "4", "5");
+
+    /**
+     * 状态
+     */
+    private static final List<String> STATE_LIST = Arrays.asList("未解决", "已解决", "重复问题", "已关闭");
 
     /**
      * 工程
@@ -66,6 +88,21 @@ public class CrCreateQuestionDialog extends JDialog {
     private JComboBox<String> toAccountBox;
 
     /**
+     * 级别
+     */
+    private JComboBox<String> levelBox;
+
+    /**
+     * 解决按钮
+     */
+    private JButton solveButton;
+
+    /**
+     * 状态下拉
+     */
+    private JComboBox<String> stateBox;
+
+    /**
      * 修改还是添加
      */
     private Boolean update;
@@ -87,6 +124,12 @@ public class CrCreateQuestionDialog extends JDialog {
             }
         });
 
+        solveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // TODO 解决了该问题
+            }
+        });
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 onCancel();
@@ -114,15 +157,17 @@ public class CrCreateQuestionDialog extends JDialog {
     }
 
     private void onOK() {
-        rebuildQuestion();
+        rebuildQuestionWhenSave();
         CrQuestionUtils.saveQuestion(update, editIndex, question);
         dispose();
     }
 
-    private void rebuildQuestion() {
+    private void rebuildQuestionWhenSave() {
         question.setType((String) questionTypeBox.getSelectedItem());
+        question.setState((String) stateBox.getSelectedItem());
         question.setBetterCode(betterCodeArea.getText());
         question.setDesc(descArea.getText());
+        question.setLevel((String) levelBox.getSelectedItem());
         question.setToAccount((String) toAccountBox.getSelectedItem());
     }
 
@@ -132,11 +177,15 @@ public class CrCreateQuestionDialog extends JDialog {
 
     public void open(CrQuestion question) {
         this.question = question;
-        initQuestionTypeList();
+        initBox();
+
+        questionTypeBox.setSelectedItem(question.getType() != null ? question.getType() : QUESTION_TYPE_LIST.get(0));
+        stateBox.setSelectedItem(question.getState() != null ? question.getState() : STATE_LIST.get(0));
         questionCodeArea.setText(question.getQuestionCode());
         questionCodeArea.setEditable(false);
         betterCodeArea.setText(question.getBetterCode());
         descArea.setText(question.getDesc());
+        levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : LEVEL_LIST.get(0));
         pack();
         setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName() + "-" + question.getLineFrom() + "到" + question.getLineTo());
         setMinimumSize(new Dimension(800, 600));
@@ -150,15 +199,20 @@ public class CrCreateQuestionDialog extends JDialog {
      *
      * 建议，性能， 缺陷， 规范
      */
-    private void initQuestionTypeList() {
-        questionTypeBox.addItem("建议");
-        questionTypeBox.addItem("性能");
-        questionTypeBox.addItem("缺陷");
-        questionTypeBox.addItem("规范");
+    private void initBox() {
+        for (String type : QUESTION_TYPE_LIST) {
+            questionTypeBox.addItem(type);
+        }
 
-        toAccountBox.addItem("王尚飞");
-        toAccountBox.addItem("朱晨剑");
-        toAccountBox.addItem("张丹");
-        toAccountBox.addItem("杨艳斌");
+        for (String account : ACCOUNT_LIST) {
+            toAccountBox.addItem(account);
+        }
+        for (String level : LEVEL_LIST) {
+            levelBox.addItem(level);
+        }
+
+        for (String state : STATE_LIST) {
+            stateBox.addItem(state);
+        }
     }
 }
