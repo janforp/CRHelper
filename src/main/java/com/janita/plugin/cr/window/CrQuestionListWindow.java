@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -152,10 +153,13 @@ public class CrQuestionListWindow extends JDialog {
             return;
         }
         String path = virtualFile.getPath();
-        String fullPath = path + File.separator + "CodeReview.md";
+        String fileName = DateUtils.getCurrentDateTime() + "-CodeReview.md";
+        String fullPath = path + File.separator + DateUtils.getCurrentDateTime() + "-CodeReview.md";
         MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
         try {
-            processor.process(DateUtils.getCurrentDateTime() + "-CodeReview.md", fullPath, CrQuestionHouse.getCrQuestionList());
+            List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
+            CrQuestionUtils.emptyIfNull(crQuestionList);
+            processor.process(fileName, fullPath, crQuestionList);
             NotificationGroup notificationGroup = new NotificationGroup("codeReview", NotificationDisplayType.BALLOON, true);
             Notification notification = notificationGroup.createNotification("导出" + fullPath + "成功", MessageType.INFO);
             Notifications.Bus.notify(notification);
@@ -201,7 +205,7 @@ public class CrQuestionListWindow extends JDialog {
             }
         });
         // 右键框
-        return CommonUtils.buildJPopupMenu(deleteItem, editItem, solveItem);
+        return CommonUtils.buildJPopupMenu(editItem, solveItem, deleteItem);
     }
 
     private void showQuestionDetailDialog(int row) {

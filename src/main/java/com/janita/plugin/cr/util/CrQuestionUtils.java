@@ -9,6 +9,10 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.util.CommonUtils;
 import com.janita.plugin.util.DateUtils;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.List;
 
 /**
  * CrQuestionUtils
@@ -61,5 +65,25 @@ public class CrQuestionUtils {
         question.setState("已解决");
         question.setSolveTime(DateUtils.getCurrentDateTime());
         CrQuestionUtils.saveQuestion(true, index, question);
+    }
+
+    public static void emptyIfNull(List<CrQuestion> crQuestionList) {
+        if (crQuestionList == null) {
+            return;
+        }
+        for (CrQuestion question : crQuestionList) {
+            question.setProjectName(StringUtils.defaultIfBlank(question.getProjectName(), StringUtils.EMPTY));
+            question.setGitBranchName(StringUtils.defaultIfBlank(question.getGitBranchName(), StringUtils.EMPTY));
+            question.setClassName(StringUtils.defaultIfBlank(question.getClassName(), StringUtils.EMPTY));
+            question.setLineFrom(ObjectUtils.defaultIfNull(question.getLineFrom(), 0));
+            question.setLineTo(ObjectUtils.defaultIfNull(question.getLineTo(), 0));
+            question.setType(StringUtils.defaultIfBlank(question.getType(), StringUtils.EMPTY));
+            question.setToAccount(StringUtils.defaultIfBlank(question.getToAccount(), StringUtils.EMPTY));
+            question.setLevel(StringUtils.defaultIfBlank(question.getLevel(), StringUtils.EMPTY));
+            question.setState(StringUtils.defaultIfBlank(question.getState(), StringUtils.EMPTY));
+            question.setQuestionCode(StringUtils.defaultIfBlank(question.getQuestionCode(), StringUtils.EMPTY));
+            question.setBetterCode(StringUtils.defaultIfBlank(question.getBetterCode(), StringUtils.EMPTY));
+            question.setDesc(StringUtils.defaultIfBlank(question.getDesc(), StringUtils.EMPTY));
+        }
     }
 }

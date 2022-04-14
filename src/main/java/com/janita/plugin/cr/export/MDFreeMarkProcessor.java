@@ -28,7 +28,7 @@ public class MDFreeMarkProcessor {
 
     private Template getTemplate() throws IOException {
         Configuration configuration = new Configuration();
-        URL resource = MDFreeMarkProcessor.class.getResource("/template/md.ftl");
+        URL resource = MDFreeMarkProcessor.class.getResource("/template/crQuestion.ftl");
         if (resource == null) {
             return null;
         }
