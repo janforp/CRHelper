@@ -14,6 +14,7 @@ import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
+import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.util.CommonUtils;
 import com.janita.plugin.util.DateUtils;
@@ -95,7 +96,8 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Set<String> projectNameSet = CommonUtils.getProjectNameSet(e);
-                CrQuestionHouse.refresh(projectNameSet);
+                CrQuestionQueryRequest request = new CrQuestionQueryRequest();
+                CrQuestionHouse.refresh(request);
             }
         });
 
@@ -166,6 +168,8 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionHouse.TABLE_MODEL);
         questionTable.setEnabled(false);
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest();
+        CrQuestionHouse.refresh(request);
     }
 
     private JPopupMenu createPopupWhenClickRightMouse(int row) {

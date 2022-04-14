@@ -94,6 +94,18 @@ public class CrQuestion {
      */
     private String solveTime;
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
     public String getType() {
         return type;
     }
@@ -114,22 +126,6 @@ public class CrQuestion {
         return questionCode;
     }
 
-    public void setSolveGitBranchName(String solveGitBranchName) {
-        this.solveGitBranchName = solveGitBranchName;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setSolveTime(String solveTime) {
-        this.solveTime = solveTime;
-    }
-
     public String getBetterCode() {
         return betterCode;
     }
@@ -140,6 +136,14 @@ public class CrQuestion {
 
     public String getFromAccount() {
         return fromAccount;
+    }
+
+    public String getToAccount() {
+        return toAccount;
+    }
+
+    public String getGitBranchName() {
+        return gitBranchName;
     }
 
     public String getSolveGitBranchName() {
@@ -158,8 +162,16 @@ public class CrQuestion {
         return solveTime;
     }
 
-    public String getToAccount() {
-        return toAccount;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public void setType(String type) {
@@ -194,30 +206,36 @@ public class CrQuestion {
         this.fromAccount = fromAccount;
     }
 
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
     public void setToAccount(String toAccount) {
         this.toAccount = toAccount;
-    }
-
-    public String getGitBranchName() {
-        return gitBranchName;
     }
 
     public void setGitBranchName(String gitBranchName) {
         this.gitBranchName = gitBranchName;
     }
 
+    public void setSolveGitBranchName(String solveGitBranchName) {
+        this.solveGitBranchName = solveGitBranchName;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public void setSolveTime(String solveTime) {
+        this.solveTime = solveTime;
+    }
+
     @Override
     public String toString() {
         return "CrQuestion{" +
-                "projectName='" + projectName + '\'' +
+                "id=" + id +
+                ", level='" + level + '\'' +
+                ", projectName='" + projectName + '\'' +
                 ", type='" + type + '\'' +
                 ", lineFrom=" + lineFrom +
                 ", lineTo=" + lineTo +
@@ -229,25 +247,9 @@ public class CrQuestion {
                 ", toAccount='" + toAccount + '\'' +
                 ", gitBranchName='" + gitBranchName + '\'' +
                 ", solveGitBranchName='" + solveGitBranchName + '\'' +
-                ", solve=" + state +
-                ", createTime=" + createTime +
-                ", solveTime=" + solveTime +
+                ", state='" + state + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", solveTime='" + solveTime + '\'' +
                 '}';
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
     }
 }

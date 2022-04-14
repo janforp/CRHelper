@@ -4,25 +4,28 @@ import com.janita.plugin.cr.domain.CrQuestion;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * QuestionRemote
+ * TODO
  *
  * @author zhucj
  * @since 20220324
  */
 public class QuestionRemote {
 
-    public static void add(CrQuestion question) {
+    private static final AtomicLong id = new AtomicLong(2);
 
+    public static void add(CrQuestion question) {
+        question.setId(id.incrementAndGet());
     }
 
     public static void update(CrQuestion question) {
 
     }
 
-    public static List<CrQuestion> query(Set<String> projectNameList) {
+    public static List<CrQuestion> query(CrQuestionQueryRequest request) {
 
         CrQuestion question = new CrQuestion();
         question.setId(1L);

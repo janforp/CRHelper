@@ -1,12 +1,12 @@
 package com.janita.plugin.cr.domain;
 
+import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.QuestionRemote;
 import com.janita.plugin.util.CommonUtils;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 问题仓库
@@ -60,8 +60,8 @@ public class CrQuestionHouse {
         TABLE_MODEL.insertRow(editIndex, raw);
     }
 
-    public static void refresh(Set<String> projectNameSet) {
-        List<CrQuestion> questionList = QuestionRemote.query(projectNameSet);
+    public static void refresh(CrQuestionQueryRequest request) {
+        List<CrQuestion> questionList = QuestionRemote.query(request);
         CR_QUESTION_LIST.clear();
 
         CommonUtils.clearDefaultTableModel(TABLE_MODEL);
