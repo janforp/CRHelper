@@ -5,6 +5,7 @@ import com.intellij.openapi.wm.ToolWindow;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
+import com.janita.plugin.cr.util.CrQuestionUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -16,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 /**
  * cr问题列表
@@ -123,8 +125,10 @@ public class CrQuestionListWindow extends JDialog {
     private JPopupMenu createPopupWhenClickRightMouse(int row) {
         // 右键框
         JPopupMenu popupMenu = new JPopupMenu();
+
+        // 删除
         JMenuItem deleteItem = new JMenuItem();
-        deleteItem.setText("delete");
+        deleteItem.setText("删除");
         deleteItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -132,9 +136,10 @@ public class CrQuestionListWindow extends JDialog {
             }
         });
 
-        JMenuItem detailItem = new JMenuItem();
-        detailItem.setText("edit");
-        detailItem.addActionListener(new ActionListener() {
+        // 编辑
+        JMenuItem editItem = new JMenuItem();
+        editItem.setText("详情");
+        editItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
@@ -142,8 +147,23 @@ public class CrQuestionListWindow extends JDialog {
                 dialog.open(question);
             }
         });
+
+        // 解决
+        JMenuItem solveItem = new JMenuItem();
+        solveItem.setText("解决");
+        solveItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                question.setState("已解决");
+                question.setSolveTime(new Date());
+                CrQuestionUtils.solveQuestion(row, question);
+            }
+        });
+
         popupMenu.add(deleteItem);
-        popupMenu.add(detailItem);
+        popupMenu.add(editItem);
+        popupMenu.add(solveItem);
         return popupMenu;
     }
 

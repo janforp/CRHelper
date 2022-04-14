@@ -54,4 +54,13 @@ public class CrQuestionUtils {
         question.setSolveTime(null);
         return question;
     }
+
+    /**
+     * 解决了该问题
+     */
+    public static void solveQuestion(int index, CrQuestion question) {
+        question.setState("已解决");
+        question.setSolveTime(new Date());
+        CrQuestionUtils.saveQuestion(true, index, question);
+    }
 }

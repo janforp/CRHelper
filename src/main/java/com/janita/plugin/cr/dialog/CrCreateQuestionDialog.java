@@ -112,6 +112,9 @@ public class CrCreateQuestionDialog extends JDialog {
      */
     private Integer editIndex;
 
+    /**
+     * 新建
+     */
     public CrCreateQuestionDialog(Project project) {
         this.update = false;
         this.project = project;
@@ -120,14 +123,14 @@ public class CrCreateQuestionDialog extends JDialog {
         getRootPane().setDefaultButton(buttonOK);
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                onOK();
+                saveQuestion();
             }
         });
 
         solveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // TODO 解决了该问题
+                CrQuestionUtils.solveQuestion(editIndex, question);
             }
         });
         buttonCancel.addActionListener(new ActionListener() {
@@ -150,13 +153,16 @@ public class CrCreateQuestionDialog extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    /**
+     * 在列表上编辑
+     */
     public CrCreateQuestionDialog(Integer index, Project project) {
         this(project);
         this.update = true;
         this.editIndex = index;
     }
 
-    private void onOK() {
+    private void saveQuestion() {
         rebuildQuestionWhenSave();
         CrQuestionUtils.saveQuestion(update, editIndex, question);
         dispose();
