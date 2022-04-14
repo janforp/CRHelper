@@ -1,7 +1,5 @@
 package com.janita.plugin.cr.domain;
 
-import java.util.Date;
-
 /**
  * CrQuestion
  *
@@ -89,12 +87,12 @@ public class CrQuestion {
     /**
      * 提问时间
      */
-    private Date createTime;
+    private String createTime;
 
     /**
      * 解决时间
      */
-    private Date solveTime;
+    private String solveTime;
 
     public String getType() {
         return type;
@@ -124,11 +122,11 @@ public class CrQuestion {
         this.state = state;
     }
 
-    public void setCreateTime(Date createTime) {
+    public void setCreateTime(String createTime) {
         this.createTime = createTime;
     }
 
-    public void setSolveTime(Date solveTime) {
+    public void setSolveTime(String solveTime) {
         this.solveTime = solveTime;
     }
 
@@ -152,11 +150,11 @@ public class CrQuestion {
         return state;
     }
 
-    public Date getCreateTime() {
+    public String getCreateTime() {
         return createTime;
     }
 
-    public Date getSolveTime() {
+    public String getSolveTime() {
         return solveTime;
     }
 

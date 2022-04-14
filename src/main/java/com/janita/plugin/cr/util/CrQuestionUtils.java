@@ -8,8 +8,7 @@ import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.util.CommonUtils;
-
-import java.util.Date;
+import com.janita.plugin.util.DateUtils;
 
 /**
  * CrQuestionUtils
@@ -50,7 +49,7 @@ public class CrQuestionUtils {
         question.setGitBranchName(vcsPair.getRight());
         question.setSolveGitBranchName(null);
         question.setState("未解决");
-        question.setCreateTime(new Date());
+        question.setCreateTime(DateUtils.getCurrentDateTime());
         question.setSolveTime(null);
         return question;
     }
@@ -60,7 +59,7 @@ public class CrQuestionUtils {
      */
     public static void solveQuestion(int index, CrQuestion question) {
         question.setState("已解决");
-        question.setSolveTime(new Date());
+        question.setSolveTime(DateUtils.getCurrentDateTime());
         CrQuestionUtils.saveQuestion(true, index, question);
     }
 }

@@ -1,10 +1,19 @@
 package com.janita.plugin.cr.window;
 
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationDisplayType;
+import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.Notifications;
+import com.intellij.openapi.fileChooser.FileChooser;
+import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.MessageType;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
+import com.janita.plugin.cr.export.MDFreeMarkProcessor;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 
 import javax.swing.*;
@@ -17,6 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 
 /**
  * cr问题列表
@@ -62,7 +72,6 @@ public class CrQuestionListWindow extends JDialog {
 
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                // TODO 导出
                 export();
             }
         });
@@ -119,7 +128,22 @@ public class CrQuestionListWindow extends JDialog {
     }
 
     private void export() {
-        // TODO 导出
+        VirtualFile virtualFile = FileChooser.chooseFile(FileChooserDescriptorFactory.createSingleFolderDescriptor(), project, project.getBaseDir());
+        if (virtualFile == null) {
+            return;
+        }
+        String path = virtualFile.getPath();
+        String fullPath = path + File.separator + "CodeReview.md";
+        MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
+        try {
+            processor.process("CodeReview.md", fullPath, CrQuestionHouse.getCrQuestionList());
+            NotificationGroup notificationGroup = new NotificationGroup("codeReview", NotificationDisplayType.BALLOON, true);
+            Notification notification = notificationGroup.createNotification("导出" + fullPath + "成功", MessageType.INFO);
+            Notifications.Bus.notify(notification);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void initCrQuestionList() {
