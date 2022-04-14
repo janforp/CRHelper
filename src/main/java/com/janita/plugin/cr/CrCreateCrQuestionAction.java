@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
+import com.janita.plugin.util.CommonUtils;
 
 /**
  * CreateCrQuestionAction
@@ -21,6 +22,7 @@ public class CrCreateCrQuestionAction extends AnAction {
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         CrQuestion question = CrQuestionUtils.buildQuestion(e);
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
+        CommonUtils.setToClipboard(question.getQuestionCode());
         dialog.open(question);
     }
 }

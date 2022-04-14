@@ -14,7 +14,7 @@ public class CrQuestionHouse {
 
     private static final List<CrQuestion> CR_QUESTION_LIST = new ArrayList<>();
 
-    public static String[] HEAD = { "项目", "类型", "问题代码", "指派者", "提问者", "级别", "状态" };
+    public static String[] HEAD = { "项目", "类型", "问题代码", "指派给", "提问者", "级别", "状态" };
 
     public static DefaultTableModel TABLE_MODEL = new DefaultTableModel(null, HEAD);
 

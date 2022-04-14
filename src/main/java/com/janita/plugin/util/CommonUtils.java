@@ -15,6 +15,9 @@ import com.intellij.vcs.log.VcsUser;
 import com.janita.plugin.common.domain.Pair;
 import git4idea.GitUserRegistry;
 
+import java.awt.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -86,4 +89,10 @@ public class CommonUtils {
         return instance.getOrReadUser(project.getBaseDir());
     }
 
+    public static void setToClipboard(String text) {
+        // 拿到剪贴板
+        Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+        StringSelection stringSelection = new StringSelection(text);
+        clipboard.setContents(stringSelection, null);
+    }
 }
