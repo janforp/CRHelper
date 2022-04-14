@@ -95,8 +95,8 @@ public class CrQuestionListWindow extends JDialog {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Set<String> projectNameSet = CommonUtils.getProjectNameSet(e);
-                CrQuestionQueryRequest request = new CrQuestionQueryRequest();
+                Set<String> projectNameSet = CommonUtils.getAllProjectName(project);
+                CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
                 CrQuestionHouse.refresh(request);
             }
         });
@@ -145,7 +145,7 @@ public class CrQuestionListWindow extends JDialog {
         questionTable.setDefaultRenderer(Object.class, renderer);
     }
 
-    @SuppressWarnings("unused")
+    @SuppressWarnings("all")
     private void export() {
         VirtualFile virtualFile = FileChooser.chooseFile(FileChooserDescriptorFactory.createSingleFolderDescriptor(), project, project.getBaseDir());
         if (virtualFile == null) {
@@ -168,7 +168,8 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionHouse.TABLE_MODEL);
         questionTable.setEnabled(false);
-        CrQuestionQueryRequest request = new CrQuestionQueryRequest();
+        Set<String> projectNameSet = CommonUtils.getAllProjectName(project);
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
         CrQuestionHouse.refresh(request);
     }
 

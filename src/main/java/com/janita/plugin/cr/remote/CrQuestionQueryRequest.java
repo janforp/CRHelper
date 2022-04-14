@@ -20,6 +20,11 @@ public class CrQuestionQueryRequest {
      */
     private Set<String> projectNameSet;
 
+    public CrQuestionQueryRequest(String account, Set<String> projectNameSet) {
+        this.account = account;
+        this.projectNameSet = projectNameSet;
+    }
+
     public String getAccount() {
         return account;
     }

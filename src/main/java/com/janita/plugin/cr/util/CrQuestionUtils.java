@@ -33,7 +33,7 @@ public class CrQuestionUtils {
         // 用户选择的文本
         String questionCode = CommonUtils.getSelectedText(e);
         // 当前文件的名称
-        Pair<String, String> vcsPair = CommonUtils.getProjectNameAndBranchName(e, project);
+        Pair<String, String> vcsPair = CommonUtils.getProjectNameAndBranchName(e);
 
         CrQuestion question = new CrQuestion();
         question.setProjectName(vcsPair.getLeft());

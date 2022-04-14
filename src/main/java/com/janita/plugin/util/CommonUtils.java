@@ -20,10 +20,9 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -35,28 +34,35 @@ import java.util.Set;
  */
 public class CommonUtils {
 
-    private static Set<Repository> relatedRepositorySet(AnActionEvent e, Project project) {
+    private static Repository getRepositoryOfCurrentFile(AnActionEvent e) {
+        Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         VcsRepositoryManager vcsRepositoryManager = VcsRepositoryManager.getInstance(project);
         ProjectLevelVcsManager projectLevelVcsManager = ProjectLevelVcsManager.getInstance(project);
-        Set<Repository> relatedRepositorySet = new HashSet<>();
-        VirtualFile[] virtualFiles = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE_ARRAY);
-        for (VirtualFile virtualFile : virtualFiles) {
-            VcsRoot vcsRoot = projectLevelVcsManager.getVcsRootObjectFor(virtualFile);
-            if (vcsRoot == null) {
-                continue;
-            }
-            Repository repository = vcsRepositoryManager.getRepositoryForRootQuick(vcsRoot.getPath());
-            relatedRepositorySet.add(repository);
+        VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
+        VcsRoot vcsRoot = projectLevelVcsManager.getVcsRootObjectFor(file);
+        if (vcsRoot == null) {
+            return null;
         }
-        return relatedRepositorySet;
+        return vcsRepositoryManager.getRepositoryForRootQuick(vcsRoot.getPath());
     }
 
-    public static Pair<String, String> getProjectNameAndBranchName(AnActionEvent e, Project project) {
-        Set<Repository> repositorySet = relatedRepositorySet(e, project);
-        if (repositorySet.size() == 0) {
-            return Pair.of(null, null);
+    private static Set<Repository> getAllRepositoryInProject(Project project) {
+        VcsRepositoryManager vcsRepositoryManager = VcsRepositoryManager.getInstance(project);
+        Collection<Repository> repositories = vcsRepositoryManager.getRepositories();
+        return new HashSet<>(repositories);
+    }
+
+    public static Set<String> getAllProjectName(Project project) {
+        Set<Repository> repositorySet = getAllRepositoryInProject(project);
+        Set<String> projectNameSet = new HashSet<>();
+        for (Repository repository : repositorySet) {
+            projectNameSet.add(repository.getRoot().getName());
         }
-        Repository repository = new ArrayList<>(repositorySet).get(0);
+        return projectNameSet;
+    }
+
+    public static Pair<String, String> getProjectNameAndBranchName(AnActionEvent e) {
+        Repository repository = getRepositoryOfCurrentFile(e);
         if (repository == null) {
             return Pair.of("", "");
         }
@@ -141,9 +147,5 @@ public class CommonUtils {
         ImageIcon icon = new ImageIcon(resource);
         icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         return icon;
-    }
-
-    public static Set<String> getProjectNameSet(ActionEvent e) {
-        return null;
     }
 }
