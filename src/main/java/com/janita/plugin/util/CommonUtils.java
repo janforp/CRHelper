@@ -15,9 +15,12 @@ import com.intellij.vcs.log.VcsUser;
 import com.janita.plugin.common.domain.Pair;
 import git4idea.GitUserRegistry;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
+import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -94,5 +97,38 @@ public class CommonUtils {
         Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
         StringSelection stringSelection = new StringSelection(text);
         clipboard.setContents(stringSelection, null);
+    }
+
+    public static JMenuItem buildJMenuItem(String title, String icon, ActionListener listener) {
+        JMenuItem item = new JMenuItem();
+        item.setText(title);
+        ImageIcon imageIcon = getImageIcon(icon, 15, 15);
+        item.setIcon(imageIcon);
+        item.addActionListener(listener);
+        return item;
+    }
+
+    public static JPopupMenu buildJPopupMenu(JMenuItem... items) {
+        JPopupMenu menu = new JPopupMenu();
+        if (items == null || items.length == 0) {
+            return menu;
+        }
+        for (JMenuItem item : items) {
+            menu.add(item);
+        }
+        return menu;
+    }
+
+    public static ImageIcon getImageIcon(String path, int width, int height) {
+        URL resource = CommonUtils.class.getResource(path);
+        if (resource == null) {
+            return new ImageIcon();
+        }
+        if (width == 0 || height == 0) {
+            return new ImageIcon(resource);
+        }
+        ImageIcon icon = new ImageIcon(resource);
+        icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
+        return icon;
     }
 }

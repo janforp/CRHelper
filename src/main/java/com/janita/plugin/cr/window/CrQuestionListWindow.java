@@ -15,6 +15,7 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
 import com.janita.plugin.cr.util.CrQuestionUtils;
+import com.janita.plugin.util.CommonUtils;
 import com.janita.plugin.util.DateUtils;
 
 import javax.swing.*;
@@ -153,13 +154,9 @@ public class CrQuestionListWindow extends JDialog {
     }
 
     private JPopupMenu createPopupWhenClickRightMouse(int row) {
-        // 右键框
-        JPopupMenu popupMenu = new JPopupMenu();
 
         // 删除
-        JMenuItem deleteItem = new JMenuItem();
-        deleteItem.setText("删除");
-        deleteItem.addActionListener(new ActionListener() {
+        JMenuItem deleteItem = CommonUtils.buildJMenuItem("删除", "/img/delete.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestionHouse.delete(row);
@@ -167,9 +164,7 @@ public class CrQuestionListWindow extends JDialog {
         });
 
         // 编辑
-        JMenuItem editItem = new JMenuItem();
-        editItem.setText("详情");
-        editItem.addActionListener(new ActionListener() {
+        JMenuItem editItem = CommonUtils.buildJMenuItem("详情", "/img/detail.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 showQuestionDetailDialog(row);
@@ -177,20 +172,15 @@ public class CrQuestionListWindow extends JDialog {
         });
 
         // 解决
-        JMenuItem solveItem = new JMenuItem();
-        solveItem.setText("解决");
-        solveItem.addActionListener(new ActionListener() {
+        JMenuItem solveItem = CommonUtils.buildJMenuItem("解决", "/img/solve.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
                 CrQuestionUtils.solveQuestion(row, question);
             }
         });
-
-        popupMenu.add(deleteItem);
-        popupMenu.add(editItem);
-        popupMenu.add(solveItem);
-        return popupMenu;
+        // 右键框
+        return CommonUtils.buildJPopupMenu(deleteItem, editItem, solveItem);
     }
 
     private void showQuestionDetailDialog(int row) {
