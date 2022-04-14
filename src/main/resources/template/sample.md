@@ -14,10 +14,8 @@
         stringTemplateLoader.putTemplate("MDTemplate", templateContent);
         configuration.setTemplateLoader(stringTemplateLoader);
         return configuration.getTemplate("MDTemplate");`
-
 >####6.建议写法
->> `
- Configuration configuration = new Configuration();
+>> `Configuration configuration = new Configuration();
         String templateContent = UrlUtil.loadText(MDFreeMarkProcessor.class.getResource("/template/md.ftl"));
         StringTemplateLoader stringTemplateLoader = new StringTemplateLoader();
         stringTemplateLoader.putTemplate("MDTemplate", templateContent);
