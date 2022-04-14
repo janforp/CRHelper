@@ -17,7 +17,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Date;
 
 /**
  * cr问题列表
@@ -77,17 +76,23 @@ public class CrQuestionListWindow extends JDialog {
 
         questionTable.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                Point p = e.getPoint();
+            public void mouseClicked(MouseEvent mouseEvent) {
+                super.mouseClicked(mouseEvent);
+                Point p = mouseEvent.getPoint();
                 int row = questionTable.rowAtPoint(p);
                 questionTable.setRowSelectionInterval(row, row);
-                int button = e.getButton();
-                if (button != MouseEvent.BUTTON3) {
+                int button = mouseEvent.getButton();
+                if (button == MouseEvent.BUTTON3) {
+                    // 右键
+                    JPopupMenu popupMenu = createPopupWhenClickRightMouse(row);
+                    popupMenu.show(questionTable, mouseEvent.getX(), mouseEvent.getY());
                     return;
                 }
-                JPopupMenu popupMenu = createPopupWhenClickRightMouse(row);
-                popupMenu.show(questionTable, e.getX(), e.getY());
+                if (mouseEvent.getClickCount() == 2) {
+                    // 双击
+                    showQuestionDetailDialog(row);
+                }
+
             }
         });
 
@@ -142,9 +147,7 @@ public class CrQuestionListWindow extends JDialog {
         editItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
-                CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project);
-                dialog.open(question);
+                showQuestionDetailDialog(row);
             }
         });
 
@@ -155,8 +158,6 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
-                question.setState("已解决");
-                question.setSolveTime(new Date());
                 CrQuestionUtils.solveQuestion(row, question);
             }
         });
@@ -165,6 +166,12 @@ public class CrQuestionListWindow extends JDialog {
         popupMenu.add(editItem);
         popupMenu.add(solveItem);
         return popupMenu;
+    }
+
+    private void showQuestionDetailDialog(int row) {
+        CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project);
+        dialog.open(question);
     }
 
     private void onCancel() {
