@@ -15,6 +15,7 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionHouse;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
 import com.janita.plugin.cr.util.CrQuestionUtils;
+import com.janita.plugin.util.DateUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -136,7 +137,7 @@ public class CrQuestionListWindow extends JDialog {
         String fullPath = path + File.separator + "CodeReview.md";
         MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
         try {
-            processor.process("CodeReview.md", fullPath, CrQuestionHouse.getCrQuestionList());
+            processor.process(DateUtils.getCurrentDateTime() + "-CodeReview.md", fullPath, CrQuestionHouse.getCrQuestionList());
             NotificationGroup notificationGroup = new NotificationGroup("codeReview", NotificationDisplayType.BALLOON, true);
             Notification notification = notificationGroup.createNotification("导出" + fullPath + "成功", MessageType.INFO);
             Notifications.Bus.notify(notification);
