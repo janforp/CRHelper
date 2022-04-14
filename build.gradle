@@ -28,7 +28,7 @@ intellij {
 patchPluginXml {
     changeNotes = """
       Add change notes here.<br>
-      <em>一个插件</em>"""
+      <em>目前只支持本地</em>"""
 }
 test {
     useJUnitPlatform()

@@ -4,7 +4,10 @@
     <vendor email="janforp@163.com" url="janforp@163.com">janita</vendor>
     <idea-version since-build="171.0"/>
     <description><![CDATA[
-        sdfsdfsdfsdfsdfsdfsdfsdfasdfasdfasdfasdfasdfasfasfasfdasdfasfasfdasfasf
+        这是一个代码评审辅助工具
+        <p>1.可以在idea中直接提问题</p>
+        <p>2.右侧的CrQuestion菜单可以列表显示</p>
+        <p>3.可以导出为markdown文件</p>
         ]]></description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
@@ -19,28 +22,28 @@
 
     <actions>
         <!-- Add your actions here -->
-        <action id="ActionDemo" class="com.janita.plugin.demo.ActionPopupMessage" text="弹出文字" description="Popup text">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
-        <action id="ActionPopupDialog" class="com.janita.plugin.demo.ActionPopupDialog" text="弹出输入框" description="Popup dialog">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
-        <action id="PluginApiAction" class="com.janita.plugin.demo.PluginApiAction" text="测试插件api" description="Test plugin api">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
-        <action id="TestTranslateAction" class="com.janita.plugin.demo.GetUserSelectedTextAction" text="弹出用户选择的文本" description="Get text user selected">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
-        <action id="MybatisLog2SqlAction" class="com.janita.plugin.mybatislog2sql.MybatisLog2SqlAction" text="MyBatis日志转SQL" description="Mybatis log to sql">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>
-        </action>
-        <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="Replace Chinese char">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
-        <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="Camel tran">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
+        <!--        <action id="ActionDemo" class="com.janita.plugin.demo.ActionPopupMessage" text="弹出文字" description="Popup text">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <!--        <action id="ActionPopupDialog" class="com.janita.plugin.demo.ActionPopupDialog" text="弹出输入框" description="Popup dialog">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <!--        <action id="PluginApiAction" class="com.janita.plugin.demo.PluginApiAction" text="测试插件api" description="Test plugin api">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <!--        <action id="TestTranslateAction" class="com.janita.plugin.demo.GetUserSelectedTextAction" text="弹出用户选择的文本" description="Get text user selected">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <!--        <action id="MybatisLog2SqlAction" class="com.janita.plugin.mybatislog2sql.MybatisLog2SqlAction" text="MyBatis日志转SQL" description="Mybatis log to sql">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>-->
+        <!--        </action>-->
+        <!--        <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="Replace Chinese char">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <!--        <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="Camel tran">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
         <!--        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="Auto gen code">-->
         <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
         <!--        </action>-->
