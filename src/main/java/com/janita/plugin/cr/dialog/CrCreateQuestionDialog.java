@@ -135,8 +135,8 @@ public class CrCreateQuestionDialog extends JDialog {
         initQuestionTypeList();
         questionCodeArea.setText(question.getQuestionCode());
         questionCodeArea.setEditable(false);
-        betterCodeArea.setText("建议写法");
-        descArea.setText("描述");
+        betterCodeArea.setText(question.getBetterCode());
+        descArea.setText(question.getDesc());
         pack();
         setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName() + "-" + question.getLineFrom() + "到" + question.getLineTo());
         setMinimumSize(new Dimension(800, 600));
