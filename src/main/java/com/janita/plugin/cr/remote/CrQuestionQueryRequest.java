@@ -13,23 +13,31 @@ public class CrQuestionQueryRequest {
     /**
      * 状态
      */
-    private final String state;
+    private final Set<String> stateSet;
 
     /**
      * 当前 project 下的所有仓库名称
      */
     private final Set<String> projectNameSet;
 
-    public CrQuestionQueryRequest(String state, Set<String> projectNameSet) {
-        this.state = state;
+    public CrQuestionQueryRequest(Set<String> stateSet, Set<String> projectNameSet) {
+        this.stateSet = stateSet;
         this.projectNameSet = projectNameSet;
     }
 
-    public String getState() {
-        return state;
+    public Set<String>  getState() {
+        return stateSet;
     }
 
     public Set<String> getProjectNameSet() {
         return projectNameSet;
+    }
+
+    @Override
+    public String toString() {
+        return "CrQuestionQueryRequest{" +
+                "stateSet=" + stateSet +
+                ", projectNameSet=" + projectNameSet +
+                '}';
     }
 }

@@ -26,6 +26,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -102,8 +104,9 @@ public class CrQuestionListWindow extends JDialog {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Set<String> projectNameSet = CommonUtils.getAllProjectName(project);
-                CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
+                String projectName = (String) projectBox.getSelectedItem();
+                String state = (String) stateBox.getSelectedItem();
+                CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(state)), new HashSet<>(Collections.singletonList(projectName)));
                 CrQuestionHouse.refresh(request);
             }
         });
