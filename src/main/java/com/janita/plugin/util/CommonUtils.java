@@ -160,9 +160,9 @@ public class CommonUtils {
     }
 
     public static void showNotification(String content, MessageType messageType) {
-        NotificationGroup notificationGroup = new NotificationGroup("Code review", NotificationDisplayType.BALLOON, true);
+        NotificationGroup notificationGroup = new NotificationGroup("Code Review", NotificationDisplayType.BALLOON, true);
         Notification notification = notificationGroup.createNotification(content, messageType);
-        notification.setTitle("Code review");
+        notification.setTitle("Code Review");
         Notifications.Bus.notify(notification);
     }
 }
