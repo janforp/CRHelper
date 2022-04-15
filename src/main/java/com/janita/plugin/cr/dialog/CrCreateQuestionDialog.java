@@ -35,7 +35,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 状态
      */
-    private static final List<String> STATE_LIST = Arrays.asList("未解决", "已解决", "重复问题", "已关闭");
+    public static final List<String> STATE_LIST = Arrays.asList("未解决", "已解决", "重复问题", "已关闭");
 
     /**
      * 工程

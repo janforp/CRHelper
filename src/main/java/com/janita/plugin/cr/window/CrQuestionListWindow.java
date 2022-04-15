@@ -1,9 +1,5 @@
 package com.janita.plugin.cr.window;
 
-import com.intellij.notification.Notification;
-import com.intellij.notification.NotificationDisplayType;
-import com.intellij.notification.NotificationGroup;
-import com.intellij.notification.Notifications;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
@@ -66,9 +62,15 @@ public class CrQuestionListWindow extends JDialog {
      */
     private JButton refreshButton;
 
-    private JComboBox projectBox;
+    /**
+     * 项目
+     */
+    private JComboBox<String> projectBox;
 
-    private JComboBox stateBox;
+    /**
+     * 状态
+     */
+    private JComboBox<String> stateBox;
 
     /**
      * 项目
@@ -177,9 +179,16 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionHouse.TABLE_MODEL);
         questionTable.setEnabled(false);
-        Set<String> projectNameSet = CommonUtils.getAllProjectName(project);
+        Set<String> projectNameSet = CommonUtils.getAllProjectName(this.project);
         CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
         CrQuestionHouse.refresh(request);
+
+        for (String state : CrCreateQuestionDialog.STATE_LIST) {
+            stateBox.addItem(state);
+        }
+        for (String projectName : projectNameSet) {
+            projectBox.addItem(projectName);
+        }
     }
 
     private JPopupMenu createPopupWhenClickRightMouse(int row) {

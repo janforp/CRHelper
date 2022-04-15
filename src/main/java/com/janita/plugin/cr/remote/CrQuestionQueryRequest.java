@@ -11,22 +11,22 @@ import java.util.Set;
 public class CrQuestionQueryRequest {
 
     /**
-     * 账户
+     * 状态
      */
-    private final String account;
+    private final String state;
 
     /**
      * 当前 project 下的所有仓库名称
      */
     private final Set<String> projectNameSet;
 
-    public CrQuestionQueryRequest(String account, Set<String> projectNameSet) {
-        this.account = account;
+    public CrQuestionQueryRequest(String state, Set<String> projectNameSet) {
+        this.state = state;
         this.projectNameSet = projectNameSet;
     }
 
-    public String getAccount() {
-        return account;
+    public String getState() {
+        return state;
     }
 
     public Set<String> getProjectNameSet() {
