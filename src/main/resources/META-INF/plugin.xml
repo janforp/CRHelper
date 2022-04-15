@@ -17,7 +17,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- 添加右边的 CrQuestion 菜单 -->
-        <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CrQuestion" anchor="right" icon="/img/mark.png"/>
+        <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
     </extensions>
 
     <actions>
@@ -50,7 +50,7 @@
         <!--        <action id="MarkBookAction" class="com.janita.plugin.markbook.MarkBookAction" text="源码笔记" description="Add a note" icon="/img/mark.png">-->
         <!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
         <!--        </action>-->
-        <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CrCreateCrQuestionAction" text="提CR问题" description="Create a CR question" icon="/img/mark.png">
+        <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CrCreateCrQuestionAction" text="Create CR Question" description="Create a CR question" icon="/img/mark.png">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
     </actions>
