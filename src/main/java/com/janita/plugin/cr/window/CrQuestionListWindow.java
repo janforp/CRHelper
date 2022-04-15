@@ -66,6 +66,10 @@ public class CrQuestionListWindow extends JDialog {
      */
     private JButton refreshButton;
 
+    private JComboBox projectBox;
+
+    private JComboBox stateBox;
+
     /**
      * 项目
      */
