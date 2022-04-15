@@ -53,5 +53,9 @@
         <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CrCreateCrQuestionAction" text="Create CR Question" description="Create a CR question" icon="/img/mark.png">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
+        <action id="fast.download" class="com.janita.plugin.download.FastDownloadAction" text="FastDownload" description="文件多线程下载">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="shift D"/>
+        </action>
     </actions>
 </idea-plugin>
