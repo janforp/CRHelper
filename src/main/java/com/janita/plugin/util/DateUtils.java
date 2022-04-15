@@ -13,8 +13,15 @@ public class DateUtils {
 
     private static final DateTimeFormatter DEFAULT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+    private static final DateTimeFormatter YYYYMMDDHMS = DateTimeFormatter.ofPattern("yyyyMMddHHmmss");
+
     public static String getCurrentDateTime() {
         LocalDateTime now = LocalDateTime.now();
         return DEFAULT_FORMATTER.format(now);
+    }
+
+    public static String getCurrentTimeForFileName() {
+        LocalDateTime now = LocalDateTime.now();
+        return YYYYMMDDHMS.format(now);
     }
 }

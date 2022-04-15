@@ -153,20 +153,19 @@ public class CrQuestionListWindow extends JDialog {
             return;
         }
         String path = virtualFile.getPath();
-        String fileName = DateUtils.getCurrentDateTime() + "-CodeReview.md";
-        String fullPath = path + File.separator + DateUtils.getCurrentDateTime() + "-CodeReview.md";
+        String fileName = DateUtils.getCurrentTimeForFileName() + "-CR.md";
+        String fullPath = path + File.separator + DateUtils.getCurrentTimeForFileName() + "-CR.md";
         MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
         try {
             List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
             List<CrQuestion> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
             processor.process(fileName, fullPath, exportList);
-            NotificationGroup notificationGroup = new NotificationGroup("codeReview", NotificationDisplayType.BALLOON, true);
+            NotificationGroup notificationGroup = new NotificationGroup("Code review", NotificationDisplayType.BALLOON, true);
             Notification notification = notificationGroup.createNotification("导出" + fullPath + "成功", MessageType.INFO);
             Notifications.Bus.notify(notification);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void initCrQuestionList() {
