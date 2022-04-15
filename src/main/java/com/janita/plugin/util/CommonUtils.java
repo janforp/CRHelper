@@ -2,12 +2,17 @@ package com.janita.plugin.util;
 
 import com.intellij.dvcs.repo.Repository;
 import com.intellij.dvcs.repo.VcsRepositoryManager;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationDisplayType;
+import com.intellij.notification.NotificationGroup;
+import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -147,5 +152,17 @@ public class CommonUtils {
         ImageIcon icon = new ImageIcon(resource);
         icon.setImage(icon.getImage().getScaledInstance(width, height, Image.SCALE_DEFAULT));
         return icon;
+    }
+
+    public static boolean hasSelectAnyText(AnActionEvent e) {
+        Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
+        return editor.getSelectionModel().hasSelection();
+    }
+
+    public static void showNotification(String content, MessageType messageType) {
+        NotificationGroup notificationGroup = new NotificationGroup("Code review", NotificationDisplayType.BALLOON, true);
+        Notification notification = notificationGroup.createNotification(content, messageType);
+        notification.setTitle("Code review");
+        Notifications.Bus.notify(notification);
     }
 }

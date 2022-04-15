@@ -160,9 +160,7 @@ public class CrQuestionListWindow extends JDialog {
             List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
             List<CrQuestion> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
             processor.process(fileName, fullPath, exportList);
-            NotificationGroup notificationGroup = new NotificationGroup("Code review", NotificationDisplayType.BALLOON, true);
-            Notification notification = notificationGroup.createNotification("导出" + fullPath + "成功", MessageType.INFO);
-            Notifications.Bus.notify(notification);
+            CommonUtils.showNotification("导出成功", MessageType.INFO);
         } catch (Exception e) {
             e.printStackTrace();
         }
