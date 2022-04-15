@@ -24,16 +24,17 @@ public class FastDownloadAction extends AnAction {
         DownloadDialog downloadDialog = new DownloadDialog();
         if (downloadDialog.showAndGet()) {
             // user pressed OK
+            DownloadDialog.DialogInputHolder inputHolder = downloadDialog.getDialogInputHolder();
             try {
-                startDownloadTask(project, downloadDialog.getDownloadURL(), downloadDialog.getDownloadDir(), downloadDialog.getThreadNum());
+                startDownloadTask(project, inputHolder);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
     }
 
-    private void startDownloadTask(Project project, String downloadURL, String downloadDir, Integer threadNum) throws IOException {
-        MultiThreadDownloadProgressPrinter downloadProgressPrinter = new MultiThreadDownloadProgressPrinter(threadNum);
+    private void startDownloadTask(Project project, DownloadDialog.DialogInputHolder inputHolder) throws IOException {
+        MultiThreadDownloadProgressPrinter downloadProgressPrinter = new MultiThreadDownloadProgressPrinter(inputHolder.getThreadNum());
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "File downloading") {
             private long tmpAlreadyDownloadLength;
 
@@ -53,16 +54,13 @@ public class FastDownloadAction extends AnAction {
                 }
             }
 
-            private void setProgressIndicator(ProgressIndicator progressIndicator, long contentLength,
-                    long alreadyDownloadLength) {
+            private void setProgressIndicator(ProgressIndicator progressIndicator, long contentLength, long alreadyDownloadLength) {
                 if (alreadyDownloadLength == 0 || contentLength == 0) {
                     return;
                 }
                 long speed = alreadyDownloadLength - tmpAlreadyDownloadLength;
                 tmpAlreadyDownloadLength = alreadyDownloadLength;
-
                 double value = (double) alreadyDownloadLength / (double) contentLength;
-
                 double fraction = Double.parseDouble(String.format("%.2f", value));
                 progressIndicator.setFraction(fraction);
                 String text = "already download " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
@@ -72,8 +70,8 @@ public class FastDownloadAction extends AnAction {
 
         CompletableFuture.runAsync(() -> {
             try {
-                Downloader downloader = new MultiThreadFileDownloader(threadNum, downloadProgressPrinter);
-                downloader.download(downloadURL, downloadDir);
+                Downloader downloader = new MultiThreadFileDownloader(inputHolder.getThreadNum(), downloadProgressPrinter);
+                downloader.download(inputHolder.getDownloadUrl(), inputHolder.getDirUrl());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

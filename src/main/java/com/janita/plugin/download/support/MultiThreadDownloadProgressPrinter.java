@@ -20,7 +20,7 @@ public class MultiThreadDownloadProgressPrinter implements DownloadProgressPrint
     }
 
     private PartProgress getPartProgress(String indexText) {
-        PartProgress partProgress = this.partProgresses[Integer.valueOf(indexText)];
+        PartProgress partProgress = this.partProgresses[Integer.parseInt(indexText)];
         if (Objects.nonNull(partProgress)) {
             return partProgress;
         }

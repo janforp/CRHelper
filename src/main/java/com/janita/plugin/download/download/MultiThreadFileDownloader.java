@@ -37,10 +37,8 @@ public class MultiThreadFileDownloader extends AbstractDownloader {
         ExecutorService executorService = Executors.newFixedThreadPool(threadNum);
         long contentLength = headers.getContentLength();
         downloadProgressPrinter.setContentLength(contentLength);
-
         //均分文件的大小
         long step = contentLength / threadNum;
-
         List<CompletableFuture<File>> futures = new ArrayList<>();
         for (int index = 0; index < threadNum; index++) {
             //计算出每个线程的下载开始位置和结束位置
@@ -49,7 +47,6 @@ public class MultiThreadFileDownloader extends AbstractDownloader {
 
             String tempFilePath = dir + File.separator + "." + fileName + ".download." + index;
             FileResponseExtractor extractor = new FileResponseExtractor(index, tempFilePath, downloadProgressPrinter);
-
             CompletableFuture<File> future = CompletableFuture.supplyAsync(() -> {
                 RequestCallback callback = request -> {
                     //设置HTTP请求头Range信息，开始下载到临时文件

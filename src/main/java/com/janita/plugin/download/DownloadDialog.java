@@ -32,11 +32,24 @@ public class DownloadDialog extends DialogWrapper implements ActionListener {
     @Override
     protected JComponent createCenterPanel() {
         Box verticalBox = Box.createVerticalBox();
-        verticalBox.add(createUrlBox());
+
+        // 下载文件地址部分
+        Box urlBox = createUrlBox();
+        verticalBox.add(urlBox);
+
+        // 中间间隔距离
+        verticalBox.add(Box.createVerticalStrut/*创建垂直支柱*/(10));
+
+        // 下载文件存储目录部分
+        Box fileDirJPanel = createFileDirJPanel();
+        verticalBox.add(fileDirJPanel);
+
+        // 中间间隔距离
         verticalBox.add(Box.createVerticalStrut(10));
-        verticalBox.add(createFileDirJPanel());
-        verticalBox.add(Box.createVerticalStrut(10));
-        verticalBox.add(createThreadNumJPanel());
+
+        // 下载线程数量部分
+        Box threadNumJPanel = createThreadNumJPanel();
+        verticalBox.add(threadNumJPanel);
         return verticalBox;
     }
 
@@ -44,7 +57,7 @@ public class DownloadDialog extends DialogWrapper implements ActionListener {
         Box horizontalBox = Box.createHorizontalBox();
         JLabel label = new JLabel("文件下载地址:");
         horizontalBox.add(label);
-        horizontalBox.add(Box.createHorizontalStrut(10));
+        horizontalBox.add(Box.createHorizontalStrut/*创建水平支柱*/(10));
         downloadUrlField = new JTextField(20);
         horizontalBox.add(downloadUrlField);
         return horizontalBox;
@@ -75,6 +88,11 @@ public class DownloadDialog extends DialogWrapper implements ActionListener {
         return horizontalBox;
     }
 
+    /**
+     * 点击浏览按钮的时候执行的操作
+     *
+     * @param e 事件
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         int state = chooser.showOpenDialog(null);// 此句是打开文件选择器界面的触发语句
@@ -100,15 +118,34 @@ public class DownloadDialog extends DialogWrapper implements ActionListener {
         return null;
     }
 
-    public String getDownloadURL() {
-        return downloadUrlField.getText();
+    public DialogInputHolder getDialogInputHolder() {
+        return new DialogInputHolder(downloadUrlField.getText(), fileDirField.getText(), Integer.valueOf(threadNumField.getText()));
     }
 
-    public String getDownloadDir() {
-        return fileDirField.getText();
-    }
+    public static class DialogInputHolder {
 
-    public Integer getThreadNum() {
-        return Integer.valueOf(threadNumField.getText());
+        private final String downloadUrl;
+
+        private final String dirUrl;
+
+        private final Integer threadNum;
+
+        public DialogInputHolder(String downloadUrl, String dirUrl, Integer threadNum) {
+            this.downloadUrl = downloadUrl;
+            this.dirUrl = dirUrl;
+            this.threadNum = threadNum;
+        }
+
+        public String getDownloadUrl() {
+            return downloadUrl;
+        }
+
+        public String getDirUrl() {
+            return dirUrl;
+        }
+
+        public int getThreadNum() {
+            return threadNum;
+        }
     }
 }

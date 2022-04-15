@@ -27,17 +27,13 @@ public abstract class AbstractDownloader implements Downloader {
     @Override
     public void download(String fileURL, String dir) throws IOException {
         long start = System.currentTimeMillis();
-
         String decodeFileURL = URLDecoder.decode(fileURL, "UTF-8");
-
         //通过Http协议的Head方法获取到文件的总大小
         HttpHeaders headers = new HttpHeaders();
         HttpEntity<String> requestEntity = new HttpEntity<>(null, headers);
         ResponseEntity<String> entity = restTemplate.exchange(decodeFileURL, HttpMethod.HEAD, requestEntity, String.class);
         String fileName = this.getFileName(decodeFileURL, entity.getHeaders());
-
         doDownload(decodeFileURL, dir, fileName, entity.getHeaders());
-
         System.out.println("总共下载文件耗时:" + (System.currentTimeMillis() - start) / 1000 + "s");
     }
 
