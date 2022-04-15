@@ -17,6 +17,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
     implementation group: 'commons-io', name: 'commons-io', version: '2.4'
     implementation group: 'freemarker', name: 'freemarker', version: '2.3.3'
+    implementation group: 'org.springframework', name: 'spring-web', version: '4.2.5.RELEASE'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.7'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.7'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
@@ -27,7 +30,6 @@ intellij {
 }
 patchPluginXml {
     changeNotes = """
-      Add change notes here.<br>
       <em>目前只支持本地</em>"""
 }
 test {
