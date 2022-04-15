@@ -162,7 +162,7 @@ public class CommonUtils {
     public static void showNotification(String content, MessageType messageType) {
         NotificationGroup notificationGroup = new NotificationGroup("Code Review", NotificationDisplayType.BALLOON, true);
         Notification notification = notificationGroup.createNotification(content, messageType);
-        notification.setTitle("Code Review");
+        notification.setTitle("Code review");
         Notifications.Bus.notify(notification);
     }
 }

@@ -13,12 +13,12 @@ public class CrQuestionQueryRequest {
     /**
      * 账户
      */
-    private String account;
+    private final String account;
 
     /**
      * 当前 project 下的所有仓库名称
      */
-    private Set<String> projectNameSet;
+    private final Set<String> projectNameSet;
 
     public CrQuestionQueryRequest(String account, Set<String> projectNameSet) {
         this.account = account;
@@ -29,7 +29,7 @@ public class CrQuestionQueryRequest {
         return account;
     }
 
-    public void setAccount(String account) {
-        this.account = account;
+    public Set<String> getProjectNameSet() {
+        return projectNameSet;
     }
 }

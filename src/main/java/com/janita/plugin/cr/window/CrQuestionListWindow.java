@@ -78,7 +78,7 @@ public class CrQuestionListWindow extends JDialog {
         initCrQuestionList();
 
         setContentPane(contentPane);
-        getRootPane().setDefaultButton(exportButton);
+        getRootPane().setDefaultButton(closeCancel);
 
         exportButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -148,6 +148,11 @@ public class CrQuestionListWindow extends JDialog {
 
     @SuppressWarnings("all")
     private void export() {
+        List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
+        if (crQuestionList == null || crQuestionList.size() == 0) {
+            CommonUtils.showNotification("没有任何 Code review 内容！", MessageType.ERROR);
+            return;
+        }
         VirtualFile virtualFile = FileChooser.chooseFile(FileChooserDescriptorFactory.createSingleFolderDescriptor(), project, project.getBaseDir());
         if (virtualFile == null) {
             return;
@@ -157,7 +162,6 @@ public class CrQuestionListWindow extends JDialog {
         String fullPath = path + File.separator + DateUtils.getCurrentTimeForFileName() + "-CR.md";
         MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
         try {
-            List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
             List<CrQuestion> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
             processor.process(fileName, fullPath, exportList);
             CommonUtils.showNotification("导出成功", MessageType.INFO);
