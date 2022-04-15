@@ -45,7 +45,7 @@ public class CrQuestionUtils {
         question.setLineTo(startAndEndLine.getRight());
         question.setClassName(CommonUtils.getClassName(e));
         question.setQuestionCode(questionCode);
-        question.setBetterCode(null);
+        question.setBetterCode(questionCode);
         question.setDesc(null);
         question.setFromAccount(CommonUtils.getGitUser(e).getName());
         question.setToAccount(null);
