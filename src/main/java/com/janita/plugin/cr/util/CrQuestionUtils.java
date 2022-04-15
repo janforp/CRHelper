@@ -86,7 +86,7 @@ public class CrQuestionUtils {
             clone.setState(StringUtils.defaultIfBlank(question.getState(), "无"));
             clone.setQuestionCode(setCodeMark(StringUtils.defaultIfBlank(question.getQuestionCode(), "无")));
             clone.setBetterCode(setCodeMark(StringUtils.defaultIfBlank(question.getBetterCode(), "无")));
-            clone.setDesc(StringUtils.defaultIfBlank(question.getDesc(), "无"));
+            clone.setDesc(setCodeMark(StringUtils.defaultIfBlank(question.getDesc(), "无")));
             questionList.add(clone);
         }
         return questionList;

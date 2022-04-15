@@ -17,7 +17,9 @@ ${question.questionCode}
 ${question.betterCode}
 >>```
 >####描述
->><font color = 'black'>${question.desc}</font>
+>>```java
+${question.desc}
+>>```
 <table bgcolor="#ffebcd" height="20"></table>
 
 </#list>
