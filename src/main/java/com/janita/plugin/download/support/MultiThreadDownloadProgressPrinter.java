@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class MultiThreadDownloadProgressPrinter implements DownloadProgressPrinter {
 
-    private PartProgress[] partProgresses;
+    private final PartProgress[] partProgresses;
 
     private long contentLength;
 
@@ -25,7 +25,7 @@ public class MultiThreadDownloadProgressPrinter implements DownloadProgressPrint
             return partProgress;
         }
         partProgress = new PartProgress();
-        this.partProgresses[Integer.valueOf(indexText)] = partProgress;
+        this.partProgresses[Integer.parseInt(indexText)] = partProgress;
         return partProgress;
     }
 
@@ -60,5 +60,4 @@ public class MultiThreadDownloadProgressPrinter implements DownloadProgressPrint
             return alreadyDownloadLength;
         }
     }
-
 }

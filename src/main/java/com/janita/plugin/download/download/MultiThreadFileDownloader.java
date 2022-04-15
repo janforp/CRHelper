@@ -85,5 +85,4 @@ public class MultiThreadFileDownloader extends AbstractDownloader {
         executorService.shutdown();
         file.renameTo(new File(dir + File.separator + fileName));
     }
-
 }
