@@ -162,7 +162,7 @@ public class CrQuestionListWindow extends JDialog {
             processor.process(fileName, fullPath, exportList);
             CommonUtils.showNotification("导出成功", MessageType.INFO);
         } catch (Exception e) {
-            e.printStackTrace();
+            CommonUtils.showNotification("导出失败，请联系相关人员处理", MessageType.ERROR);
         }
     }
 
