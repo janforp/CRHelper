@@ -8,7 +8,7 @@ import javax.swing.*;
  * @author zhucj
  * @since 20220324
  */
-public class CrQuestionDIalog {
+public class CrQuestionDialog {
 
     private JPanel contentPanel;
 
