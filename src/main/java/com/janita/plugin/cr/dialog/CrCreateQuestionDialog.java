@@ -13,12 +13,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
-import java.util.List;
 
+/**
+ * 创建一个提问题的框
+ *
+ * @author zhucj
+ * @since 20220415
+ */
 public class CrCreateQuestionDialog extends JDialog {
-
-
 
     /**
      * 工程

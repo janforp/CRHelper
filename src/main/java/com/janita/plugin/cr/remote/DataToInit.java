@@ -4,10 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * DataToInit
- *
  * @author zhucj
- * @since 20220324
+ * @since 20220415
  */
 public class DataToInit {
 

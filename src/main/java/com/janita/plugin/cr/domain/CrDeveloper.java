@@ -1,10 +1,8 @@
 package com.janita.plugin.cr.domain;
 
 /**
- * 开发者
- *
  * @author zhucj
- * @since 20220324
+ * @since 20220415
  */
 public class CrDeveloper {
 

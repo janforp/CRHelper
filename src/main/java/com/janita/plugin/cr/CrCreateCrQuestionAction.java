@@ -11,10 +11,8 @@ import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.util.CommonUtils;
 
 /**
- * CreateCrQuestionAction
- *
  * @author zhucj
- * @since 20220324
+ * @since 20220415
  */
 public class CrCreateCrQuestionAction extends AnAction {
 
