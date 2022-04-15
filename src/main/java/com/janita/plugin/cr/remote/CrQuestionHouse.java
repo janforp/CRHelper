@@ -60,8 +60,10 @@ public class CrQuestionHouse {
     }
 
     public static void refresh(CrQuestionQueryRequest request) {
-        System.out.println("*************************"+request);
         List<CrQuestion> questionList = QuestionRemote.query(request);
+        if (questionList == null || questionList.size() == 0) {
+            return;
+        }
         CR_QUESTION_LIST.clear();
 
         CommonUtils.clearDefaultTableModel(TABLE_MODEL);

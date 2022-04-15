@@ -1,12 +1,10 @@
 package com.janita.plugin.cr.remote;
 
+import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.cr.domain.CrQuestion;
+import com.janita.plugin.util.CommonUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -29,29 +27,7 @@ public class QuestionRemote {
     }
 
     public static List<CrQuestion> query(CrQuestionQueryRequest request) {
-        Set<String> projectNameSet = request.getProjectNameSet();
-        String projectName = null;
-        if (projectNameSet != null && projectNameSet.size() > 0) {
-            projectName = new ArrayList<>(projectNameSet).get(0);
-        }
-
-        CrQuestion question = new CrQuestion();
-        question.setId(1L);
-        question.setLevel("1");
-        question.setProjectName(projectName);
-        question.setType("性能");
-        question.setLineFrom(1);
-        question.setLineTo(2);
-        question.setClassName("HashMap.java");
-        question.setQuestionCode("import java.util.ArrayList;\n"
-                + "import java.util.List;\n"
-                + "import java.util.Set;");
-        question.setBetterCode("import java.util.ArrayList;\n"
-                + "import java.util.List;\n"
-                + "import java.util.Set;");
-        question.setDesc("描述一下");
-        question.setCreateTime("2022-2-12 12:12:12");
-        question.setSolveTime("2022-12-12 12:12:12");
-        return Collections.singletonList(question);
+        CommonUtils.showNotification("抱歉，暂时只支持本地，重启idea数据会丢失，请及时导出", MessageType.WARNING);
+        return null;
     }
 }
