@@ -3,6 +3,7 @@ package com.janita.plugin.cr.dialog;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.cr.domain.CrQuestion;
+import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 
 import javax.swing.*;
@@ -17,25 +18,7 @@ import java.util.List;
 
 public class CrCreateQuestionDialog extends JDialog {
 
-    /**
-     * 问题类型
-     */
-    private static final List<String> QUESTION_TYPE_LIST = Arrays.asList("建议", "性能", "缺陷", "规范");
 
-    /**
-     * 账户
-     */
-    private static final List<String> ACCOUNT_LIST = Arrays.asList("王尚飞", "朱晨剑", "张丹", "杨艳斌");
-
-    /**
-     * 问题级别
-     */
-    private static final List<String> LEVEL_LIST = Arrays.asList("1", "2", "3", "4", "5");
-
-    /**
-     * 状态
-     */
-    public static final List<String> STATE_LIST = Arrays.asList("未解决", "已解决", "重复问题", "已关闭");
 
     /**
      * 工程
@@ -186,13 +169,13 @@ public class CrCreateQuestionDialog extends JDialog {
         this.question = question;
         initBox();
 
-        questionTypeBox.setSelectedItem(question.getType() != null ? question.getType() : QUESTION_TYPE_LIST.get(0));
-        stateBox.setSelectedItem(question.getState() != null ? question.getState() : STATE_LIST.get(0));
+        questionTypeBox.setSelectedItem(question.getType() != null ? question.getType() : DataToInit.QUESTION_TYPE_LIST.get(0));
+        stateBox.setSelectedItem(question.getState() != null ? question.getState() : DataToInit.STATE_LIST.get(0));
         questionCodeArea.setText(question.getQuestionCode());
         questionCodeArea.setEditable(false);
         betterCodeArea.setText(question.getBetterCode());
         descArea.setText(question.getDesc());
-        levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : LEVEL_LIST.get(0));
+        levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : DataToInit.LEVEL_LIST.get(0));
         pack();
         setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName() + "-" + question.getLineFrom() + "到" + question.getLineTo());
         setMinimumSize(new Dimension(800, 600));
@@ -207,18 +190,18 @@ public class CrCreateQuestionDialog extends JDialog {
      * 建议，性能， 缺陷， 规范
      */
     private void initBox() {
-        for (String type : QUESTION_TYPE_LIST) {
+        for (String type : DataToInit.QUESTION_TYPE_LIST) {
             questionTypeBox.addItem(type);
         }
 
-        for (String account : ACCOUNT_LIST) {
+        for (String account : DataToInit.ACCOUNT_LIST) {
             toAccountBox.addItem(account);
         }
-        for (String level : LEVEL_LIST) {
+        for (String level : DataToInit.LEVEL_LIST) {
             levelBox.addItem(level);
         }
 
-        for (String state : STATE_LIST) {
+        for (String state : DataToInit.STATE_LIST) {
             stateBox.addItem(state);
         }
     }

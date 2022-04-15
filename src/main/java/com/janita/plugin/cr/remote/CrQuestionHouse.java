@@ -1,7 +1,6 @@
-package com.janita.plugin.cr.domain;
+package com.janita.plugin.cr.remote;
 
-import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
-import com.janita.plugin.cr.remote.QuestionRemote;
+import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.util.CommonUtils;
 
 import javax.swing.table.DefaultTableModel;

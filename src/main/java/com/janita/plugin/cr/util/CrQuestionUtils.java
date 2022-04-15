@@ -5,7 +5,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.domain.CrQuestionHouse;
+import com.janita.plugin.cr.remote.CrQuestionHouse;
 import com.janita.plugin.util.CommonUtils;
 import com.janita.plugin.util.DateUtils;
 import org.apache.commons.lang3.ObjectUtils;

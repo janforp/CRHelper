@@ -8,9 +8,10 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.domain.CrQuestionHouse;
+import com.janita.plugin.cr.remote.CrQuestionHouse;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
 import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
+import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.util.CommonUtils;
 import com.janita.plugin.util.DateUtils;
@@ -186,7 +187,7 @@ public class CrQuestionListWindow extends JDialog {
         CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
         CrQuestionHouse.refresh(request);
 
-        for (String state : CrCreateQuestionDialog.STATE_LIST) {
+        for (String state : DataToInit.STATE_LIST) {
             stateBox.addItem(state);
         }
         for (String projectName : projectNameSet) {
