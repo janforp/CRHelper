@@ -1,10 +1,11 @@
-package com.janita.plugin.util;
+package com.janita.plugin.progress;
 
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.janita.plugin.common.domain.CurrentProgress;
+import com.janita.plugin.progress.AbstractProgressTask;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
@@ -17,16 +18,16 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ProgressUtils {
 
-    public static void showProgress(Project project, String title, ProgressTask task) {
-        ProgressManager progressManager = ProgressManager.getInstance();
+    public static void showProgress(Project project, String title, AbstractProgressTask task) {
         CurrentProgress currentProgress = new CurrentProgress();
-        currentProgress.setTotal(task.total());
-        currentProgress.setAlready(task.already());
+        currentProgress.setTotal(task.totalBit());
+        currentProgress.setAlready(task.alreadyCompleteBit());
 
+        ProgressManager progressManager = ProgressManager.getInstance();
         Task.Backgroundable background = new Task.Backgroundable(project, title) {
 
             // 临时存储已经下载字节数量的变量
-            private long alreadyDownloadLengthLastSecond = task.lastAlready();
+            private long alreadyDownloadLengthLastSecond = task.lastAlreadyCompleteBit();
 
             @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
@@ -41,7 +42,6 @@ public class ProgressUtils {
                     alreadyDownloadLengthLastSecond = currentProgress.getTotal();
                     sleep();
                 }
-
             }
         };
         progressManager.run(background);

@@ -10,7 +10,7 @@ import com.intellij.openapi.project.Project;
 import com.janita.plugin.download.download.Downloader;
 import com.janita.plugin.download.download.MultiThreadFileDownloader;
 import com.janita.plugin.download.support.MultiThreadDownloadProgressPrinter;
-import com.janita.plugin.util.ProgressUtils;
+import com.janita.plugin.progress.ProgressUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
