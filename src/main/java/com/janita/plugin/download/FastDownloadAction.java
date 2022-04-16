@@ -45,7 +45,7 @@ public class FastDownloadAction extends AnAction {
             /**
              * 临时存储已经下载字节数量的变量
              */
-            private long tmpAlreadyDownloadLength;
+            private long alreadyDownloadLengthLastSecond;
 
             /**
              * 其实进度条就是在该run方法中不断的更新 progressIndicator 中的 setFraction 跟 setText，如果该方法结束了进度条就完成了
@@ -63,8 +63,8 @@ public class FastDownloadAction extends AnAction {
                         progressIndicator.setText("Download finished");
                         break;
                     }
-                    updateProgressIndicatorPerSecond(progressIndicator, tmpAlreadyDownloadLength, contentLength, alreadyDownloadLength);
-                    tmpAlreadyDownloadLength = alreadyDownloadLength;
+                    updateProgressIndicatorPerSecond(progressIndicator, alreadyDownloadLengthLastSecond, contentLength, alreadyDownloadLength);
+                    alreadyDownloadLengthLastSecond = alreadyDownloadLength;
                     // 每秒钟更新下载速度跟下载进度
                     sleep();
                 }
@@ -98,16 +98,16 @@ public class FastDownloadAction extends AnAction {
      * 实时更新下载速度跟进度条
      *
      * @param progressIndicator 指示器
-     * @param alreadyDownloadLengthLastTime 上次更新进度条速度的时候下载的字节数量，用于计算这一秒的速度
+     * @param alreadyDownloadLengthLastSecond 上次更新进度条速度的时候下载的字节数量，用于计算这一秒的速度
      * @param contentLength 总的长度
-     * @param alreadyDownloadLengthThisLast 本次更新进度条的时候已经下载的数量
+     * @param alreadyDownloadLengthThisSecond 本次更新进度条的时候已经下载的数量
      */
-    private void updateProgressIndicatorPerSecond(ProgressIndicator progressIndicator, long alreadyDownloadLengthLastTime, long contentLength, long alreadyDownloadLengthThisLast) {
-        if (alreadyDownloadLengthThisLast == 0 || contentLength == 0) {
+    private void updateProgressIndicatorPerSecond(ProgressIndicator progressIndicator, long alreadyDownloadLengthLastSecond, long contentLength, long alreadyDownloadLengthThisSecond) {
+        if (alreadyDownloadLengthThisSecond == 0 || contentLength == 0) {
             return;
         }
-        long speed = alreadyDownloadLengthThisLast - alreadyDownloadLengthLastTime;
-        double value = (double) alreadyDownloadLengthThisLast / (double) contentLength;
+        long speed = alreadyDownloadLengthThisSecond - alreadyDownloadLengthLastSecond;
+        double value = (double) alreadyDownloadLengthThisSecond / (double) contentLength;
         double fraction = Double.parseDouble(String.format("%.2f", value));
         progressIndicator.setFraction(fraction);
         String text = "already download " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
