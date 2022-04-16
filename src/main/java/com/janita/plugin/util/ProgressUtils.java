@@ -17,31 +17,36 @@ import java.util.concurrent.CompletableFuture;
  */
 public class ProgressUtils {
 
-    public static void showProgress(Project project, String title, ProgressTask task, CurrentProgress progress) {
+    public static void showProgress(Project project, String title, ProgressTask task) {
         ProgressManager progressManager = ProgressManager.getInstance();
+        CurrentProgress currentProgress = new CurrentProgress();
+        currentProgress.setTotal(task.total());
+        currentProgress.setAlready(task.already());
+
         Task.Backgroundable background = new Task.Backgroundable(project, title) {
 
             // 临时存储已经下载字节数量的变量
-            private long alreadyDownloadLengthLastSecond;
+            private long alreadyDownloadLengthLastSecond = task.lastAlready();
 
             @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
                 while (true) {
-                    if (progress.getAlready() != 0 && progress.getAlready() >= progress.getTotal()) {
+                    if (currentProgress.getAlready() != 0 && currentProgress.getAlready() >= currentProgress.getTotal()) {
                         // Finished
                         progressIndicator.setFraction(1.0);
-                        progressIndicator.setText("Download finished");
+                        progressIndicator.setText("Success finish");
                         break;
                     }
-                    updateProgressIndicatorPerSecond(progressIndicator, alreadyDownloadLengthLastSecond, progress.getTotal(), progress.getAlready());
-                    alreadyDownloadLengthLastSecond = progress.getTotal();
+                    updateProgressIndicatorPerSecond(progressIndicator, alreadyDownloadLengthLastSecond, currentProgress.getTotal(), currentProgress.getAlready());
+                    alreadyDownloadLengthLastSecond = currentProgress.getTotal();
                     sleep();
                 }
 
             }
         };
         progressManager.run(background);
-        CompletableFuture.runAsync(task::process).exceptionally(e -> {
+
+        CompletableFuture.runAsync(() -> task.process(currentProgress)).exceptionally(e -> {
             throw new RuntimeException(e);
         });
     }
@@ -62,7 +67,7 @@ public class ProgressUtils {
         double value = (double) alreadyDownloadLengthThisSecond / (double) contentLength;
         double fraction = Double.parseDouble(String.format("%.2f", value));
         progressIndicator.setFraction(fraction);
-        String text = "already download " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
+        String text = "Complete " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
         progressIndicator.setText(text);
     }
 

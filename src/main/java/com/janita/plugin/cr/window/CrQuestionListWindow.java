@@ -6,6 +6,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
+import com.janita.plugin.common.domain.CurrentProgress;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.remote.CrQuestionHouse;
@@ -15,6 +16,8 @@ import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.util.CommonUtils;
 import com.janita.plugin.util.DateUtils;
+import com.janita.plugin.util.ProgressTask;
+import com.janita.plugin.util.ProgressUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -108,7 +111,12 @@ public class CrQuestionListWindow extends JDialog {
                 String projectName = (String) projectBox.getSelectedItem();
                 String state = (String) stateBox.getSelectedItem();
                 CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(state)), new HashSet<>(Collections.singletonList(projectName)));
-                CrQuestionHouse.refresh(request);
+                ProgressUtils.showProgress(project, "Querying", new ProgressTask() {
+                    @Override
+                    public void doProcess() {
+                        CrQuestionHouse.refresh(request);
+                    }
+                });
             }
         });
 
