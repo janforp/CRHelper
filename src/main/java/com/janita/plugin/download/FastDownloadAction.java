@@ -34,10 +34,24 @@ public class FastDownloadAction extends AnAction {
     }
 
     private void startDownloadTask(Project project, DownloadDialog.DialogInputHolder inputHolder) throws IOException {
+
         MultiThreadDownloadProgressPrinter downloadProgressPrinter = new MultiThreadDownloadProgressPrinter(inputHolder.getThreadNum());
-        ProgressManager.getInstance().run(new Task.Backgroundable(project, "File downloading") {
+
+        // 实力化一个进度条实例
+        ProgressManager progressManager = ProgressManager.getInstance();
+        // 后台任务
+        Task.Backgroundable background = new Task.Backgroundable(project, "File downloading") {
+
+            /**
+             * 临时存储已经下载字节数量的变量
+             */
             private long tmpAlreadyDownloadLength;
 
+            /**
+             * 其实进度条就是在该run方法中不断的更新 progressIndicator 中的 setFraction 跟 setText，如果该方法结束了进度条就完成了
+             * @param progressIndicator 进度指示器
+             */
+            @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
                 // start your process
                 while (true) {
@@ -49,24 +63,16 @@ public class FastDownloadAction extends AnAction {
                         progressIndicator.setText("Download finished");
                         break;
                     }
-                    setProgressIndicator(progressIndicator, contentLength, alreadyDownloadLength);
+                    updateProgressIndicatorPerSecond(progressIndicator, tmpAlreadyDownloadLength, contentLength, alreadyDownloadLength);
+                    tmpAlreadyDownloadLength = alreadyDownloadLength;
+                    // 每秒钟更新下载速度跟下载进度
                     sleep();
                 }
             }
+        };
 
-            private void setProgressIndicator(ProgressIndicator progressIndicator, long contentLength, long alreadyDownloadLength) {
-                if (alreadyDownloadLength == 0 || contentLength == 0) {
-                    return;
-                }
-                long speed = alreadyDownloadLength - tmpAlreadyDownloadLength;
-                tmpAlreadyDownloadLength = alreadyDownloadLength;
-                double value = (double) alreadyDownloadLength / (double) contentLength;
-                double fraction = Double.parseDouble(String.format("%.2f", value));
-                progressIndicator.setFraction(fraction);
-                String text = "already download " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
-                progressIndicator.setText(text);
-            }
-        });
+        // 执行任务
+        progressManager.run(background);
 
         CompletableFuture.runAsync(() -> {
             try {
@@ -86,5 +92,25 @@ public class FastDownloadAction extends AnAction {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 实时更新下载速度跟进度条
+     *
+     * @param progressIndicator 指示器
+     * @param alreadyDownloadLengthLastTime 上次更新进度条速度的时候下载的字节数量，用于计算这一秒的速度
+     * @param contentLength 总的长度
+     * @param alreadyDownloadLengthThisLast 本次更新进度条的时候已经下载的数量
+     */
+    private void updateProgressIndicatorPerSecond(ProgressIndicator progressIndicator, long alreadyDownloadLengthLastTime, long contentLength, long alreadyDownloadLengthThisLast) {
+        if (alreadyDownloadLengthThisLast == 0 || contentLength == 0) {
+            return;
+        }
+        long speed = alreadyDownloadLengthThisLast - alreadyDownloadLengthLastTime;
+        double value = (double) alreadyDownloadLengthThisLast / (double) contentLength;
+        double fraction = Double.parseDouble(String.format("%.2f", value));
+        progressIndicator.setFraction(fraction);
+        String text = "already download " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
+        progressIndicator.setText(text);
     }
 }
