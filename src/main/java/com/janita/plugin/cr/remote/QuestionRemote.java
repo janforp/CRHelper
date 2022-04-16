@@ -33,14 +33,12 @@ public class QuestionRemote {
     }
 
     public static List<CrQuestion> query(CrQuestionQueryRequest request) {
-        //CommonUtils.showNotification("抱歉，暂时只支持本地，重启idea数据会丢失，请及时导出", MessageType.WARNING);
-        ApiResponse<Map> response = restTemplate.getForObject(UrlConstants.TEST, ApiResponse.class);
-        System.out.println(response);
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        CommonUtils.showNotification("抱歉，暂时只支持本地，重启idea数据会丢失，请及时导出", MessageType.WARNING);
         return null;
     }
 }
