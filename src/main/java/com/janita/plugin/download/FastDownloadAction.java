@@ -10,6 +10,7 @@ import com.intellij.openapi.project.Project;
 import com.janita.plugin.download.download.Downloader;
 import com.janita.plugin.download.download.MultiThreadFileDownloader;
 import com.janita.plugin.download.support.MultiThreadDownloadProgressPrinter;
+import com.janita.plugin.util.ProgressUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -63,7 +64,7 @@ public class FastDownloadAction extends AnAction {
                         progressIndicator.setText("Download finished");
                         break;
                     }
-                    updateProgressIndicatorPerSecond(progressIndicator, alreadyDownloadLengthLastSecond, contentLength, alreadyDownloadLength);
+                    ProgressUtils.updateProgressIndicatorPerSecond(progressIndicator, alreadyDownloadLengthLastSecond, contentLength, alreadyDownloadLength);
                     alreadyDownloadLengthLastSecond = alreadyDownloadLength;
                     // 每秒钟更新下载速度跟下载进度
                     sleep();
@@ -76,6 +77,7 @@ public class FastDownloadAction extends AnAction {
 
         CompletableFuture.runAsync(() -> {
             try {
+                // https://download.jetbrains.8686c.com/idea/ideaIU-2020.3.dmg
                 Downloader downloader = new MultiThreadFileDownloader(inputHolder.getThreadNum(), downloadProgressPrinter);
                 downloader.download(inputHolder.getDownloadUrl(), inputHolder.getDirUrl());
             } catch (IOException e) {
@@ -92,25 +94,5 @@ public class FastDownloadAction extends AnAction {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    /**
-     * 实时更新下载速度跟进度条
-     *
-     * @param progressIndicator 指示器
-     * @param alreadyDownloadLengthLastSecond 上次更新进度条速度的时候下载的字节数量，用于计算这一秒的速度
-     * @param contentLength 总的长度
-     * @param alreadyDownloadLengthThisSecond 本次更新进度条的时候已经下载的数量
-     */
-    private void updateProgressIndicatorPerSecond(ProgressIndicator progressIndicator, long alreadyDownloadLengthLastSecond, long contentLength, long alreadyDownloadLengthThisSecond) {
-        if (alreadyDownloadLengthThisSecond == 0 || contentLength == 0) {
-            return;
-        }
-        long speed = alreadyDownloadLengthThisSecond - alreadyDownloadLengthLastSecond;
-        double value = (double) alreadyDownloadLengthThisSecond / (double) contentLength;
-        double fraction = Double.parseDouble(String.format("%.2f", value));
-        progressIndicator.setFraction(fraction);
-        String text = "already download " + fraction * 100 + "% ,speed: " + (speed / 1000) + "KB";
-        progressIndicator.setText(text);
     }
 }

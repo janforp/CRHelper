@@ -8,5 +8,5 @@ package com.janita.plugin.cr.remote;
  */
 public class UrlConstants {
 
-    public static final String TEST = "https://www.17xinshe.com/socinsweb/api/system/version";
+    public static final String TEST = "https://pre-psiweb.servyou.com.cn/socinsweb/api/system/version";
 }
