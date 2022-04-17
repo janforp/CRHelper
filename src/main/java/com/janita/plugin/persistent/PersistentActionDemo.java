@@ -15,7 +15,7 @@ public class PersistentActionDemo extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
-        TestPersistentStateComponent stateComponent = ApplicationManager.getApplication().getComponent(TestPersistentStateComponent.class);
+        TestPersistentStateComponent stateComponent = ApplicationManager.getApplication().getService(TestPersistentStateComponent.class);
         stateComponent.loadState(new DataSource("数据库地址", "数据库密码"));
     }
 }
