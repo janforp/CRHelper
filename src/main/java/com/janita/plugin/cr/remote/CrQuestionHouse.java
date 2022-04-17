@@ -59,7 +59,10 @@ public class CrQuestionHouse {
     }
 
     public static void refresh(CrQuestionQueryRequest request) {
-        CrFetchDataWayDialog.doBeforeCr();
+        boolean clickOk = CrFetchDataWayDialog.doBeforeCrAndReturnIfClickOk();
+        if (!clickOk) {
+            return;
+        }
         List<CrQuestion> questionList = QuestionRemote.query(request);
         if (questionList == null || questionList.size() == 0) {
             return;

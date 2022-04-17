@@ -19,8 +19,12 @@ import org.jetbrains.annotations.NotNull;
 public class CrCreateCrQuestionAction extends AnAction {
 
     @Override
-    public void actionPerformed(AnActionEvent e) {
-        CrFetchDataWayDialog.doBeforeCr();
+    public void actionPerformed(@NotNull AnActionEvent e) {
+        boolean clickOk = CrFetchDataWayDialog.doBeforeCrAndReturnIfClickOk();
+        if (!clickOk) {
+            // 用户点击了取消
+            return;
+        }
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         boolean selection = CommonUtils.hasSelectAnyText(e);
         if (!selection) {

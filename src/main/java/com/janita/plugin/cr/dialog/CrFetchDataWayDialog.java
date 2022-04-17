@@ -11,6 +11,7 @@ import org.jetbrains.annotations.Nullable;
 import javax.swing.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+
 import com.intellij.openapi.ui.ComboBox;
 
 /**
@@ -141,16 +142,18 @@ public class CrFetchDataWayDialog extends DialogWrapper {
         return new CrDataStorageWay(name, url, pwd, domain);
     }
 
-    public static void doBeforeCr() {
+    public static boolean doBeforeCrAndReturnIfClickOk() {
         CrDataStorageWayPersistent persistent = ApplicationManager.getApplication().getService(CrDataStorageWayPersistent.class);
         CrDataStorageWay storageWay = persistent.getState();
         if (storageWay != null) {
-            return;
+            return true;
         }
         CrFetchDataWayDialog dialog = new CrFetchDataWayDialog(null);
         if (dialog.showAndGet()) {
             storageWay = dialog.getCrDataStorageWay();
             persistent.loadState(storageWay);
+            return true;
         }
+        return false;
     }
 }
