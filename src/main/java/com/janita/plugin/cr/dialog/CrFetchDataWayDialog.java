@@ -55,11 +55,11 @@ public class CrFetchDataWayDialog extends DialogWrapper {
         String url = urlField.getText();
         String pwd = pwdField.getText();
         String domain = restDomainField.getText();
-        if ("rest接口".equals(name)) {
+        if ("REST接口".equals(name)) {
             if (domain == null || domain.trim().length() == 0 || !domain.startsWith("http")) {
                 return new ValidationInfo("请填写正确的rest接口域名");
             }
-        } else {
+        } else if ("数据库".equals(name)) {
             if (url == null || url.trim().length() == 0) {
                 return new ValidationInfo("请输入数据库地址");
             }

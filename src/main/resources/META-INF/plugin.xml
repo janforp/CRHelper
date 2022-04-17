@@ -20,6 +20,7 @@
         <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
         <applicationService serviceImplementation="com.janita.plugin.persistent.TestPersistentStateComponent"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrDataStorageWayPersistent"/>
+        <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionPersistent"/>
         <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>
     </extensions>
 
