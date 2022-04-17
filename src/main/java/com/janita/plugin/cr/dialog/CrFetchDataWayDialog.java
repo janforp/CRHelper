@@ -1,18 +1,14 @@
 package com.janita.plugin.cr.dialog;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.janita.plugin.cr.domain.CrDataStorageWay;
+import com.janita.plugin.cr.persistent.CrDataStorageWayComponentHolder;
 import com.janita.plugin.cr.persistent.CrDataStorageWayPersistent;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
-import com.intellij.openapi.ui.ComboBox;
 
 /**
  * CrFetchDataWayDialog
@@ -44,71 +40,12 @@ public class CrFetchDataWayDialog extends DialogWrapper {
     @Override
     protected @Nullable
     JComponent createCenterPanel() {
-        Box panelBox = createPanelBox();
-
-        // 下拉默认是 rest接口，所以数据库不可用
-        urlField.setEnabled(false);
-        pwdField.setEnabled(false);
-        restDomainField.setEnabled(true);
-
-        // 添加下拉事件
-        wayComboBox.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-                String item = (String) e.getItem();
-                if ("rest接口".equals(item)) {
-                    urlField.setEnabled(false);
-                    pwdField.setEnabled(false);
-                    restDomainField.setEnabled(true);
-                } else {
-                    urlField.setEnabled(true);
-                    pwdField.setEnabled(true);
-                    restDomainField.setEnabled(false);
-                }
-            }
-        });
-        return panelBox;
-    }
-
-    private Box createPanelBox() {
-        // 创建垂直框
-        Box totalBox = Box.createVerticalBox();
-
-        // 创建水平框
-        Box wayBox = Box.createHorizontalBox();
-        wayBox.add(new JLabel("存储的方式:"));
-        wayBox.add(Box.createHorizontalStrut/*创建水平支柱*/(15));
-        wayComboBox = new ComboBox<>();
-        wayComboBox.addItem("rest接口");
-        wayComboBox.addItem("数据库");
-        if (storageWay.getWayName() != null && storageWay.getWayName().trim().length() != 0) {
-            wayComboBox.setSelectedItem(storageWay.getWayName());
-        }
-        wayBox.add(wayComboBox);
-        totalBox.add(wayBox);
-
-        Box urlBox = Box.createHorizontalBox();
-        urlBox.add(new JLabel("数据库地址："));
-        urlBox.add(Box.createHorizontalStrut(10));
-        urlField = new JTextField(storageWay.getDataUrl());
-        urlBox.add(urlField);
-        totalBox.add(urlBox);
-
-        Box pwdBox = Box.createHorizontalBox();
-        pwdBox.add(new JLabel("数据库密码："));
-        pwdBox.add(Box.createHorizontalStrut(10));
-        pwdField = new JTextField(storageWay.getDataPwd());
-        pwdBox.add(pwdField);
-        totalBox.add(pwdBox);
-
-        Box domainBox = Box.createHorizontalBox();
-        domainBox.add(new JLabel("数据的域名："));
-        domainBox.add(Box.createHorizontalStrut(10));
-        restDomainField = new JTextField(storageWay.getRestDomain());
-        domainBox.add(restDomainField);
-        totalBox.add(domainBox);
-
-        return totalBox;
+        CrDataStorageWayComponentHolder panel = CrDataStorageWayComponentHolder.createCrDataStorageWayPanel(storageWay);
+        this.wayComboBox = panel.getWayComboBox();
+        this.urlField = panel.getUrlField();
+        this.pwdField = panel.getPwdField();
+        this.restDomainField = panel.getRestDomainField();
+        return panel.getTotalPanel();
     }
 
     @Override
@@ -143,7 +80,7 @@ public class CrFetchDataWayDialog extends DialogWrapper {
     }
 
     public static boolean doBeforeCrAndReturnIfClickOk() {
-        CrDataStorageWayPersistent persistent = ApplicationManager.getApplication().getService(CrDataStorageWayPersistent.class);
+        CrDataStorageWayPersistent persistent = CrDataStorageWayPersistent.getInstance();
         CrDataStorageWay storageWay = persistent.getState();
         if (storageWay != null) {
             return true;

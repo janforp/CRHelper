@@ -2,7 +2,9 @@ package com.janita.plugin.cr.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * CrDataStorageWay
@@ -13,6 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class CrDataStorageWay {
 
     private String wayName;

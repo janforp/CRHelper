@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.persistent;
 
 import com.intellij.openapi.components.PersistentStateComponent;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.janita.plugin.cr.domain.CrDataStorageWay;
@@ -17,6 +18,10 @@ import org.jetbrains.annotations.Nullable;
 public class CrDataStorageWayPersistent implements PersistentStateComponent<CrDataStorageWay> {
 
     private CrDataStorageWay storageWay;
+
+    public static CrDataStorageWayPersistent getInstance() {
+        return ServiceManager.getService(CrDataStorageWayPersistent.class);
+    }
 
     @Override
     public @Nullable
