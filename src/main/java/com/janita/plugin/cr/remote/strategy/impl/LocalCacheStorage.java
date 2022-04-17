@@ -5,6 +5,7 @@ import com.janita.plugin.cr.persistent.CrQuestionPersistent;
 import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorage;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -46,10 +47,11 @@ public class LocalCacheStorage implements CrQuestionStorage {
         List<CrQuestion> state = CR_QUESTION_PERSISTENT.getState();
         state = ObjectUtils.defaultIfNull(state, new ArrayList<>());
         Optional<CrQuestion> first = state.stream().filter(item -> item.getId().equals(id)).findFirst();
-        if (first.isPresent()) {
-            CrQuestion crQuestion = first.get();
-            crQuestion.setQuestionCode(question.getQuestionCode());
+        if (!first.isPresent()) {
+            return;
         }
+        CrQuestion crQuestion = first.get();
+        BeanUtils.copyProperties(question, crQuestion);
     }
 
     @Override
