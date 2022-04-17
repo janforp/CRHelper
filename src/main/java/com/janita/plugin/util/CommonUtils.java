@@ -165,4 +165,8 @@ public class CommonUtils {
         notification.setTitle("Code review");
         Notifications.Bus.notify(notification);
     }
+
+    public static void showFile(String className, Integer lineFrom, Integer lineTo) {
+
+    }
 }

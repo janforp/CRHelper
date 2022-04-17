@@ -9,6 +9,7 @@ import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.util.CommonUtils;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * @author zhucj
@@ -28,5 +29,20 @@ public class CrCreateCrQuestionAction extends AnAction {
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
         CommonUtils.setToClipboard(question.getQuestionCode());
         dialog.open(question);
+    }
+
+    /**
+     * 通过复写Action 的 update 来控制Action是否可见
+     *
+     * @param e 事件
+     */
+    @Override
+    public void update(@NotNull AnActionEvent e) {
+        super.update(e);
+        boolean selection = CommonUtils.hasSelectAnyText(e);
+        // 用来设置该Action可用并且可见
+        // e.getPresentation().setEnabledAndVisible(selection);
+        // 用来设置该Action是否可用
+        e.getPresentation().setEnabled(selection);
     }
 }
