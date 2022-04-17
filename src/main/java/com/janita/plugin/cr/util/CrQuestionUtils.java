@@ -4,6 +4,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.domain.SelectTextOffLineHolder;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.remote.CrQuestionHouse;
 import com.janita.plugin.util.CommonUtils;
@@ -31,6 +32,7 @@ public class CrQuestionUtils {
     public static CrQuestion buildQuestion(AnActionEvent e) {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         Pair<Integer, Integer> startAndEndLine = CommonUtils.getStartAndEndLine(editor);
+        SelectTextOffLineHolder holder = CommonUtils.getSelectTextOffLineHolder(editor);
         // 用户选择的文本
         String questionCode = CommonUtils.getSelectedText(e);
         // 当前文件的名称
@@ -52,6 +54,13 @@ public class CrQuestionUtils {
         question.setState("未解决");
         question.setCreateTime(DateUtils.getCurrentDateTime());
         question.setSolveTime(null);
+        question.setDocumentStartLine(holder.getDocumentStartLine());
+        question.setDocumentEndLine(holder.getDocumentEndLine());
+        question.setLeadSelectionOffset(holder.getLeadSelectionOffset());
+        question.setSelectionStartPositionLine(holder.getSelectionEndPositionLine());
+        question.setSelectionStartPositionColumn(holder.getSelectionEndPositionColumn());
+        question.setSelectionEndPositionLine(holder.getSelectionStartPositionLine());
+        question.setSelectionEndPositionColumn(holder.getSelectionEndPositionColumn());
         return question;
     }
 

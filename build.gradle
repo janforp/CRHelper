@@ -20,6 +20,7 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-web', version: '4.2.5.RELEASE'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.7'
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.7'
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.8'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

@@ -2,15 +2,13 @@ package com.janita.plugin.util;
 
 import com.intellij.dvcs.repo.Repository;
 import com.intellij.dvcs.repo.VcsRepositoryManager;
-import com.intellij.ide.DataManager;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKey;
+import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
@@ -25,6 +23,7 @@ import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.vcs.log.VcsUser;
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.domain.SelectTextOffLineHolder;
 import git4idea.GitUserRegistry;
 
 import javax.swing.*;
@@ -81,6 +80,36 @@ public class CommonUtils {
         String projectName = repository.getRoot().getName();
         String currentBranchName = repository.getCurrentBranchName();
         return Pair.of(projectName, currentBranchName);
+    }
+
+    public static SelectTextOffLineHolder getSelectTextOffLineHolder(Editor editor) {
+        Document document = editor.getDocument();
+        SelectionModel selectionModel = editor.getSelectionModel();
+        String selectedText = selectionModel.getSelectedText();
+        int leadSelectionOffset = selectionModel.getLeadSelectionOffset();
+        int documentStartLine = document.getLineNumber(leadSelectionOffset);
+        VisualPosition startPosition = selectionModel.getSelectionStartPosition();
+        if (startPosition == null) {
+            startPosition = new VisualPosition(0, 0);
+        }
+        VisualPosition endPosition = selectionModel.getSelectionEndPosition();
+        if (endPosition == null) {
+            endPosition = new VisualPosition(0, 0);
+        }
+        SelectTextOffLineHolder holder = SelectTextOffLineHolder.builder()
+                .selectedText(selectedText)
+                .documentStartLine(documentStartLine)
+                .documentEndLine(0)
+                .leadSelectionOffset(leadSelectionOffset)
+                .selectionStartPositionLine(startPosition.getLine())
+                .selectionStartPositionColumn(startPosition.getColumn())
+                .selectionEndPositionLine(endPosition.getLine())
+                .selectionEndPositionColumn(endPosition.getColumn())
+                .fileFullName(null)
+                .build();
+        int documentEndLine = holder.getDocumentEndLine();
+        holder.setDocumentEndLine(documentEndLine);
+        return holder;
     }
 
     public static Pair<Integer, Integer> getStartAndEndLine(Editor editor) {

@@ -1,9 +1,16 @@
 package com.janita.plugin.cr.domain;
 
+import com.intellij.openapi.editor.SelectionModel;
+import com.intellij.openapi.editor.VisualPosition;
+import lombok.Data;
+import lombok.ToString;
+
 /**
  * @author zhucj
  * @since 20220415
  */
+@Data
+@ToString
 public class CrQuestion {
 
     /**
@@ -92,162 +99,44 @@ public class CrQuestion {
      */
     private String solveTime;
 
-    public Long getId() {
-        return id;
-    }
+    /**
+     * 开始行
+     */
+    private int documentStartLine;
 
-    public String getLevel() {
-        return level;
-    }
+    /**
+     * 开始行
+     */
+    private int documentEndLine;
 
-    public String getProjectName() {
-        return projectName;
-    }
+    /**
+     * 开始offset
+     *
+     * @see SelectionModel#getLeadSelectionOffset()
+     */
+    private int leadSelectionOffset;
 
-    public String getType() {
-        return type;
-    }
+    /**
+     * @see SelectionModel#getSelectionStartPosition()
+     * @see VisualPosition#getLine()
+     */
+    private int selectionStartPositionLine;
 
-    public Integer getLineFrom() {
-        return lineFrom;
-    }
+    /**
+     * @see SelectionModel#getSelectionStartPosition()
+     * @see VisualPosition#getColumn()
+     */
+    private int selectionStartPositionColumn;
 
-    public Integer getLineTo() {
-        return lineTo;
-    }
+    /**
+     * @see SelectionModel#getSelectionEndPosition()
+     * @see VisualPosition#getLine()
+     */
+    private int selectionEndPositionLine;
 
-    public String getClassName() {
-        return className;
-    }
-
-    public String getQuestionCode() {
-        return questionCode;
-    }
-
-    public String getBetterCode() {
-        return betterCode;
-    }
-
-    public String getDesc() {
-        return desc;
-    }
-
-    public String getFromAccount() {
-        return fromAccount;
-    }
-
-    public String getToAccount() {
-        return toAccount;
-    }
-
-    public String getGitBranchName() {
-        return gitBranchName;
-    }
-
-    public String getSolveGitBranchName() {
-        return solveGitBranchName;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getCreateTime() {
-        return createTime;
-    }
-
-    public String getSolveTime() {
-        return solveTime;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setLineFrom(Integer lineFrom) {
-        this.lineFrom = lineFrom;
-    }
-
-    public void setLineTo(Integer lineTo) {
-        this.lineTo = lineTo;
-    }
-
-    public void setClassName(String className) {
-        this.className = className;
-    }
-
-    public void setQuestionCode(String questionCode) {
-        this.questionCode = questionCode;
-    }
-
-    public void setBetterCode(String betterCode) {
-        this.betterCode = betterCode;
-    }
-
-    public void setDesc(String desc) {
-        this.desc = desc;
-    }
-
-    public void setFromAccount(String fromAccount) {
-        this.fromAccount = fromAccount;
-    }
-
-    public void setToAccount(String toAccount) {
-        this.toAccount = toAccount;
-    }
-
-    public void setGitBranchName(String gitBranchName) {
-        this.gitBranchName = gitBranchName;
-    }
-
-    public void setSolveGitBranchName(String solveGitBranchName) {
-        this.solveGitBranchName = solveGitBranchName;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setCreateTime(String createTime) {
-        this.createTime = createTime;
-    }
-
-    public void setSolveTime(String solveTime) {
-        this.solveTime = solveTime;
-    }
-
-    @Override
-    public String toString() {
-        return "CrQuestion{" +
-                "id=" + id +
-                ", level='" + level + '\'' +
-                ", projectName='" + projectName + '\'' +
-                ", type='" + type + '\'' +
-                ", lineFrom=" + lineFrom +
-                ", lineTo=" + lineTo +
-                ", className='" + className + '\'' +
-                ", questionCode='" + questionCode + '\'' +
-                ", betterCode='" + betterCode + '\'' +
-                ", desc='" + desc + '\'' +
-                ", fromAccount='" + fromAccount + '\'' +
-                ", toAccount='" + toAccount + '\'' +
-                ", gitBranchName='" + gitBranchName + '\'' +
-                ", solveGitBranchName='" + solveGitBranchName + '\'' +
-                ", state='" + state + '\'' +
-                ", createTime='" + createTime + '\'' +
-                ", solveTime='" + solveTime + '\'' +
-                '}';
-    }
+    /**
+     * @see SelectionModel#getSelectionEndPosition()
+     * @see VisualPosition#getColumn()
+     */
+    private int selectionEndPositionColumn;
 }
