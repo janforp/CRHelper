@@ -176,14 +176,14 @@ public class CommonUtils {
     /**
      * 根据文件名称，打开该文件
      */
-    public static void showFile(Project project, String className, Integer lineFrom, Integer lineTo) {
+    public static void showFile(Project project, String className, Integer lineStart) {
         PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, className, GlobalSearchScope.allScope(project));
         if (psiFiles.length == 0) {
             return;
         }
         PsiFile psiFile = psiFiles[0];
         // 光标移动到指定位置
-        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, psiFile.getVirtualFile(), lineFrom, 0);
+        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, psiFile.getVirtualFile(), lineStart, 0);
         descriptor.navigate(true);
     }
 }

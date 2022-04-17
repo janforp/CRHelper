@@ -127,6 +127,10 @@ public class CrQuestionListWindow extends JDialog {
                 int row = questionTable.rowAtPoint(p);
                 questionTable.setRowSelectionInterval(row, row);
                 int button = mouseEvent.getButton();
+                if (button == MouseEvent.BUTTON1) {
+                    CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                    CommonUtils.showFile(project,question.getClassName(),question.getLineFrom());
+                }
                 if (button == MouseEvent.BUTTON3) {
                     // 右键
                     JPopupMenu popupMenu = createPopupWhenClickRightMouse(row);
@@ -137,7 +141,6 @@ public class CrQuestionListWindow extends JDialog {
                     // 双击
                     showQuestionDetailDialog(row);
                 }
-
             }
         });
 
@@ -236,8 +239,6 @@ public class CrQuestionListWindow extends JDialog {
     private void showQuestionDetailDialog(int row) {
         CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project);
-        // 并且打开当前问题对应的文件
-        CommonUtils.showFile(project,  question.getClassName(), question.getLineFrom(), question.getLineTo());
         dialog.open(question);
     }
 
