@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.remote;
 
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.dialog.CrFetchDataWayDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.util.CommonUtils;
@@ -21,7 +22,10 @@ public class CrQuestionHouse {
     public static DefaultTableModel TABLE_MODEL = new DefaultTableModel(null, HEAD);
 
     public static void add(CrQuestion question) {
-        QuestionRemote.add(question);
+        boolean add = QuestionRemote.add(question);
+        if (!add) {
+            return;
+        }
         CR_QUESTION_LIST.add(question);
         String[] raw = convertToRaw(question);
         TABLE_MODEL.addRow(raw);
@@ -44,14 +48,20 @@ public class CrQuestionHouse {
     }
 
     public static void delete(int row, CrQuestion question) {
-        QuestionRemote.update(question);
+        boolean update = QuestionRemote.update(question);
+        if (!update) {
+            return;
+        }
         CR_QUESTION_LIST.remove(row);
         question.setState("已关闭");
         TABLE_MODEL.removeRow(row);
     }
 
     public static void update(Integer editIndex, CrQuestion question) {
-        QuestionRemote.update(question);
+        boolean update = QuestionRemote.update(question);
+        if (!update) {
+            return;
+        }
         CR_QUESTION_LIST.set(editIndex, question);
         TABLE_MODEL.removeRow(editIndex);
         String[] raw = convertToRaw(question);
@@ -63,9 +73,13 @@ public class CrQuestionHouse {
         if (!clickOk) {
             return;
         }
+        Pair<Boolean, List<CrQuestion>> pair = QuestionRemote.query(request);
+        if (!pair.getLeft()) {
+            return;
+        }
+        List<CrQuestion> questionList = pair.getRight();
         CR_QUESTION_LIST.clear();
         CommonUtils.clearDefaultTableModel(TABLE_MODEL);
-        List<CrQuestion> questionList = QuestionRemote.query(request);
         if (questionList == null || questionList.size() == 0) {
             return;
         }

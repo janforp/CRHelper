@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.remote.strategy.impl;
 
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.persistent.CrQuestionPersistent;
 import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
@@ -28,7 +29,7 @@ public class LocalCacheStorage implements CrQuestionStorage {
     private static final CrQuestionPersistent CR_QUESTION_PERSISTENT = CrQuestionPersistent.getInstance();
 
     @Override
-    public void add(CrQuestion question) {
+    public boolean add(CrQuestion question) {
         List<CrQuestion> questionListInCache = CR_QUESTION_PERSISTENT.getState();
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
 
@@ -39,29 +40,32 @@ public class LocalCacheStorage implements CrQuestionStorage {
         question.setId(ID_GEN.incrementAndGet());
         questionListInCache.add(question);
         CR_QUESTION_PERSISTENT.loadState(questionListInCache);
+        return true;
     }
 
     @Override
-    public void update(CrQuestion question) {
+    public boolean update(CrQuestion question) {
         Long id = question.getId();
-        List<CrQuestion> state = CR_QUESTION_PERSISTENT.getState();
-        state = ObjectUtils.defaultIfNull(state, new ArrayList<>());
-        Optional<CrQuestion> first = state.stream().filter(item -> item.getId().equals(id)).findFirst();
-        if (!first.isPresent()) {
-            return;
+        List<CrQuestion> crQuestionListInCache = CR_QUESTION_PERSISTENT.getState();
+        crQuestionListInCache = ObjectUtils.defaultIfNull(crQuestionListInCache, new ArrayList<>());
+        Optional<CrQuestion> questionInCache = crQuestionListInCache.stream().filter(item -> item.getId().equals(id)).findFirst();
+        if (!questionInCache.isPresent()) {
+            return true;
         }
-        CrQuestion crQuestion = first.get();
-        BeanUtils.copyProperties(question, crQuestion);
+        CrQuestion crQuestionInCache = questionInCache.get();
+        BeanUtils.copyProperties(question, crQuestionInCache);
+        return true;
     }
 
     @Override
-    public List<CrQuestion> query(CrQuestionQueryRequest request) {
+    public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         List<CrQuestion> questionListInCache = CR_QUESTION_PERSISTENT.getState();
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
         Set<String> projectNameSet = request.getProjectNameSet();
         Set<String> projectNameSet2 = ObjectUtils.defaultIfNull(projectNameSet, new HashSet<>());
         Set<String> stateSet = request.getState();
         Set<String> stateSet2 = ObjectUtils.defaultIfNull(stateSet, new HashSet<>());
-        return questionListInCache.stream().filter(question -> projectNameSet2.contains(question.getProjectName()) && stateSet2.contains(question.getState())).collect(Collectors.toList());
+        List<CrQuestion> crQuestions = questionListInCache.stream().filter(question -> projectNameSet2.contains(question.getProjectName()) && stateSet2.contains(question.getState())).collect(Collectors.toList());
+        return Pair.of(true, crQuestions);
     }
 }

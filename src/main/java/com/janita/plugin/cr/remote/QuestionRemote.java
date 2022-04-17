@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.remote;
 
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.persistent.CrDataStorageWayPersistent;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorage;
@@ -13,17 +14,17 @@ import java.util.List;
  */
 public class QuestionRemote {
 
-    public static void add(CrQuestion question) {
+    public static boolean add(CrQuestion question) {
         CrQuestionStorage storage = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
-        storage.add(question);
+        return storage.add(question);
     }
 
-    public static void update(CrQuestion question) {
+    public static boolean update(CrQuestion question) {
         CrQuestionStorage storage = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
-        storage.update(question);
+        return storage.update(question);
     }
 
-    public static List<CrQuestion> query(CrQuestionQueryRequest request) {
+    public static Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         CrQuestionStorage storage = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
         return storage.query(request);
     }

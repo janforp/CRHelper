@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.remote.strategy;
 
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
 
@@ -13,9 +14,9 @@ import java.util.List;
  */
 public interface CrQuestionStorage {
 
-    void add(CrQuestion question);
+    boolean add(CrQuestion question);
 
-    void update(CrQuestion question);
+    boolean update(CrQuestion question);
 
-    List<CrQuestion> query(CrQuestionQueryRequest request);
+    Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request);
 }
