@@ -1,10 +1,12 @@
 package com.janita.plugin.cr.dialog;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
+import com.janita.plugin.util.CommonUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -115,6 +117,11 @@ public class CrCreateQuestionDialog extends JDialog {
         solveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!update) {
+                    // TODO 如何在当前框显示异常呢？
+                    CommonUtils.showNotification("先保存，之后才能解决", MessageType.ERROR);
+                    return;
+                }
                 CrQuestionUtils.solveQuestion(editIndex, question);
                 closeDialog();
             }
