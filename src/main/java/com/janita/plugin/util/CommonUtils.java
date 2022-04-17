@@ -11,11 +11,15 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.search.FilenameIndex;
+import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.vcs.log.VcsUser;
 import com.janita.plugin.common.domain.Pair;
 import git4idea.GitUserRegistry;
@@ -166,7 +170,14 @@ public class CommonUtils {
         Notifications.Bus.notify(notification);
     }
 
-    public static void showFile(String className, Integer lineFrom, Integer lineTo) {
-
+    public static void showFile(Project project, String className, Integer lineFrom, Integer lineTo) {
+        PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, className, GlobalSearchScope.allScope(project));
+        if (psiFiles.length == 0) {
+            return;
+        }
+        PsiFile psiFile = psiFiles[0];
+        new OpenFileDescriptor(project, psiFile.getVirtualFile()).navigate(true);
+        // 光标移动到指定位置
+        new OpenFileDescriptor(project, psiFile.getVirtualFile(), lineFrom).navigate(true);
     }
 }

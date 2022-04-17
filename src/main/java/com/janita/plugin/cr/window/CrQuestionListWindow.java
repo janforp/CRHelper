@@ -236,8 +236,8 @@ public class CrQuestionListWindow extends JDialog {
     private void showQuestionDetailDialog(int row) {
         CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project);
-        // 并且打开当前问题对应的问题
-        CommonUtils.showFile(question.getClassName(),question.getLineFrom(),question.getLineTo());
+        // 并且打开当前问题对应的文件
+        CommonUtils.showFile(project,  question.getClassName(), question.getLineFrom(), question.getLineTo());
         dialog.open(question);
     }
 
