@@ -29,6 +29,11 @@ public class CrQuestionUtils {
         CrQuestionHouse.add(question);
     }
 
+    /**
+     * PersistentStateComponent
+     * @param e
+     * @return
+     */
     public static CrQuestion buildQuestion(AnActionEvent e) {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         Pair<Integer, Integer> startAndEndLine = CommonUtils.getStartAndEndLine(editor);

@@ -18,7 +18,26 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- 添加右边的 CrQuestion 菜单 -->
         <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
+        <applicationService serviceImplementation="com.janita.plugin.persistent.TestPersistentStateComponent"/>
     </extensions>
+
+    <application-components>
+        <component>
+            <implementation-class>com.janita.plugin.demo.component.application.ApplicationComponentImpl</implementation-class>
+        </component>
+    </application-components>
+
+    <project-components>
+        <component>
+            <implementation-class>com.janita.plugin.demo.component.project.ProjectApplicationImpl</implementation-class>
+        </component>
+    </project-components>
+
+    <module-components>
+        <component>
+            <implementation-class>com.janita.plugin.demo.component.module.ModuleComponentImpl</implementation-class>
+        </component>
+    </module-components>
 
     <actions>
         <!-- Add your actions here -->
@@ -53,11 +72,14 @@
         <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CrCreateCrQuestionAction" text="Create CR Question" description="Create a CR question" icon="/img/mark.png">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
-        <action id="fast.download" class="com.janita.plugin.download.FastDownloadAction" text="FastDownload" description="文件多线程下载">
-            <add-to-group group-id="ToolsMenu" anchor="last"/>
-        </action>
-        <action id="ProcessDemoAction" class="com.janita.plugin.demo.ProcessDemoAction" text="ProcessDemoAction" description="ProcessDemoAction">
-            <add-to-group group-id="ToolsMenu" anchor="first"/>
-        </action>
+        <!--        <action id="fast.download" class="com.janita.plugin.download.FastDownloadAction" text="FastDownload" description="文件多线程下载">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
+        <!--        </action>-->
+        <!--        <action id="ProcessDemoAction" class="com.janita.plugin.demo.ProcessDemoAction" text="ProcessDemoAction" description="ProcessDemoAction">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
+        <!--        <action id="PersistentActionDemo" class="com.janita.plugin.persistent.PersistentActionDemo" text="PersistentActionDemo" description="PersistentActionDemo">-->
+        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
+        <!--        </action>-->
     </actions>
 </idea-plugin>
