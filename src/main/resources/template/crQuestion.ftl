@@ -1,5 +1,5 @@
 <#list questionList as question>
->###<font color = 'aqua'>${question_index + 1}.${question.projectName}-${question.gitBranchName}-${question.projectName}-${question.className}-${question.lineFrom}到${question.lineTo}</font>
+>###<font color = 'aqua'>${question_index + 1}.${question.projectName}-${question.gitBranchName}-${question.className}</font>
 >####问题类型
 >><font color = 'black'>${question.type}</font>
 >####指派给

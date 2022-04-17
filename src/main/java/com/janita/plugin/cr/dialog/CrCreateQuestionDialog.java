@@ -186,7 +186,7 @@ public class CrCreateQuestionDialog extends JDialog {
         descArea.setText(question.getDesc());
         levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : DataToInit.LEVEL_LIST.get(0));
         pack();
-        setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName() + "-" + question.getLineFrom() + "到" + question.getLineTo());
+        setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName());
         setMinimumSize(new Dimension(800, 600));
         //两个屏幕处理出现问题，跳到主屏幕去了
         setLocationRelativeTo(WindowManager.getInstance().getFrame(this.project));
