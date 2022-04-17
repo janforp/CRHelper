@@ -2,12 +2,15 @@ package com.janita.plugin.util;
 
 import com.intellij.dvcs.repo.Repository;
 import com.intellij.dvcs.repo.VcsRepositoryManager;
+import com.intellij.ide.DataManager;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
 import com.intellij.notification.Notifications;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKey;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
@@ -170,14 +173,17 @@ public class CommonUtils {
         Notifications.Bus.notify(notification);
     }
 
+    /**
+     * 根据文件名称，打开该文件
+     */
     public static void showFile(Project project, String className, Integer lineFrom, Integer lineTo) {
         PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, className, GlobalSearchScope.allScope(project));
         if (psiFiles.length == 0) {
             return;
         }
         PsiFile psiFile = psiFiles[0];
-        new OpenFileDescriptor(project, psiFile.getVirtualFile()).navigate(true);
         // 光标移动到指定位置
-        new OpenFileDescriptor(project, psiFile.getVirtualFile(), lineFrom).navigate(true);
+        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, psiFile.getVirtualFile(), lineFrom, 0);
+        descriptor.navigate(true);
     }
 }
