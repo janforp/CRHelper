@@ -63,14 +63,12 @@ public class CrQuestionHouse {
         if (!clickOk) {
             return;
         }
+        CR_QUESTION_LIST.clear();
+        CommonUtils.clearDefaultTableModel(TABLE_MODEL);
         List<CrQuestion> questionList = QuestionRemote.query(request);
         if (questionList == null || questionList.size() == 0) {
             return;
         }
-        CR_QUESTION_LIST.clear();
-
-        CommonUtils.clearDefaultTableModel(TABLE_MODEL);
-
         for (CrQuestion question : questionList) {
             CR_QUESTION_LIST.add(question);
             String[] raw = convertToRaw(question);

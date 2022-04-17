@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 public class CrDataStorageWay {
 
-    private String wayName;
+    private String storageWay;
 
     private String dataUrl;
 

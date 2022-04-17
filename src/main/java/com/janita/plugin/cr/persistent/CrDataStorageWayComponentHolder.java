@@ -80,8 +80,8 @@ public class CrDataStorageWayComponentHolder {
         wayBox.add(Box.createHorizontalStrut(15));
         JComboBox<String> wayComboBox = new ComboBox<>(new String[] { CrConstants.LOCAL_CACHE, CrConstants.REST_WAY, CrConstants.DB_WAY });
         wayComboBox.setPreferredSize(new Dimension(50, 20));
-        if (storageWay.getWayName() != null && storageWay.getWayName().trim().length() != 0) {
-            wayComboBox.setSelectedItem(storageWay.getWayName());
+        if (storageWay.getStorageWay() != null && storageWay.getStorageWay().trim().length() != 0) {
+            wayComboBox.setSelectedItem(storageWay.getStorageWay());
         }
         wayBox.add(wayComboBox);
         totalBox.add(wayBox);
