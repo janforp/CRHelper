@@ -8,15 +8,15 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.remote.CrQuestionHouse;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
+import com.janita.plugin.cr.remote.CrQuestionHouse;
 import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
-import com.janita.plugin.util.CommonUtils;
-import com.janita.plugin.util.DateUtils;
 import com.janita.plugin.progress.AbstractProgressTask;
 import com.janita.plugin.progress.ProgressUtils;
+import com.janita.plugin.util.CommonUtils;
+import com.janita.plugin.util.DateUtils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -129,7 +129,7 @@ public class CrQuestionListWindow extends JDialog {
                 int button = mouseEvent.getButton();
                 if (button == MouseEvent.BUTTON1) {
                     CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
-                    CommonUtils.showFile(project,question.getClassName(),question.getLineFrom());
+                    CommonUtils.openFileAndLocationToText(project, question.getClassName(), question.getLineFrom(), question.getBetterCode());
                 }
                 if (button == MouseEvent.BUTTON3) {
                     // 右键

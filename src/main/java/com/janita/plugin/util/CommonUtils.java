@@ -18,6 +18,7 @@ import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -205,14 +206,26 @@ public class CommonUtils {
     /**
      * 根据文件名称，打开该文件
      */
-    public static void showFile(Project project, String className, Integer lineStart) {
-        PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, className, GlobalSearchScope.allScope(project));
+    public static void openFileAndLocationToText(Project project, String fileName, Integer lineStart, String locationText) {
+        PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, fileName, GlobalSearchScope.allScope(project));
         if (psiFiles.length == 0) {
             return;
         }
         PsiFile psiFile = psiFiles[0];
         // 光标移动到指定位置
-        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, psiFile.getVirtualFile(), lineStart, 0);
+        VirtualFile virtualFile = psiFile.getVirtualFile();
+
+        PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
+        Document document = documentManager.getDocument(psiFile);
+        OpenFileDescriptor descriptor;
+        if (document == null) {
+            descriptor = new OpenFileDescriptor(project, virtualFile, lineStart, 0);
+            descriptor.navigate(true);
+        } else {
+            String text = document.getText();
+            int indexOf = text.indexOf(locationText);
+            descriptor = new OpenFileDescriptor(project, virtualFile, indexOf);
+        }
         descriptor.navigate(true);
     }
 }
