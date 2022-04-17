@@ -15,7 +15,7 @@ public class CrQuestionHouse {
 
     private static final List<CrQuestion> CR_QUESTION_LIST = new ArrayList<>();
 
-    public static String[] HEAD = { "项目", "类型", "问题代码", "指派给", "提问者", "级别", "状态" };
+    public static String[] HEAD = { "项目", "文件", "类型", "级别", "指派给", "提问者", "状态" };
 
     public static DefaultTableModel TABLE_MODEL = new DefaultTableModel(null, HEAD);
 
@@ -33,11 +33,11 @@ public class CrQuestionHouse {
     private static String[] convertToRaw(CrQuestion question) {
         String[] raw = new String[7];
         raw[0] = question.getProjectName();
-        raw[1] = question.getType();
-        raw[2] = question.getQuestionCode();
-        raw[3] = question.getToAccount();
-        raw[4] = question.getFromAccount();
-        raw[5] = question.getLevel();
+        raw[1] = question.getClassName();
+        raw[2] = question.getType();
+        raw[3] = question.getLevel();
+        raw[4] = question.getToAccount();
+        raw[5] = question.getFromAccount();
         raw[6] = question.getState();
         return raw;
     }
