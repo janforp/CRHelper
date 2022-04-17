@@ -13,17 +13,18 @@ import java.util.List;
  */
 public class QuestionRemote {
 
-    private static final CrQuestionStorage STORAGE = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
-
     public static void add(CrQuestion question) {
-        STORAGE.add(question);
+        CrQuestionStorage storage = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
+        storage.add(question);
     }
 
     public static void update(CrQuestion question) {
-        STORAGE.update(question);
+        CrQuestionStorage storage = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
+        storage.update(question);
     }
 
     public static List<CrQuestion> query(CrQuestionQueryRequest request) {
-        return STORAGE.query(request);
+        CrQuestionStorage storage = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStorageWayPersistent.getPersistentData().getStorageWay());
+        return storage.query(request);
     }
 }

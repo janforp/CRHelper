@@ -18,17 +18,17 @@ public class DbStorage implements CrQuestionStorage {
 
     @Override
     public void add(CrQuestion question) {
-        CommonUtils.showNotification("抱歉，暂时只支持本地", MessageType.WARNING);
+        CommonUtils.showNotification("抱歉，暂时只支持本地", MessageType.ERROR);
     }
 
     @Override
     public void update(CrQuestion question) {
-        CommonUtils.showNotification("抱歉，暂时只支持本地", MessageType.WARNING);
+        CommonUtils.showNotification("抱歉，暂时只支持本地", MessageType.ERROR);
     }
 
     @Override
     public List<CrQuestion> query(CrQuestionQueryRequest request) {
-        CommonUtils.showNotification("抱歉，暂时只支持本地", MessageType.WARNING);
+        CommonUtils.showNotification("抱歉，暂时只支持本地", MessageType.ERROR);
         throw new RuntimeException("暂时只支持本地");
     }
 }
