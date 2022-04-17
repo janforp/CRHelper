@@ -6,6 +6,7 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
+import com.janita.plugin.cr.dialog.CrFetchDataWayDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.util.CommonUtils;
@@ -19,6 +20,7 @@ public class CrCreateCrQuestionAction extends AnAction {
 
     @Override
     public void actionPerformed(AnActionEvent e) {
+        CrFetchDataWayDialog.doBeforeCr();
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         boolean selection = CommonUtils.hasSelectAnyText(e);
         if (!selection) {

@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.remote;
 
+import com.janita.plugin.cr.dialog.CrFetchDataWayDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.util.CommonUtils;
 
@@ -58,6 +59,7 @@ public class CrQuestionHouse {
     }
 
     public static void refresh(CrQuestionQueryRequest request) {
+        CrFetchDataWayDialog.doBeforeCr();
         List<CrQuestion> questionList = QuestionRemote.query(request);
         if (questionList == null || questionList.size() == 0) {
             return;

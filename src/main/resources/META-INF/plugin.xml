@@ -19,6 +19,7 @@
         <!-- 添加右边的 CrQuestion 菜单 -->
         <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
         <applicationService serviceImplementation="com.janita.plugin.persistent.TestPersistentStateComponent"/>
+        <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrDataStorageWayPersistent"/>
     </extensions>
 
     <application-components>
