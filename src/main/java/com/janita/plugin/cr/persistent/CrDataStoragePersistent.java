@@ -5,7 +5,6 @@ import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.janita.plugin.cr.domain.CrDataStorage;
-import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,8 +24,7 @@ public class CrDataStoragePersistent implements PersistentStateComponent<CrDataS
     }
 
     public static CrDataStorage getPersistentData() {
-        CrDataStorage state = getInstance().getState();
-        return ObjectUtils.defaultIfNull(state, new CrDataStorage());
+        return getInstance().getState();
     }
 
     @Override

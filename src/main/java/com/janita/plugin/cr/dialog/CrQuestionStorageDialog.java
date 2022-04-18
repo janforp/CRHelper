@@ -76,7 +76,7 @@ public class CrQuestionStorageDialog extends DialogWrapper {
         if (valid) {
             return true;
         }
-        CrQuestionStorageDialog dialog = new CrQuestionStorageDialog(null);
+        CrQuestionStorageDialog dialog = new CrQuestionStorageDialog(storageWay);
         if (dialog.showAndGet()) {
             storageWay = dialog.getCrDataStorageWay();
             persistent.loadState(storageWay);
