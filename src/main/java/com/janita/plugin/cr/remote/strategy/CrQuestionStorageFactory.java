@@ -1,9 +1,9 @@
 package com.janita.plugin.cr.remote.strategy;
 
+import com.janita.plugin.common.constant.CrConstants;
 import com.janita.plugin.cr.remote.strategy.impl.DbStorage;
 import com.janita.plugin.cr.remote.strategy.impl.LocalCacheStorage;
 import com.janita.plugin.cr.remote.strategy.impl.RestServiceStorage;
-import com.janita.plugin.cr.util.CrConstants;
 
 /**
  * CrQuestionStorageFactory

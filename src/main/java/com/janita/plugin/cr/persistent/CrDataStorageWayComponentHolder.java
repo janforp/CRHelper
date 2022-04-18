@@ -2,8 +2,8 @@ package com.janita.plugin.cr.persistent;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.util.ui.JBUI;
+import com.janita.plugin.common.constant.CrConstants;
 import com.janita.plugin.cr.domain.CrDataStorageWay;
-import com.janita.plugin.cr.util.CrConstants;
 import lombok.Builder;
 import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;

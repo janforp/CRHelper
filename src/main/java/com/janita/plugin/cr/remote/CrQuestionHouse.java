@@ -1,9 +1,9 @@
 package com.janita.plugin.cr.remote;
 
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrFetchDataWayDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.util.CommonUtils;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;

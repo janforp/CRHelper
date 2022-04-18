@@ -1,6 +1,6 @@
 package com.janita.plugin.cr.domain;
 
-import com.janita.plugin.cr.util.CrConstants;
+import com.janita.plugin.common.constant.CrConstants;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
