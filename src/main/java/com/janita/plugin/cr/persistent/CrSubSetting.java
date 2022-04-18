@@ -1,7 +1,7 @@
 package com.janita.plugin.cr.persistent;
 
 import com.intellij.openapi.options.Configurable;
-import com.janita.plugin.cr.domain.CrDataStorageWay;
+import com.janita.plugin.cr.domain.CrDataStorage;
 import org.jetbrains.annotations.Nls;
 import org.jetbrains.annotations.Nullable;
 
@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 public class CrSubSetting implements Configurable {
 
-    protected CrDataStorageWay storageWay;
+    protected CrDataStorage storageWay;
 
     private CrDataStorageWayComponentHolder holder;
 
@@ -24,9 +24,9 @@ public class CrSubSetting implements Configurable {
     }
 
     private void init() {
-        CrDataStorageWay storageWay = CrDataStorageWayPersistent.getInstance().getState();
+        CrDataStorage storageWay = CrDataStoragePersistent.getInstance().getState();
         if (storageWay == null) {
-            storageWay = new CrDataStorageWay();
+            storageWay = new CrDataStorage();
         }
         this.storageWay = storageWay;
     }
@@ -58,8 +58,8 @@ public class CrSubSetting implements Configurable {
      */
     @Override
     public void apply() {
-        CrDataStorageWay way = holder.getCrDataStorageWay();
-        CrDataStorageWayPersistent.getInstance().loadState(way);
+        CrDataStorage way = holder.getCrDataStorageWay();
+        CrDataStoragePersistent.getInstance().loadState(way);
     }
 
     /**

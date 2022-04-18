@@ -1,6 +1,6 @@
 package com.janita.plugin.cr.remote.strategy;
 
-import com.janita.plugin.common.constant.CrConstants;
+import com.janita.plugin.common.enums.CrDataStorageEnum;
 import com.janita.plugin.cr.remote.strategy.impl.DbStorage;
 import com.janita.plugin.cr.remote.strategy.impl.LocalCacheStorage;
 import com.janita.plugin.cr.remote.strategy.impl.RestServiceStorage;
@@ -13,14 +13,14 @@ import com.janita.plugin.cr.remote.strategy.impl.RestServiceStorage;
  */
 public class CrQuestionStorageFactory {
 
-    public static CrQuestionStorage getCrQuestionStorage(String storageWay) {
-        if (CrConstants.LOCAL_CACHE.equals(storageWay)) {
+    public static CrQuestionStorage getCrQuestionStorage(CrDataStorageEnum storageWay) {
+        if (CrDataStorageEnum.LOCAL_CACHE == storageWay) {
             return new LocalCacheStorage();
         }
-        if (CrConstants.DB_WAY.equals(storageWay)) {
+        if (CrDataStorageEnum.DB == storageWay) {
             return new DbStorage();
         }
-        if (CrConstants.REST_WAY.equals(storageWay)) {
+        if (CrDataStorageEnum.REST_API == storageWay) {
             return new RestServiceStorage();
         }
         return new LocalCacheStorage();

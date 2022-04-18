@@ -2,7 +2,7 @@ package com.janita.plugin.cr.remote;
 
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.CommonUtils;
-import com.janita.plugin.cr.dialog.CrFetchDataWayDialog;
+import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 
 import javax.swing.table.DefaultTableModel;
@@ -69,7 +69,7 @@ public class CrQuestionHouse {
     }
 
     public static void refresh(CrQuestionQueryRequest request) {
-        boolean clickOk = CrFetchDataWayDialog.doBeforeCrAndReturnIfClickOk();
+        boolean clickOk = CrQuestionStorageDialog.doBeforeCrAndReturnIfClickOk();
         if (!clickOk) {
             return;
         }
