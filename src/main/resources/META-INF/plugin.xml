@@ -24,7 +24,7 @@
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionPersistent"/>
         <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>
         <!-- 提交代码的时候的切入点 -->
-        <checkinHandlerFactory implementation="com.janita.plugin.demo.TestCheckinHandlerFactory"/>
+        <checkinHandlerFactory implementation="com.janita.plugin.demo.VersionCheckerHandlerFactory"/>
     </extensions>
 
     <application-components>
