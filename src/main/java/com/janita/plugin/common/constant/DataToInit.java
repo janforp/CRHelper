@@ -23,9 +23,4 @@ public class DataToInit {
      * 问题级别
      */
     public static final List<String> LEVEL_LIST = Arrays.asList("1", "2", "3", "4", "5");
-
-    /**
-     * 状态
-     */
-    public static final List<String> STATE_LIST = Arrays.asList("未解决", "已解决", "重复问题", "已关闭");
 }

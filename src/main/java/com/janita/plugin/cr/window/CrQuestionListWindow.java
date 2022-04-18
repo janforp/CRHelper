@@ -6,7 +6,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
-import com.janita.plugin.common.constant.DataToInit;
+import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.progress.AbstractProgressTask;
 import com.janita.plugin.common.progress.ProgressUtils;
 import com.janita.plugin.common.util.CommonUtils;
@@ -15,6 +15,7 @@ import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
+import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
 import com.janita.plugin.cr.window.table.CrQuestionTable;
@@ -109,7 +110,7 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String projectName = (String) projectBox.getSelectedItem();
-                String state = (String) stateBox.getSelectedItem();
+                CrQuestionState state = CrQuestionState.getByDesc((String) stateBox.getSelectedItem());
                 CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(state)), new HashSet<>(Collections.singletonList(projectName)));
                 ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
                     @Override
@@ -183,7 +184,7 @@ public class CrQuestionListWindow extends JDialog {
         String fullPath = path + File.separator + DateUtils.getCurrentTimeForFileName() + "-CR.md";
         MDFreeMarkProcessor processor = new MDFreeMarkProcessor();
         try {
-            List<CrQuestion> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
+            List<CrQuestionExportVO> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
             processor.process(fileName, fullPath, exportList);
             CommonUtils.showNotification("导出成功", MessageType.INFO);
         } catch (Exception e) {
@@ -198,8 +199,8 @@ public class CrQuestionListWindow extends JDialog {
         CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
         CrQuestionHouse.query(request);
 
-        for (String state : DataToInit.STATE_LIST) {
-            stateBox.addItem(state);
+        for (CrQuestionState state : CrQuestionState.values()) {
+            stateBox.addItem(state.getDesc());
         }
         for (String projectName : projectNameSet) {
             projectBox.addItem(projectName);

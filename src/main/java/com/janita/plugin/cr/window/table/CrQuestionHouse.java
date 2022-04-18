@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.window.table;
 
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
@@ -33,7 +34,7 @@ public class CrQuestionHouse {
             return;
         }
         CrQuestionTable.getCrQuestionList().remove(row);
-        question.setState("已关闭");
+        question.setState(CrQuestionState.CLOSED);
         CrQuestionTable.TABLE_MODEL.removeRow(row);
     }
 

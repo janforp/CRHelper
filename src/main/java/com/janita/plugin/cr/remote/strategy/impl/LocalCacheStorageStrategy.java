@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.remote.strategy.impl;
 
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.persistent.CrQuestionPersistent;
@@ -63,8 +64,8 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
         Set<String> projectNameSet = request.getProjectNameSet();
         Set<String> projectNameSet2 = ObjectUtils.defaultIfNull(projectNameSet, new HashSet<>());
-        Set<String> stateSet = request.getStateSet();
-        Set<String> stateSet2 = ObjectUtils.defaultIfNull(stateSet, new HashSet<>());
+        Set<CrQuestionState> stateSet = request.getStateSet();
+        Set<CrQuestionState> stateSet2 = ObjectUtils.defaultIfNull(stateSet, new HashSet<>());
         List<CrQuestion> crQuestions = questionListInCache.stream().filter(question -> projectNameSet2.contains(question.getProjectName()) && stateSet2.contains(question.getState())).collect(Collectors.toList());
         return Pair.of(true, crQuestions);
     }

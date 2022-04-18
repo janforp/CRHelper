@@ -7,6 +7,7 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.domain.SelectTextOffLineHolder;
+import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.DateUtils;
 import lombok.Data;
@@ -94,7 +95,7 @@ public class CrQuestion {
      * 状态
      * 未解决,已解决,重复问题,已关闭
      */
-    private String state;
+    private CrQuestionState state;
 
     /**
      * 提问时间
@@ -151,10 +152,6 @@ public class CrQuestion {
         // empty
     }
 
-    public static CrQuestion newCrQuestion() {
-        return new CrQuestion();
-    }
-
     public static CrQuestion newQuestion(AnActionEvent e) {
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         Pair<Integer, Integer> startAndEndLine = CommonUtils.getStartAndEndLine(editor);
@@ -166,20 +163,15 @@ public class CrQuestion {
 
         CrQuestion question = new CrQuestion();
         question.setProjectName(vcsPair.getLeft());
-        question.setType(null);
         question.setLineFrom(startAndEndLine.getLeft());
         question.setLineTo(startAndEndLine.getRight());
         question.setClassName(CommonUtils.getClassName(e));
         question.setQuestionCode(questionCode);
         question.setBetterCode(questionCode);
-        question.setDesc(null);
         question.setFromAccount(CommonUtils.getGitUser(e).getName());
-        question.setToAccount(null);
         question.setGitBranchName(vcsPair.getRight());
-        question.setSolveGitBranchName(null);
-        question.setState("未解决");
+        question.setState(CrQuestionState.UNSOLVED);
         question.setCreateTime(DateUtils.getCurrentDateTime());
-        question.setSolveTime(null);
         question.setDocumentStartLine(holder.getDocumentStartLine());
         question.setDocumentEndLine(holder.getDocumentEndLine());
         question.setLeadSelectionOffset(holder.getLeadSelectionOffset());

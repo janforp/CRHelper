@@ -1,7 +1,9 @@
 package com.janita.plugin.cr.util;
 
+import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.DateUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
+import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,20 +18,20 @@ import java.util.List;
 public class CrQuestionUtils {
 
     public static void solveQuestion(int index, CrQuestion question) {
-        question.setState("已解决");
+        question.setState(CrQuestionState.SOLVED);
         question.setSolveTime(DateUtils.getCurrentDateTime());
         CrQuestionHouse.update(index, question);
     }
 
     @SuppressWarnings("all")
-    public static List<CrQuestion> processBeforeExport(List<CrQuestion> crQuestionList) {
+    public static List<CrQuestionExportVO> processBeforeExport(List<CrQuestion> crQuestionList) {
         if (crQuestionList == null) {
             return new ArrayList<>(0);
         }
 
-        List<CrQuestion> questionList = new ArrayList<>(crQuestionList.size());
+        List<CrQuestionExportVO> questionList = new ArrayList<>(crQuestionList.size());
         for (CrQuestion question : crQuestionList) {
-            CrQuestion clone = CrQuestion.newCrQuestion();
+            CrQuestionExportVO clone = new CrQuestionExportVO();
             clone.setProjectName(StringUtils.defaultIfBlank(question.getProjectName(), "无"));
             clone.setGitBranchName(StringUtils.defaultIfBlank(question.getGitBranchName(), "无"));
             clone.setClassName(StringUtils.defaultIfBlank(question.getClassName(), "无"));
@@ -38,7 +40,7 @@ public class CrQuestionUtils {
             clone.setType(StringUtils.defaultIfBlank(question.getType(), "无"));
             clone.setToAccount(StringUtils.defaultIfBlank(question.getToAccount(), "无"));
             clone.setLevel(StringUtils.defaultIfBlank(question.getLevel(), "无"));
-            clone.setState(StringUtils.defaultIfBlank(question.getState(), "无"));
+            clone.setState(StringUtils.defaultIfBlank(question.getState().getDesc(), "无"));
             clone.setQuestionCode(setCodeMark(StringUtils.defaultIfBlank(question.getQuestionCode(), "无")));
             clone.setBetterCode(setCodeMark(StringUtils.defaultIfBlank(question.getBetterCode(), "无")));
             clone.setDesc(setCodeMark(StringUtils.defaultIfBlank(question.getDesc(), "无")));

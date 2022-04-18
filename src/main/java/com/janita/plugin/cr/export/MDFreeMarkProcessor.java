@@ -1,7 +1,7 @@
 package com.janita.plugin.cr.export;
 
 import com.intellij.ide.fileTemplates.impl.UrlUtil;
-import com.janita.plugin.cr.domain.CrQuestion;
+import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
 import freemarker.cache.StringTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
@@ -37,7 +37,7 @@ public class MDFreeMarkProcessor {
         return configuration.getTemplate("MDTemplate");
     }
 
-    private Object getModel(String fileName, List<CrQuestion> questionList) {
+    private Object getModel(String fileName, List<CrQuestionExportVO> questionList) {
         Map<String, Object> model = new HashMap<>();
         model.put("fileName", fileName);
         model.put("questionList", questionList);
@@ -49,7 +49,7 @@ public class MDFreeMarkProcessor {
         return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8));
     }
 
-    public void process(String fileName, String fullPath, List<CrQuestion> questionList) throws Exception {
+    public void process(String fileName, String fullPath, List<CrQuestionExportVO> questionList) throws Exception {
         Template template = getTemplate();
         if (template == null) {
             return;

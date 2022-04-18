@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.domain;
 
+import com.janita.plugin.common.enums.CrQuestionState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.ToString;
@@ -18,7 +19,7 @@ public class CrQuestionQueryRequest {
     /**
      * 状态
      */
-    private final Set<String> stateSet;
+    private final Set<CrQuestionState> stateSet;
 
     /**
      * 当前 project 下的所有仓库名称

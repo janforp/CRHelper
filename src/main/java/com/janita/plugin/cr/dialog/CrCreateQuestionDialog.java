@@ -4,6 +4,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.common.constant.DataToInit;
+import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
@@ -168,7 +169,7 @@ public class CrCreateQuestionDialog extends JDialog {
 
     private void rebuildQuestionWhenSave() {
         question.setType((String) questionTypeBox.getSelectedItem());
-        question.setState((String) stateBox.getSelectedItem());
+        question.setState(CrQuestionState.getByDesc((String) stateBox.getSelectedItem()));
         question.setBetterCode(betterCodeArea.getText());
         question.setDesc(descArea.getText());
         question.setLevel((String) levelBox.getSelectedItem());
@@ -184,7 +185,7 @@ public class CrCreateQuestionDialog extends JDialog {
         initBox();
 
         questionTypeBox.setSelectedItem(question.getType() != null ? question.getType() : DataToInit.QUESTION_TYPE_LIST.get(0));
-        stateBox.setSelectedItem(question.getState() != null ? question.getState() : DataToInit.STATE_LIST.get(0));
+        stateBox.setSelectedItem(question.getState() != null ? question.getState().getDesc() : CrQuestionState.UNSOLVED.getDesc());
         questionCodeArea.setText(question.getQuestionCode());
         questionCodeArea.setEditable(false);
         betterCodeArea.setText(question.getBetterCode());
@@ -215,8 +216,8 @@ public class CrCreateQuestionDialog extends JDialog {
             levelBox.addItem(level);
         }
 
-        for (String state : DataToInit.STATE_LIST) {
-            stateBox.addItem(state);
+        for (CrQuestionState state : CrQuestionState.values()) {
+            stateBox.addItem(state.getDesc());
         }
     }
 }
