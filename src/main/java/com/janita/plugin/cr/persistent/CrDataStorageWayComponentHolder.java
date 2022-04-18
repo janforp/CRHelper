@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.persistent;
 
 import com.intellij.openapi.ui.ComboBox;
+import com.intellij.util.ui.JBUI;
 import com.janita.plugin.cr.domain.CrDataStorageWay;
 import com.janita.plugin.cr.util.CrConstants;
 import lombok.Builder;
@@ -8,7 +9,6 @@ import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -53,15 +53,15 @@ public class CrDataStorageWayComponentHolder {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 String item = (String) e.getItem();
-                if ("REST接口".equals(item)) {
+                if (CrConstants.REST_WAY.equals(item)) {
                     holder.urlField.setEnabled(false);
                     holder.pwdField.setEnabled(false);
                     holder.restDomainField.setEnabled(true);
-                } else if ("数据库".equals(item)) {
+                } else if (CrConstants.DB_WAY.equals(item)) {
                     holder.urlField.setEnabled(true);
                     holder.pwdField.setEnabled(true);
                     holder.restDomainField.setEnabled(false);
-                } else {
+                } else if (CrConstants.LOCAL_CACHE.equals(item)) {
                     holder.urlField.setEnabled(false);
                     holder.pwdField.setEnabled(false);
                     holder.restDomainField.setEnabled(false);
@@ -75,11 +75,11 @@ public class CrDataStorageWayComponentHolder {
         Box totalBox = Box.createVerticalBox();
         // 创建水平框
         Box wayBox = Box.createHorizontalBox();
-        wayBox.setPreferredSize(new Dimension(100, 20));
+        wayBox.setPreferredSize(JBUI.size(150, 40));
         wayBox.add(new JLabel("存储的方式:"));
         wayBox.add(Box.createHorizontalStrut(15));
         JComboBox<String> wayComboBox = new ComboBox<>(new String[] { CrConstants.LOCAL_CACHE, CrConstants.REST_WAY, CrConstants.DB_WAY });
-        wayComboBox.setPreferredSize(new Dimension(50, 20));
+        wayComboBox.setPreferredSize(JBUI.size(50, 20));
         if (storageWay.getStorageWay() != null && storageWay.getStorageWay().trim().length() != 0) {
             wayComboBox.setSelectedItem(storageWay.getStorageWay());
         }
@@ -87,28 +87,33 @@ public class CrDataStorageWayComponentHolder {
         totalBox.add(wayBox);
 
         Box urlBox = Box.createHorizontalBox();
-        urlBox.setPreferredSize(new Dimension(100, 20));
+        urlBox.setPreferredSize(JBUI.size(150, 40));
         urlBox.add(new JLabel("数据库地址："));
         urlBox.add(Box.createHorizontalStrut(10));
         JTextField urlField = new JTextField(storageWay.getDataUrl());
+        urlField.setPreferredSize(JBUI.size(150, 40));
         urlBox.add(urlField);
         totalBox.add(urlBox);
 
         Box pwdBox = Box.createHorizontalBox();
-        pwdBox.setPreferredSize(new Dimension(100, 20));
+        pwdBox.setPreferredSize(JBUI.size(150, 40));
         pwdBox.add(new JLabel("数据库密码："));
         pwdBox.add(Box.createHorizontalStrut(10));
         JTextField pwdField = new JTextField(storageWay.getDataPwd());
+        pwdField.setPreferredSize(JBUI.size(150, 40));
         pwdBox.add(pwdField);
         totalBox.add(pwdBox);
 
         Box domainBox = Box.createHorizontalBox();
-        domainBox.setPreferredSize(new Dimension(100, 20));
+        domainBox.setPreferredSize(JBUI.size(150, 40));
         domainBox.add(new JLabel("数据的域名："));
         domainBox.add(Box.createHorizontalStrut(10));
         JTextField restDomainField = new JTextField(storageWay.getRestDomain());
+        restDomainField.setPreferredSize(JBUI.size(150, 40));
         domainBox.add(restDomainField);
         totalBox.add(domainBox);
+
+        totalBox.setPreferredSize(JBUI.size(100, 100));
 
         return CrDataStorageWayComponentHolder.builder()
                 .totalPanel(totalBox)
