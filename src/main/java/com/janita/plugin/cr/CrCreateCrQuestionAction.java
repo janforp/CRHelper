@@ -4,7 +4,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
@@ -19,17 +18,12 @@ public class CrCreateCrQuestionAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        boolean clickOk = CrQuestionStorageDialog.doBeforeCrAndReturnIfClickOk();
+        boolean clickOk = CrQuestionStorageDialog.checkStorageAndReturnIfClickOk(false);
         if (!clickOk) {
             // 用户点击了取消
             return;
         }
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
-        boolean selection = CommonUtils.hasSelectAnyText(e);
-        if (!selection) {
-            CommonUtils.showNotification("请选择问题代码", MessageType.ERROR);
-            return;
-        }
         CrQuestion question = CrQuestion.newQuestion(e);
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
         CommonUtils.setToClipboard(question.getQuestionCode());

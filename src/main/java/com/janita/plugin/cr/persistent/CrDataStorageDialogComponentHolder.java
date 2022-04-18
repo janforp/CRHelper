@@ -9,6 +9,7 @@ import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -23,7 +24,7 @@ import java.util.Set;
  */
 @Data
 @Builder
-public class CrDataStorageWayComponentHolder {
+public class CrDataStorageDialogComponentHolder {
 
     private JComponent totalPanel;
 
@@ -45,9 +46,9 @@ public class CrDataStorageWayComponentHolder {
         return new CrDataStorage(name, url, pwd, domain);
     }
 
-    public static CrDataStorageWayComponentHolder createCrDataStorageWayPanel(CrDataStorage storageWay) {
+    public static CrDataStorageDialogComponentHolder createCrDataStorageComponentHolder(boolean setting, CrDataStorage storageWay) {
         storageWay = ObjectUtils.defaultIfNull(storageWay, new CrDataStorage());
-        CrDataStorageWayComponentHolder holder = createPanelBox(storageWay);
+        CrDataStorageDialogComponentHolder holder = createPanelBox(setting, storageWay);
         // 下拉默认是 rest接口，所以数据库不可用
         enableField(holder, (CrDataStorageEnum) holder.getWayComboBox().getSelectedItem());
         // 添加下拉事件
@@ -59,19 +60,22 @@ public class CrDataStorageWayComponentHolder {
             }
         });
 
-        holder.clearButton.addActionListener(new ActionListener() {
+        JButton clearButton = holder.clearButton;
+        if (clearButton == null) {
+            return holder;
+        }
+
+        clearButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                holder.getWayComboBox().setSelectedItem(CrDataStorageEnum.LOCAL_CACHE);
-                holder.getUrlField().setText("");
-                holder.getPwdField().setText("");
-                holder.getRestDomainField().setText("");
+                CrDataStoragePersistent.getInstance().loadState(new CrDataStorage());
+
             }
         });
         return holder;
     }
 
-    private static void enableField(CrDataStorageWayComponentHolder holder, CrDataStorageEnum way) {
+    private static void enableField(CrDataStorageDialogComponentHolder holder, CrDataStorageEnum way) {
         if (CrDataStorageEnum.REST_API == way) {
             holder.urlField.setEnabled(false);
             holder.pwdField.setEnabled(false);
@@ -87,12 +91,12 @@ public class CrDataStorageWayComponentHolder {
         }
     }
 
-    private static CrDataStorageWayComponentHolder createPanelBox(CrDataStorage storageWay) {
+    private static CrDataStorageDialogComponentHolder createPanelBox(boolean setting, CrDataStorage storageWay) {
         Box totalBox = Box.createVerticalBox();
         // 创建水平框
         Box wayBox = Box.createHorizontalBox();
         wayBox.setPreferredSize(JBUI.size(150, 40));
-        wayBox.add(new JLabel("存储的方式:"));
+        wayBox.add(new JLabel("存储的方式:"), BorderLayout.WEST);
         wayBox.add(Box.createHorizontalStrut(15));
         Set<CrDataStorageEnum> supportSet = CrDataStorageEnum.getSupportSet();
         JComboBox<CrDataStorageEnum> wayComboBox = new ComboBox<>(supportSet.toArray(new CrDataStorageEnum[0]));
@@ -100,42 +104,46 @@ public class CrDataStorageWayComponentHolder {
         if (storageWay.getStorageWay() != null) {
             wayComboBox.setSelectedItem(storageWay.getStorageWay());
         }
-        wayBox.add(wayComboBox);
+        wayBox.add(wayComboBox, BorderLayout.EAST);
 
-        JButton clearButton = new JButton("清除");
-        wayBox.add(clearButton);
+        // 设置界面来的
+        JButton clearButton = null;
+        if (setting) {
+            clearButton = new JButton("清除");
+            wayBox.add(clearButton);
+        }
         totalBox.add(wayBox);
 
         Box urlBox = Box.createHorizontalBox();
         urlBox.setPreferredSize(JBUI.size(150, 40));
-        urlBox.add(new JLabel("数据库地址："));
+        urlBox.add(new JLabel("数据库地址："), BorderLayout.WEST);
         urlBox.add(Box.createHorizontalStrut(10));
         JTextField urlField = new JTextField(storageWay.getDbUrl());
         urlField.setPreferredSize(JBUI.size(150, 40));
-        urlBox.add(urlField);
+        urlBox.add(urlField, BorderLayout.EAST);
         totalBox.add(urlBox);
 
         Box pwdBox = Box.createHorizontalBox();
         pwdBox.setPreferredSize(JBUI.size(150, 40));
-        pwdBox.add(new JLabel("数据库密码："));
+        pwdBox.add(new JLabel("数据库密码："), BorderLayout.WEST);
         pwdBox.add(Box.createHorizontalStrut(10));
         JTextField pwdField = new JTextField(storageWay.getDbPwd());
         pwdField.setPreferredSize(JBUI.size(150, 40));
-        pwdBox.add(pwdField);
+        pwdBox.add(pwdField, BorderLayout.EAST);
         totalBox.add(pwdBox);
 
         Box domainBox = Box.createHorizontalBox();
         domainBox.setPreferredSize(JBUI.size(150, 40));
-        domainBox.add(new JLabel("数据的域名："));
+        domainBox.add(new JLabel("数据的域名："), BorderLayout.WEST);
         domainBox.add(Box.createHorizontalStrut(10));
         JTextField restDomainField = new JTextField(storageWay.getRestApiDomain());
         restDomainField.setPreferredSize(JBUI.size(150, 40));
-        domainBox.add(restDomainField);
+        domainBox.add(restDomainField, BorderLayout.EAST);
         totalBox.add(domainBox);
 
         totalBox.setPreferredSize(JBUI.size(100, 100));
 
-        return CrDataStorageWayComponentHolder.builder()
+        return CrDataStorageDialogComponentHolder.builder()
                 .totalPanel(totalBox)
                 .clearButton(clearButton)
                 .wayComboBox(wayComboBox)

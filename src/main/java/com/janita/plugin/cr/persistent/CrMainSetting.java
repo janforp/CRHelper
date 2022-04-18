@@ -18,7 +18,7 @@ public class CrMainSetting implements Configurable, Configurable.Composite {
 
     protected CrDataStorage storageWay;
 
-    private CrDataStorageWayComponentHolder holder;
+    private CrDataStorageDialogComponentHolder holder;
 
     public CrMainSetting() {
         init();
@@ -52,7 +52,7 @@ public class CrMainSetting implements Configurable, Configurable.Composite {
     @Nullable
     @Override
     public JComponent createComponent() {
-        CrDataStorageWayComponentHolder holder = CrDataStorageWayComponentHolder.createCrDataStorageWayPanel(storageWay);
+        CrDataStorageDialogComponentHolder holder = CrDataStorageDialogComponentHolder.createCrDataStorageComponentHolder(true, storageWay);
         this.holder = holder;
         return holder.getTotalPanel();
     }

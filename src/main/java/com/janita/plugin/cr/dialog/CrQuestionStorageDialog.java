@@ -4,8 +4,8 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 import com.janita.plugin.cr.domain.CrDataStorage;
+import com.janita.plugin.cr.persistent.CrDataStorageDialogComponentHolder;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
-import com.janita.plugin.cr.persistent.CrDataStorageWayComponentHolder;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,10 +29,12 @@ public class CrQuestionStorageDialog extends DialogWrapper {
 
     private JTextField restDomainField;
 
-    public CrQuestionStorageDialog(CrDataStorage storageWay) {
+    private final boolean setting;
+
+    public CrQuestionStorageDialog(boolean setting, CrDataStorage storageWay) {
         super(true);
-        storageWay = ObjectUtils.defaultIfNull(storageWay, new CrDataStorage());
-        this.storageWay = storageWay;
+        this.storageWay = ObjectUtils.defaultIfNull(storageWay, new CrDataStorage());
+        this.setting = setting;
         init();
         setTitle("数据存储方式");
         setSize(1000, 300);
@@ -41,7 +43,7 @@ public class CrQuestionStorageDialog extends DialogWrapper {
     @Override
     protected @Nullable
     JComponent createCenterPanel() {
-        CrDataStorageWayComponentHolder panel = CrDataStorageWayComponentHolder.createCrDataStorageWayPanel(storageWay);
+        CrDataStorageDialogComponentHolder panel = CrDataStorageDialogComponentHolder.createCrDataStorageComponentHolder(setting, storageWay);
         this.storageBox = panel.getWayComboBox();
         this.urlField = panel.getUrlField();
         this.pwdField = panel.getPwdField();
@@ -69,14 +71,14 @@ public class CrQuestionStorageDialog extends DialogWrapper {
         return new CrDataStorage(name, url, pwd, domain);
     }
 
-    public static boolean doBeforeCrAndReturnIfClickOk() {
+    public static boolean checkStorageAndReturnIfClickOk(boolean setting) {
         CrDataStoragePersistent persistent = CrDataStoragePersistent.getInstance();
         CrDataStorage storageWay = persistent.getState();
         boolean valid = CrDataStorage.checkValid(storageWay);
         if (valid) {
             return true;
         }
-        CrQuestionStorageDialog dialog = new CrQuestionStorageDialog(storageWay);
+        CrQuestionStorageDialog dialog = new CrQuestionStorageDialog(setting, storageWay);
         if (dialog.showAndGet()) {
             storageWay = dialog.getCrDataStorageWay();
             persistent.loadState(storageWay);

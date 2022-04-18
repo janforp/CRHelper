@@ -17,7 +17,7 @@ public class CrSubSetting implements Configurable {
 
     protected CrDataStorage storageWay;
 
-    private CrDataStorageWayComponentHolder holder;
+    private CrDataStorageDialogComponentHolder holder;
 
     public CrSubSetting() {
         init();
@@ -40,7 +40,7 @@ public class CrSubSetting implements Configurable {
     @Nullable
     @Override
     public JComponent createComponent() {
-        CrDataStorageWayComponentHolder holder = CrDataStorageWayComponentHolder.createCrDataStorageWayPanel(storageWay);
+        CrDataStorageDialogComponentHolder holder = CrDataStorageDialogComponentHolder.createCrDataStorageComponentHolder(true, storageWay);
         this.holder = holder;
         return holder.getTotalPanel();
     }

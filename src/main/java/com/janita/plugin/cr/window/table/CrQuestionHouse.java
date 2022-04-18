@@ -49,8 +49,8 @@ public class CrQuestionHouse {
         CrQuestionTable.TABLE_MODEL.insertRow(editIndex, raw);
     }
 
-    public static void query(CrQuestionQueryRequest request) {
-        boolean clickOk = CrQuestionStorageDialog.doBeforeCrAndReturnIfClickOk();
+    public static void refreshQuestionTable(CrQuestionQueryRequest request) {
+        boolean clickOk = CrQuestionStorageDialog.checkStorageAndReturnIfClickOk(false);
         if (!clickOk) {
             return;
         }

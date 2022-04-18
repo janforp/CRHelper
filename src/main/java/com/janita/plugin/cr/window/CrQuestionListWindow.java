@@ -115,7 +115,7 @@ public class CrQuestionListWindow extends JDialog {
                 ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
                     @Override
                     public void doProcess() {
-                        CrQuestionHouse.query(request);
+                        CrQuestionHouse.refreshQuestionTable(request);
                     }
                 });
             }
@@ -196,8 +196,8 @@ public class CrQuestionListWindow extends JDialog {
         questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
         Set<String> projectNameSet = CommonUtils.getAllProjectName(this.project);
-        CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
-        CrQuestionHouse.query(request);
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)), projectNameSet);
+        CrQuestionHouse.refreshQuestionTable(request);
 
         for (CrQuestionState state : CrQuestionState.values()) {
             stateBox.addItem(state.getDesc());
