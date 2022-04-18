@@ -4,6 +4,23 @@ import com.intellij.openapi.module.ModuleComponent;
 
 /**
  * ModuleComponentImpl
+ * *     <application-components>
+ * *         <component>
+ * *             <implementation-class>com.janita.plugin.demo.component.application.ApplicationComponentImpl</implementation-class>
+ * *         </component>
+ * *     </application-components>
+ * *
+ * *     <project-components>
+ * *         <component>
+ * *             <implementation-class>com.janita.plugin.demo.component.project.ProjectApplicationImpl</implementation-class>
+ * *         </component>
+ * *     </project-components>
+ * *
+ * *     <module-components>
+ * *         <component>
+ * *             <implementation-class>com.janita.plugin.demo.component.module.ModuleComponentImpl</implementation-class>
+ * *         </component>
+ * *     </module-components>
  *
  * @author zhucj
  * @since 20220324

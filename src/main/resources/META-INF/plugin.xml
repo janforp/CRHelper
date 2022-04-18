@@ -10,82 +10,21 @@
         <p>3.可以导出为markdown文件</p>
         ]]></description>
 
-    <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html on how to target different products -->
     <depends>com.intellij.modules.platform</depends>
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- 添加右边的 CrQuestion 菜单 -->
-        <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList"
-                    anchor="right" icon="/img/mark.png"/>
-        <applicationService serviceImplementation="com.janita.plugin.persistent.TestPersistentStateComponent"/>
+        <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrDataStorageWayPersistent"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionPersistent"/>
         <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>
-        <!-- 提交代码的时候的切入点 -->
-        <checkinHandlerFactory implementation="com.janita.plugin.demo.VersionCheckerHandlerFactory"/>
     </extensions>
 
-    <application-components>
-        <component>
-            <implementation-class>com.janita.plugin.demo.component.application.ApplicationComponentImpl</implementation-class>
-        </component>
-    </application-components>
-
-    <project-components>
-        <component>
-            <implementation-class>com.janita.plugin.demo.component.project.ProjectApplicationImpl</implementation-class>
-        </component>
-    </project-components>
-
-    <module-components>
-        <component>
-            <implementation-class>com.janita.plugin.demo.component.module.ModuleComponentImpl</implementation-class>
-        </component>
-    </module-components>
-
     <actions>
-        <!-- Add your actions here -->
-        <!--        <action id="ActionDemo" class="com.janita.plugin.demo.ActionPopupMessage" text="弹出文字" description="Popup text">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="ActionPopupDialog" class="com.janita.plugin.demo.ActionPopupDialog" text="弹出输入框" description="Popup dialog">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="PluginApiAction" class="com.janita.plugin.demo.PluginApiAction" text="测试插件api" description="Test plugin api">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="TestTranslateAction" class="com.janita.plugin.demo.GetUserSelectedTextAction" text="弹出用户选择的文本" description="Get text user selected">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="MybatisLog2SqlAction" class="com.janita.plugin.mybatislog2sql.MybatisLog2SqlAction" text="MyBatis日志转SQL" description="Mybatis log to sql">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--            <keyboard-shortcut keymap="$default" first-keystroke="shift meta T"/>-->
-        <!--        </action>-->
-        <!--        <action id="ReplaceChineseCharAction" class="com.janita.plugin.replacechinenschar.ReplaceChineseCharAction" text="替换中文字符" description="Replace Chinese char">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="ToggleCamelCaseAction" class="com.janita.plugin.camel.ToggleCamelCaseAction" text="驼峰转换" description="Camel tran">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="AutoCodeAction" class="com.janita.plugin.autgencode.AutoCodeAction" text="自动生成代码" description="Auto gen code">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="MarkBookAction" class="com.janita.plugin.markbook.MarkBookAction" text="源码笔记" description="Add a note" icon="/img/mark.png">-->
-        <!--            <add-to-group group-id="EditorPopupMenu" anchor="first"/>-->
-        <!--        </action>-->
         <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CrCreateCrQuestionAction" text="Create CR Question" description="Create a CR question" icon="/img/mark.png">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
-        <!--        <action id="fast.download" class="com.janita.plugin.download.FastDownloadAction" text="FastDownload" description="文件多线程下载">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="last"/>-->
-        <!--        </action>-->
-        <!--        <action id="ProcessDemoAction" class="com.janita.plugin.demo.ProcessDemoAction" text="ProcessDemoAction" description="ProcessDemoAction">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
-        <!--        <action id="PersistentActionDemo" class="com.janita.plugin.persistent.PersistentActionDemo" text="PersistentActionDemo" description="PersistentActionDemo">-->
-        <!--            <add-to-group group-id="ToolsMenu" anchor="first"/>-->
-        <!--        </action>-->
     </actions>
 </idea-plugin>

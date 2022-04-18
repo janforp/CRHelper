@@ -9,6 +9,8 @@ import lombok.Data;
 import org.apache.commons.lang3.ObjectUtils;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
@@ -32,6 +34,8 @@ public class CrDataStorageWayComponentHolder {
 
     protected JTextField restDomainField;
 
+    protected JButton clearButton;
+
     public CrDataStorageWay getCrDataStorageWay() {
         String name = (String) wayComboBox.getSelectedItem();
         String url = urlField.getText();
@@ -44,31 +48,42 @@ public class CrDataStorageWayComponentHolder {
         storageWay = ObjectUtils.defaultIfNull(storageWay, new CrDataStorageWay());
         CrDataStorageWayComponentHolder holder = createPanelBox(storageWay);
         // 下拉默认是 rest接口，所以数据库不可用
-        holder.urlField.setEnabled(false);
-        holder.pwdField.setEnabled(false);
-        holder.restDomainField.setEnabled(false);
-
+        enableField(holder, (String) holder.getWayComboBox().getSelectedItem());
         // 添加下拉事件
         holder.wayComboBox.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 String item = (String) e.getItem();
-                if (CrConstants.REST_WAY.equals(item)) {
-                    holder.urlField.setEnabled(false);
-                    holder.pwdField.setEnabled(false);
-                    holder.restDomainField.setEnabled(true);
-                } else if (CrConstants.DB_WAY.equals(item)) {
-                    holder.urlField.setEnabled(true);
-                    holder.pwdField.setEnabled(true);
-                    holder.restDomainField.setEnabled(false);
-                } else if (CrConstants.LOCAL_CACHE.equals(item)) {
-                    holder.urlField.setEnabled(false);
-                    holder.pwdField.setEnabled(false);
-                    holder.restDomainField.setEnabled(false);
-                }
+                enableField(holder, item);
+            }
+        });
+
+        holder.clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                holder.getWayComboBox().setSelectedItem(CrConstants.LOCAL_CACHE);
+                holder.getUrlField().setText("");
+                holder.getPwdField().setText("");
+                holder.getRestDomainField().setText("");
             }
         });
         return holder;
+    }
+
+    private static void enableField(CrDataStorageWayComponentHolder holder, String way) {
+        if (CrConstants.REST_WAY.equals(way)) {
+            holder.urlField.setEnabled(false);
+            holder.pwdField.setEnabled(false);
+            holder.restDomainField.setEnabled(true);
+        } else if (CrConstants.DB_WAY.equals(way)) {
+            holder.urlField.setEnabled(true);
+            holder.pwdField.setEnabled(true);
+            holder.restDomainField.setEnabled(false);
+        } else if (CrConstants.LOCAL_CACHE.equals(way)) {
+            holder.urlField.setEnabled(false);
+            holder.pwdField.setEnabled(false);
+            holder.restDomainField.setEnabled(false);
+        }
     }
 
     private static CrDataStorageWayComponentHolder createPanelBox(CrDataStorageWay storageWay) {
@@ -84,6 +99,9 @@ public class CrDataStorageWayComponentHolder {
             wayComboBox.setSelectedItem(storageWay.getStorageWay());
         }
         wayBox.add(wayComboBox);
+
+        JButton clearButton = new JButton("清除");
+        wayBox.add(clearButton);
         totalBox.add(wayBox);
 
         Box urlBox = Box.createHorizontalBox();
@@ -117,6 +135,7 @@ public class CrDataStorageWayComponentHolder {
 
         return CrDataStorageWayComponentHolder.builder()
                 .totalPanel(totalBox)
+                .clearButton(clearButton)
                 .wayComboBox(wayComboBox)
                 .urlField(urlField)
                 .pwdField(pwdField)

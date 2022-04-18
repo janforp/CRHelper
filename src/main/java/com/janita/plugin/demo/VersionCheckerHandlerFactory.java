@@ -17,6 +17,11 @@ import java.awt.*;
 /**
  * VersionCheckerHandlerFactory
  *
+ * 需要在 plugin.xml 中配置才生效!!!!!!!!
+ * <extensions defaultExtensionNs="com.intellij">
+ * ******* <checkinHandlerFactory implementation="com.janita.plugin.demo.VersionCheckerHandlerFactory"/>
+ * </extensions>
+ *
  * @author zhucj
  * @since 20220324
  */

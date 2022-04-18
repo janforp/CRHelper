@@ -82,7 +82,8 @@ public class CrFetchDataWayDialog extends DialogWrapper {
     public static boolean doBeforeCrAndReturnIfClickOk() {
         CrDataStorageWayPersistent persistent = CrDataStorageWayPersistent.getInstance();
         CrDataStorageWay storageWay = persistent.getState();
-        if (storageWay != null) {
+        boolean valid = CrDataStorageWay.checkValid(storageWay);
+        if (valid) {
             return true;
         }
         CrFetchDataWayDialog dialog = new CrFetchDataWayDialog(null);
