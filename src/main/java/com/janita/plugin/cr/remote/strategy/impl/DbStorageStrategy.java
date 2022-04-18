@@ -3,6 +3,7 @@ package com.janita.plugin.cr.remote.strategy.impl;
 import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.CommonUtils;
+import com.janita.plugin.cr.domain.CrProjectInfo;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
@@ -16,6 +17,11 @@ import java.util.List;
  * @since 20220324
  */
 public class DbStorageStrategy implements CrQuestionStorageStrategy {
+
+    @Override
+    public List<CrProjectInfo> queryProject(String gitUserName) {
+        return null;
+    }
 
     @Override
     public boolean add(CrQuestion question) {

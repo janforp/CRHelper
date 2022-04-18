@@ -1,9 +1,13 @@
 package com.janita.plugin.cr.remote.strategy.impl;
 
+import com.google.common.collect.Sets;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
+import com.janita.plugin.cr.domain.CrDeveloper;
+import com.janita.plugin.cr.domain.CrProjectInfo;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
+import com.janita.plugin.cr.persistent.CrProjectInfoPersistent;
 import com.janita.plugin.cr.persistent.CrQuestionPersistent;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
 import org.apache.commons.lang3.ObjectUtils;
@@ -28,6 +32,22 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
     private static final AtomicLong ID_GEN = new AtomicLong(2);
 
     private static final CrQuestionPersistent CR_QUESTION_PERSISTENT = CrQuestionPersistent.getInstance();
+
+    @Override
+    public List<CrProjectInfo> queryProject(String gitUserName) {
+        List<CrQuestion> questionList = CrQuestionPersistent.getInstance().getState();
+        if (questionList == null || questionList.size() == 0) {
+            return new ArrayList<>(0);
+        }
+        List<CrProjectInfo> infoList = new ArrayList<>();
+        Set<String> nameSet = questionList.stream().map(CrQuestion::getProjectName).collect(Collectors.toSet());
+        for (String projectName : nameSet) {
+            CrProjectInfo projectInfo = new CrProjectInfo(projectName, Sets.newHashSet(new CrDeveloper(null, null, "自己")));
+            infoList.add(projectInfo);
+        }
+        CrProjectInfoPersistent.getInstance().loadState(infoList);
+        return infoList;
+    }
 
     @Override
     public boolean add(CrQuestion question) {

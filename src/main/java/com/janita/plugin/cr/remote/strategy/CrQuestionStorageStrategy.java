@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.remote.strategy;
 
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.cr.domain.CrProjectInfo;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 
@@ -13,6 +14,8 @@ import java.util.List;
  * @since 20220324
  */
 public interface CrQuestionStorageStrategy {
+
+    List<CrProjectInfo> queryProject(String gitUserName);
 
     boolean add(CrQuestion question);
 

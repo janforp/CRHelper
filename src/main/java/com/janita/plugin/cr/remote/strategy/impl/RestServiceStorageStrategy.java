@@ -3,6 +3,7 @@ package com.janita.plugin.cr.remote.strategy.impl;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrRestApiEnum;
 import com.janita.plugin.common.rest.RestTemplateFactory;
+import com.janita.plugin.cr.domain.CrProjectInfo;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
@@ -19,6 +20,11 @@ import java.util.List;
 public class RestServiceStorageStrategy implements CrQuestionStorageStrategy {
 
     private static final RestTemplate restTemplate = RestTemplateFactory.getRestTemplate();
+
+    @Override
+    public List<CrProjectInfo> queryProject(String gitUserName) {
+        return null;
+    }
 
     @Override
     public boolean add(CrQuestion question) {
