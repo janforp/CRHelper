@@ -4,7 +4,7 @@ import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.persistent.CrQuestionPersistent;
 import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
-import com.janita.plugin.cr.remote.strategy.CrQuestionStorage;
+import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @author zhucj
  * @since 20220324
  */
-public class LocalCacheStorage implements CrQuestionStorage {
+public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
 
     private static final AtomicLong ID_GEN = new AtomicLong(2);
 

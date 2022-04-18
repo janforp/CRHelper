@@ -12,7 +12,7 @@ import java.util.List;
  * @author zhucj
  * @since 20220324
  */
-public interface CrQuestionStorage {
+public interface CrQuestionStorageStrategy {
 
     boolean add(CrQuestion question);
 
