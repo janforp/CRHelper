@@ -3,10 +3,11 @@ package com.janita.plugin.cr.dialog;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.WindowManager;
+import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
+import com.janita.plugin.cr.window.table.CrQuestionHouse;
 
 import javax.swing.*;
 import java.awt.*;
@@ -157,7 +158,11 @@ public class CrCreateQuestionDialog extends JDialog {
 
     private void saveQuestion() {
         rebuildQuestionWhenSave();
-        CrQuestionUtils.saveQuestion(update, editIndex, question);
+        if (update) {
+            CrQuestionHouse.update(editIndex, question);
+            return;
+        }
+        CrQuestionHouse.add(question);
         dispose();
     }
 

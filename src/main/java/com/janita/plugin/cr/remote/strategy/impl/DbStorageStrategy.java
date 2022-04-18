@@ -4,7 +4,7 @@ import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
+import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.janita.plugin.cr.remote;
+package com.janita.plugin.common.constant;
 
 import java.util.Arrays;
 import java.util.List;

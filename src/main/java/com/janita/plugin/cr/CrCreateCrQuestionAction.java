@@ -9,7 +9,6 @@ import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.util.CrQuestionUtils;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -31,7 +30,7 @@ public class CrCreateCrQuestionAction extends AnAction {
             CommonUtils.showNotification("请选择问题代码", MessageType.ERROR);
             return;
         }
-        CrQuestion question = CrQuestionUtils.buildQuestion(e);
+        CrQuestion question = CrQuestion.newQuestion(e);
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project);
         CommonUtils.setToClipboard(question.getQuestionCode());
         dialog.open(question);

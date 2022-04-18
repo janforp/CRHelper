@@ -4,7 +4,7 @@ import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrRestApiEnum;
 import com.janita.plugin.common.rest.RestTemplateFactory;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
+import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
 import org.springframework.web.client.RestTemplate;
 

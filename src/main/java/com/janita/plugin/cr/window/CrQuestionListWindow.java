@@ -6,17 +6,18 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
+import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.progress.AbstractProgressTask;
 import com.janita.plugin.common.progress.ProgressUtils;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.DateUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
+import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
-import com.janita.plugin.cr.remote.CrQuestionHouse;
-import com.janita.plugin.cr.remote.CrQuestionQueryRequest;
-import com.janita.plugin.cr.remote.DataToInit;
 import com.janita.plugin.cr.util.CrQuestionUtils;
+import com.janita.plugin.cr.window.table.CrQuestionHouse;
+import com.janita.plugin.cr.window.table.CrQuestionTable;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -113,7 +114,7 @@ public class CrQuestionListWindow extends JDialog {
                 ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
                     @Override
                     public void doProcess() {
-                        CrQuestionHouse.refresh(request);
+                        CrQuestionHouse.query(request);
                     }
                 });
             }
@@ -128,7 +129,7 @@ public class CrQuestionListWindow extends JDialog {
                 questionTable.setRowSelectionInterval(row, row);
                 int button = mouseEvent.getButton();
                 if (button == MouseEvent.BUTTON1) {
-                    CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                    CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
                     CommonUtils.openFileAndLocationToText(project, question.getClassName(), question.getLineFrom(), question.getBetterCode());
                 }
                 if (button == MouseEvent.BUTTON3) {
@@ -168,7 +169,7 @@ public class CrQuestionListWindow extends JDialog {
 
     @SuppressWarnings("all")
     private void export() {
-        List<CrQuestion> crQuestionList = CrQuestionHouse.getCrQuestionList();
+        List<CrQuestion> crQuestionList = CrQuestionTable.getCrQuestionList();
         if (crQuestionList == null || crQuestionList.size() == 0) {
             CommonUtils.showNotification("没有任何 Code review 内容！", MessageType.ERROR);
             return;
@@ -191,11 +192,11 @@ public class CrQuestionListWindow extends JDialog {
     }
 
     private void initCrQuestionList() {
-        questionTable.setModel(CrQuestionHouse.TABLE_MODEL);
+        questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
         Set<String> projectNameSet = CommonUtils.getAllProjectName(this.project);
         CrQuestionQueryRequest request = new CrQuestionQueryRequest(null, projectNameSet);
-        CrQuestionHouse.refresh(request);
+        CrQuestionHouse.query(request);
 
         for (String state : DataToInit.STATE_LIST) {
             stateBox.addItem(state);
@@ -211,7 +212,7 @@ public class CrQuestionListWindow extends JDialog {
         JMenuItem deleteItem = CommonUtils.buildJMenuItem("删除", "/img/delete.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
                 CrQuestionHouse.delete(row, question);
             }
         });
@@ -228,7 +229,7 @@ public class CrQuestionListWindow extends JDialog {
         JMenuItem solveItem = CommonUtils.buildJMenuItem("解决", "/img/solve.png", new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+                CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
                 CrQuestionUtils.solveQuestion(row, question);
             }
         });
@@ -237,7 +238,7 @@ public class CrQuestionListWindow extends JDialog {
     }
 
     private void showQuestionDetailDialog(int row) {
-        CrQuestion question = CrQuestionHouse.getCrQuestionList().get(row);
+        CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project);
         dialog.open(question);
     }
