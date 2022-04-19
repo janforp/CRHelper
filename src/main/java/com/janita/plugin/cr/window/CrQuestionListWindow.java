@@ -1,5 +1,7 @@
 package com.janita.plugin.cr.window;
 
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
@@ -35,7 +37,6 @@ import java.io.File;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * cr问题列表
@@ -48,7 +49,7 @@ public class CrQuestionListWindow extends JDialog {
     /**
      * 当前项目列表
      */
-    private Set<String> projectNameSet;
+    private final List<String> projectNameList;
 
     /**
      * 框架
@@ -92,7 +93,7 @@ public class CrQuestionListWindow extends JDialog {
 
     public CrQuestionListWindow(Project project, ToolWindow toolWindow) {
         this.project = project;
-        this.projectNameSet = CompatibleUtils.getAllProjectNameFromGitFirstThenLocal(project);
+        this.projectNameList = Lists.newArrayList(CompatibleUtils.getAllProjectNameFromGitFirstThenLocal(project));
         // 列表内容局中
         tableTextCenter();
         initCrQuestionList();
@@ -202,13 +203,13 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
-        CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)), projectNameSet);
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)), Sets.newHashSet(projectNameList.get(0)));
         CrQuestionHouse.refreshQuestionTable(request);
 
         for (CrQuestionState state : CrQuestionState.values()) {
             stateBox.addItem(state.getDesc());
         }
-        for (String projectName : projectNameSet) {
+        for (String projectName : projectNameList) {
             projectBox.addItem(projectName);
         }
     }

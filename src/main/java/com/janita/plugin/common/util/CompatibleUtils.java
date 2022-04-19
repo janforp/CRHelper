@@ -6,6 +6,7 @@ import com.janita.plugin.common.exception.PluginException;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -45,8 +46,7 @@ public class CompatibleUtils {
     }
 
     private static String getProjectNameInLocalLocal(Project project, VirtualFile file) {
-        // TODO
-        return null;
+        return project.getName();
     }
 
     public static Set<String> getAllProjectNameFromGitFirstThenLocal(Project project) {
@@ -58,7 +58,6 @@ public class CompatibleUtils {
     }
 
     private static Set<String> getAllProjectNameFromLocal(Project project) {
-        // TODO
-        return new HashSet<>();
+        return new HashSet<>(Collections.singletonList(project.getName()));
     }
 }
