@@ -38,7 +38,7 @@ public class CrQuestionUtils {
             clone.setLineFrom(ObjectUtils.defaultIfNull(question.getLineFrom(), 0));
             clone.setLineTo(ObjectUtils.defaultIfNull(question.getLineTo(), 0));
             clone.setType(StringUtils.defaultIfBlank(question.getType(), "无"));
-            clone.setToAccount(StringUtils.defaultIfBlank(question.getToAccount(), "无"));
+            clone.setToAccount(StringUtils.defaultIfBlank(question.getAssignTo(), "无"));
             clone.setLevel(StringUtils.defaultIfBlank(question.getLevel(), "无"));
             clone.setState(StringUtils.defaultIfBlank(question.getState().getDesc(), "无"));
             clone.setQuestionCode(setCodeMark(StringUtils.defaultIfBlank(question.getQuestionCode(), "无")));

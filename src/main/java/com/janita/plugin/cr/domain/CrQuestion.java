@@ -78,12 +78,12 @@ public class CrQuestion {
     /**
      * 提出问题的人
      */
-    private String fromAccount;
+    private String assignFrom;
 
     /**
      * 接收问题的人
      */
-    private String toAccount;
+    private String assignTo;
 
     /**
      * git分支名称
@@ -172,7 +172,7 @@ public class CrQuestion {
         question.setClassName(CommonUtils.getClassName(e));
         question.setQuestionCode(questionCode);
         question.setBetterCode(questionCode);
-        question.setFromAccount(GitUtils.getGitUserName(project));
+        question.setAssignFrom(GitUtils.getGitUserName(project));
         question.setGitBranchName(CompatibleUtils.getBranchNameFromGitFirstThenFromLocal(project, virtualFile));
         question.setState(CrQuestionState.UNSOLVED);
         question.setCreateTime(DateUtils.getCurrentDateTime());

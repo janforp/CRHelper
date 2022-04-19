@@ -15,7 +15,6 @@ import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.CompatibleUtils;
 import com.janita.plugin.common.util.DateUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
-import com.janita.plugin.cr.domain.CrDeveloper;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
@@ -250,7 +249,7 @@ public class CrQuestionListWindow extends JDialog {
 
     private void showQuestionDetailDialog(int row) {
         CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
-        Set<CrDeveloper> developerSet = QuestionRemote.queryProject(question.getProjectName());
+        Set<String> developerSet = QuestionRemote.queryDeveloperNameSet(question.getProjectName());
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project, developerSet);
         dialog.open(question);
     }

@@ -6,10 +6,11 @@ import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
-import com.janita.plugin.cr.domain.CrDeveloper;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,6 +19,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -36,7 +39,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 当前项目的开发者
      */
-    private final Set<CrDeveloper> developerSet;
+    private Set<String> developerSet;
 
     /**
      * 问题
@@ -81,7 +84,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 指派给的人员列表
      */
-    private JComboBox<String> toAccountBox;
+    private JComboBox<String> selectAssignBox;
 
     /**
      * 级别
@@ -99,9 +102,24 @@ public class CrCreateQuestionDialog extends JDialog {
     private JComboBox<String> stateBox;
 
     /**
+     * 手动指定
+     */
+    private JButton manualAssignButton;
+
+    /**
+     * 手动指定人
+     */
+    private JTextField manualAssignerField;
+
+    /**
      * 修改还是添加
      */
-    private Boolean update;
+    private boolean update;
+
+    /**
+     * 是否手动指定
+     */
+    private boolean manualAssign;
 
     /**
      * 被编辑的序号
@@ -111,7 +129,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 新建
      */
-    public CrCreateQuestionDialog(Project project, Set<CrDeveloper> developerSet) {
+    public CrCreateQuestionDialog(Project project, Set<String> developerSet) {
         this.developerSet = developerSet;
         this.update = false;
         this.project = project;
@@ -142,6 +160,18 @@ public class CrCreateQuestionDialog extends JDialog {
             }
         });
 
+        manualAssignButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (manualAssign) {
+                    return;
+                }
+                selectAssignBox.setEnabled(false);
+                manualAssignerField.setEnabled(true);
+                manualAssign = true;
+            }
+        });
+
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
@@ -159,7 +189,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 在列表上编辑
      */
-    public CrCreateQuestionDialog(Integer index, Project project, Set<CrDeveloper> developerSet) {
+    public CrCreateQuestionDialog(Integer index, Project project, Set<String> developerSet) {
         this(project, developerSet);
         this.update = true;
         this.editIndex = index;
@@ -169,9 +199,9 @@ public class CrCreateQuestionDialog extends JDialog {
         rebuildQuestionWhenSave();
         if (update) {
             CrQuestionHouse.update(editIndex, question);
-            return;
+        } else {
+            CrQuestionHouse.add(question);
         }
-        CrQuestionHouse.add(question);
         dispose();
     }
 
@@ -181,7 +211,14 @@ public class CrCreateQuestionDialog extends JDialog {
         question.setBetterCode(betterCodeArea.getText());
         question.setDesc(descArea.getText());
         question.setLevel((String) levelBox.getSelectedItem());
-        question.setToAccount((String) toAccountBox.getSelectedItem());
+        question.setAssignTo(getAssigner());
+    }
+
+    private String getAssigner() {
+        if (manualAssign) {
+            return manualAssignerField.getText();
+        }
+        return (String) selectAssignBox.getSelectedItem();
     }
 
     private void closeDialog() {
@@ -190,7 +227,7 @@ public class CrCreateQuestionDialog extends JDialog {
 
     public void open(CrQuestion question) {
         this.question = question;
-        initBox();
+        initBox(question.getAssignTo());
 
         questionTypeBox.setSelectedItem(question.getType() != null ? question.getType() : DataToInit.QUESTION_TYPE_LIST.get(0));
         stateBox.setSelectedItem(question.getState() != null ? question.getState().getDesc() : CrQuestionState.UNSOLVED.getDesc());
@@ -198,12 +235,14 @@ public class CrCreateQuestionDialog extends JDialog {
         questionCodeArea.setEditable(false);
         betterCodeArea.setText(question.getBetterCode());
         descArea.setText(question.getDesc());
+        selectAssignBox.setSelectedItem(question.getAssignTo() != null ? question.getAssignTo() : new ArrayList<>(developerSet).get(0));
         levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : DataToInit.LEVEL_LIST.get(0));
         pack();
         setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName());
         setMinimumSize(new Dimension(800, 600));
         //两个屏幕处理出现问题，跳到主屏幕去了
         setLocationRelativeTo(WindowManager.getInstance().getFrame(this.project));
+        manualAssignerField.setEnabled(false);
         setVisible(true);
     }
 
@@ -211,14 +250,21 @@ public class CrCreateQuestionDialog extends JDialog {
      * 时候可以去远程拉去
      *
      * 建议，性能， 缺陷， 规范
+     *
+     * @param assignTo 指定人
      */
-    private void initBox() {
+    private void initBox(String assignTo) {
         for (String type : DataToInit.QUESTION_TYPE_LIST) {
             questionTypeBox.addItem(type);
         }
 
-        for (CrDeveloper developer : developerSet) {
-            toAccountBox.addItem(developer.getGitUserName());
+        if (StringUtils.isNotBlank(assignTo)) {
+            developerSet = ObjectUtils.defaultIfNull(developerSet, new HashSet<>(0));
+            developerSet.add(assignTo);
+        }
+
+        for (String developer : developerSet) {
+            selectAssignBox.addItem(developer);
         }
 
         for (String level : DataToInit.LEVEL_LIST) {

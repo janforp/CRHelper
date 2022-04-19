@@ -30,8 +30,8 @@ public class CrQuestionTable {
         raw[1] = question.getClassName();
         raw[2] = question.getType();
         raw[3] = question.getLevel();
-        raw[4] = question.getToAccount();
-        raw[5] = question.getFromAccount();
+        raw[4] = question.getAssignTo();
+        raw[5] = question.getAssignFrom();
         raw[6] = question.getState().getDesc();
         return raw;
     }

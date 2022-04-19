@@ -7,9 +7,12 @@ import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageFactory;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
+import org.apache.commons.lang3.ObjectUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 这一层主要负责存储数据
@@ -19,9 +22,11 @@ import java.util.Set;
  */
 public class QuestionRemote {
 
-    public static Set<CrDeveloper> queryProject(String projectName) {
+    public static Set<String> queryDeveloperNameSet(String projectName) {
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
-        return strategy.queryDeveloper(projectName);
+        Set<CrDeveloper> developerSet = strategy.queryDeveloper(projectName);
+        developerSet = ObjectUtils.defaultIfNull(developerSet, new HashSet<>(0));
+        return developerSet.stream().map(CrDeveloper::getRealName).collect(Collectors.toSet());
     }
 
     public static boolean add(CrQuestion question) {
