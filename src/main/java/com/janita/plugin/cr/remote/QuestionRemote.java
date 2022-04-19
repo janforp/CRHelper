@@ -1,7 +1,7 @@
 package com.janita.plugin.cr.remote;
 
 import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.cr.domain.CrProjectInfo;
+import com.janita.plugin.cr.domain.CrDeveloper;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
@@ -9,6 +9,7 @@ import com.janita.plugin.cr.remote.strategy.CrQuestionStorageFactory;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 这一层主要负责存储数据
@@ -18,9 +19,9 @@ import java.util.List;
  */
 public class QuestionRemote {
 
-    public static List<CrProjectInfo> queryProject(String gitUserName) {
+    public static Set<CrDeveloper> queryProject(String projectName) {
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
-        return strategy.queryProject(gitUserName);
+        return strategy.queryDeveloper(projectName);
     }
 
     public static boolean add(CrQuestion question) {

@@ -1,11 +1,13 @@
 package com.janita.plugin.cr.remote.strategy;
 
 import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.cr.domain.CrProjectInfo;
+import com.janita.plugin.cr.domain.CrDeveloper;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * CrQuestionStorage
@@ -15,11 +17,13 @@ import java.util.List;
  */
 public interface CrQuestionStorageStrategy {
 
-    List<CrProjectInfo> queryProject(String gitUserName);
-
     boolean add(CrQuestion question);
 
     boolean update(CrQuestion question);
 
     Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request);
+
+    default Set<CrDeveloper> queryDeveloper(String projectName) {
+        return new HashSet<>(0);
+    }
 }

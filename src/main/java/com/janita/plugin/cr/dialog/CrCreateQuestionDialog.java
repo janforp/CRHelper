@@ -6,6 +6,7 @@ import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
+import com.janita.plugin.cr.domain.CrDeveloper;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
@@ -17,6 +18,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Set;
 
 /**
  * 创建一个提问题的框
@@ -30,6 +32,11 @@ public class CrCreateQuestionDialog extends JDialog {
      * 工程
      */
     private final Project project;
+
+    /**
+     * 当前项目的开发者
+     */
+    private final Set<CrDeveloper> developerSet;
 
     /**
      * 问题
@@ -104,7 +111,8 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 新建
      */
-    public CrCreateQuestionDialog(Project project) {
+    public CrCreateQuestionDialog(Project project, Set<CrDeveloper> developerSet) {
+        this.developerSet = developerSet;
         this.update = false;
         this.project = project;
         setContentPane(contentPane);
@@ -151,8 +159,8 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 在列表上编辑
      */
-    public CrCreateQuestionDialog(Integer index, Project project) {
-        this(project);
+    public CrCreateQuestionDialog(Integer index, Project project, Set<CrDeveloper> developerSet) {
+        this(project, developerSet);
         this.update = true;
         this.editIndex = index;
     }
@@ -209,9 +217,10 @@ public class CrCreateQuestionDialog extends JDialog {
             questionTypeBox.addItem(type);
         }
 
-        for (String account : DataToInit.ACCOUNT_LIST) {
-            toAccountBox.addItem(account);
+        for (CrDeveloper developer : developerSet) {
+            toAccountBox.addItem(developer.getGitUserName());
         }
+
         for (String level : DataToInit.LEVEL_LIST) {
             levelBox.addItem(level);
         }
