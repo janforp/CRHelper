@@ -5,11 +5,15 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.domain.SelectTextOffLineHolder;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
+import com.janita.plugin.common.util.CompatibleUtils;
 import com.janita.plugin.common.util.DateUtils;
+import com.janita.plugin.common.util.GitUtils;
 import lombok.Data;
 import lombok.ToString;
 
@@ -153,23 +157,23 @@ public class CrQuestion {
     }
 
     public static CrQuestion newQuestion(AnActionEvent e) {
+        Project project = e.getRequiredData(CommonDataKeys.PROJECT);
+        VirtualFile virtualFile = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
         Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         Pair<Integer, Integer> startAndEndLine = CommonUtils.getStartAndEndLine(editor);
         SelectTextOffLineHolder holder = CommonUtils.getSelectTextOffLineHolder(editor);
         // 用户选择的文本
         String questionCode = CommonUtils.getSelectedText(e);
-        // 当前文件的名称
-        Pair<String, String> vcsPair = CommonUtils.getProjectNameAndBranchName(e);
 
         CrQuestion question = new CrQuestion();
-        question.setProjectName(vcsPair.getLeft());
+        question.setProjectName(CompatibleUtils.getProjectNameFromGitFirstThenFromLocal(project, virtualFile));
         question.setLineFrom(startAndEndLine.getLeft());
         question.setLineTo(startAndEndLine.getRight());
         question.setClassName(CommonUtils.getClassName(e));
         question.setQuestionCode(questionCode);
         question.setBetterCode(questionCode);
-        question.setFromAccount(CommonUtils.getGitUser(e).getName());
-        question.setGitBranchName(vcsPair.getRight());
+        question.setFromAccount(GitUtils.getGitUserName(project));
+        question.setGitBranchName(CompatibleUtils.getBranchNameFromGitFirstThenFromLocal(project, virtualFile));
         question.setState(CrQuestionState.UNSOLVED);
         question.setCreateTime(DateUtils.getCurrentDateTime());
         question.setDocumentStartLine(holder.getDocumentStartLine());

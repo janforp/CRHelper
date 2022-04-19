@@ -15,9 +15,9 @@
     <depends>Git4Idea</depends>
 
     <project-components>
-        <component>
-            <implementation-class>com.janita.plugin.cr.component.CrQueryProjectInfo</implementation-class>
-        </component>
+        <!--        <component>-->
+        <!--            <implementation-class>com.janita.plugin.cr.component.CrQueryProjectInfo</implementation-class>-->
+        <!--        </component>-->
     </project-components>
 
     <extensions defaultExtensionNs="com.intellij">

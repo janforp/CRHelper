@@ -9,7 +9,7 @@ package com.janita.plugin.common.constant;
 public class PersistentKeys {
 
     /**
-     * 项目信息缓存
+     * 项目名称缓存
      */
-    public static final String PROJECT_INFO_CACHE_KEY = "com.janita.plugin.projectInfoCacheKey";
+    public static final String PROJECT_NAME_CACHE_KEY = "com.janita.plugin.projectNameCacheKey";
 }

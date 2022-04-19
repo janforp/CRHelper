@@ -1,7 +1,5 @@
 package com.janita.plugin.common.util;
 
-import com.intellij.dvcs.repo.Repository;
-import com.intellij.dvcs.repo.VcsRepositoryManager;
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationDisplayType;
 import com.intellij.notification.NotificationGroup;
@@ -14,18 +12,16 @@ import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.MessageType;
-import com.intellij.openapi.vcs.ProjectLevelVcsManager;
-import com.intellij.openapi.vcs.VcsRoot;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.wm.WindowManager;
 import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.vcs.log.VcsUser;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.domain.SelectTextOffLineHolder;
-import git4idea.GitUserRegistry;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -34,9 +30,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
 import java.net.URL;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * CommonUtils
@@ -45,43 +38,6 @@ import java.util.Set;
  * @since 20220324
  */
 public class CommonUtils {
-
-    private static Repository getRepositoryOfCurrentFile(AnActionEvent e) {
-        Project project = e.getRequiredData(CommonDataKeys.PROJECT);
-        VcsRepositoryManager vcsRepositoryManager = VcsRepositoryManager.getInstance(project);
-        ProjectLevelVcsManager projectLevelVcsManager = ProjectLevelVcsManager.getInstance(project);
-        VirtualFile file = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
-        VcsRoot vcsRoot = projectLevelVcsManager.getVcsRootObjectFor(file);
-        if (vcsRoot == null) {
-            return null;
-        }
-        return vcsRepositoryManager.getRepositoryForRootQuick(vcsRoot.getPath());
-    }
-
-    private static Set<Repository> getAllRepositoryInProject(Project project) {
-        VcsRepositoryManager vcsRepositoryManager = VcsRepositoryManager.getInstance(project);
-        Collection<Repository> repositories = vcsRepositoryManager.getRepositories();
-        return new HashSet<>(repositories);
-    }
-
-    public static Set<String> getAllProjectName(Project project) {
-        Set<Repository> repositorySet = getAllRepositoryInProject(project);
-        Set<String> projectNameSet = new HashSet<>();
-        for (Repository repository : repositorySet) {
-            projectNameSet.add(repository.getRoot().getName());
-        }
-        return projectNameSet;
-    }
-
-    public static Pair<String, String> getProjectNameAndBranchName(AnActionEvent e) {
-        Repository repository = getRepositoryOfCurrentFile(e);
-        if (repository == null) {
-            return Pair.of("", "");
-        }
-        String projectName = repository.getRoot().getName();
-        String currentBranchName = repository.getCurrentBranchName();
-        return Pair.of(projectName, currentBranchName);
-    }
 
     public static SelectTextOffLineHolder getSelectTextOffLineHolder(Editor editor) {
         Document document = editor.getDocument();
@@ -137,12 +93,6 @@ public class CommonUtils {
     public static String getClassName(AnActionEvent e) {
         // 当前文件的名称
         return e.getRequiredData(CommonDataKeys.PSI_FILE).getViewProvider().getVirtualFile().getName();
-    }
-
-    public static VcsUser getGitUser(AnActionEvent e) {
-        Project project = e.getRequiredData(CommonDataKeys.PROJECT);
-        GitUserRegistry instance = GitUserRegistry.getInstance(project);
-        return instance.getOrReadUser(project.getBaseDir());
     }
 
     public static void setToClipboard(String text) {
@@ -227,5 +177,17 @@ public class CommonUtils {
             descriptor = new OpenFileDescriptor(project, virtualFile, indexOf);
         }
         descriptor.navigate(true);
+    }
+
+    public static Project getProject() {
+        Project[] projects = ProjectManager.getInstance().getOpenProjects();
+        Project activeProject = null;
+        for (Project project : projects) {
+            Window window = WindowManager.getInstance().suggestParentWindow(project);
+            if (window != null && window.isActive()) {
+                activeProject = project;
+            }
+        }
+        return activeProject;
     }
 }

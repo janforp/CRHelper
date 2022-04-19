@@ -10,6 +10,7 @@ import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.progress.AbstractProgressTask;
 import com.janita.plugin.common.progress.ProgressUtils;
 import com.janita.plugin.common.util.CommonUtils;
+import com.janita.plugin.common.util.CompatibleUtils;
 import com.janita.plugin.common.util.DateUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
@@ -43,6 +44,11 @@ import java.util.Set;
  * @since 20220428
  */
 public class CrQuestionListWindow extends JDialog {
+
+    /**
+     * 当前项目列表
+     */
+    private Set<String> projectNameSet;
 
     /**
      * 框架
@@ -85,9 +91,10 @@ public class CrQuestionListWindow extends JDialog {
     private final Project project;
 
     public CrQuestionListWindow(Project project, ToolWindow toolWindow) {
+        this.project = project;
+        this.projectNameSet = CompatibleUtils.getAllProjectNameFromGitFirstThenLocal(project);
         // 列表内容局中
         tableTextCenter();
-        this.project = project;
         initCrQuestionList();
 
         setContentPane(contentPane);
@@ -195,7 +202,6 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
-        Set<String> projectNameSet = CommonUtils.getAllProjectName(this.project);
         CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)), projectNameSet);
         CrQuestionHouse.refreshQuestionTable(request);
 
