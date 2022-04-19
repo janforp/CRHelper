@@ -14,12 +14,17 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 
+    <project-components>
+        <component>
+            <implementation-class>com.janita.plugin.cr.component.CrQueryProjectInfo</implementation-class>
+        </component>
+    </project-components>
+
     <extensions defaultExtensionNs="com.intellij">
         <!-- 添加右边的 CrQuestion 菜单 -->
         <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrDataStoragePersistent"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionPersistent"/>
-        <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrProjectInfoPersistent"/>
         <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>
     </extensions>
 

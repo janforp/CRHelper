@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.remote;
 
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.cr.domain.CrProjectInfo;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
@@ -16,6 +17,11 @@ import java.util.List;
  * @since 20220415
  */
 public class QuestionRemote {
+
+    public static List<CrProjectInfo> queryProject(String gitUserName) {
+        CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
+        return strategy.queryProject(gitUserName);
+    }
 
     public static boolean add(CrQuestion question) {
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());

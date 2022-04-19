@@ -7,7 +7,6 @@ import com.janita.plugin.cr.domain.CrDeveloper;
 import com.janita.plugin.cr.domain.CrProjectInfo;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import com.janita.plugin.cr.persistent.CrProjectInfoPersistent;
 import com.janita.plugin.cr.persistent.CrQuestionPersistent;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
 import org.apache.commons.lang3.ObjectUtils;
@@ -45,7 +44,6 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
             CrProjectInfo projectInfo = new CrProjectInfo(projectName, Sets.newHashSet(new CrDeveloper(null, null, "自己")));
             infoList.add(projectInfo);
         }
-        CrProjectInfoPersistent.getInstance().loadState(infoList);
         return infoList;
     }
 
