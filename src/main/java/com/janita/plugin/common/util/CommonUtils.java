@@ -12,6 +12,7 @@ import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.editor.SelectionModel;
 import com.intellij.openapi.fileEditor.FileEditor;
 import com.intellij.openapi.fileEditor.FileEditorManager;
+import com.intellij.openapi.fileEditor.OpenFileDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.MessageType;
@@ -20,6 +21,7 @@ import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.WindowManager;
+import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
@@ -194,5 +196,22 @@ public class CommonUtils {
             }
         }
         return activeProject;
+    }
+
+    public static void openFile(Project project, String fullPath) {
+        VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByPath(fullPath);
+        if (virtualFile == null) {
+            return;
+        }
+        FileEditor[] fileEditors = FileEditorManager.getInstance(project).openFile(virtualFile, true, true);
+        if (fileEditors.length == 0) {
+            return;
+        }
+        Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+        if (editor == null) {
+            return;
+        }
+        OpenFileDescriptor descriptor = new OpenFileDescriptor(project, virtualFile);
+        descriptor.navigate(true);
     }
 }

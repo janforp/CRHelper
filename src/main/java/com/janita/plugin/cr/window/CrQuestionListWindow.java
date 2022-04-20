@@ -197,6 +197,7 @@ public class CrQuestionListWindow extends JDialog {
         try {
             List<CrQuestionExportVO> exportList = CrQuestionUtils.processBeforeExport(crQuestionList);
             processor.process(fileName, fullPath, exportList);
+            CommonUtils.openFile(project, fullPath);
             CommonUtils.showNotification("导出成功", MessageType.INFO);
         } catch (Exception e) {
             CommonUtils.showNotification("导出失败，请联系相关人员处理", MessageType.ERROR);
