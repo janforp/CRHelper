@@ -1,9 +1,9 @@
 <#list questionList as question>
->###<font color = 'aqua'>${question_index + 1}.${question.projectName}-${question.gitBranchName}-${question.className}</font>
+>###<font color = 'aqua'>${question_index + 1}.${question.projectName}-${question.createGitBranchName}-${question.fileName}</font>
 >####问题类型
 >><font color = 'black'>${question.type}</font>
 >####指派给
->><font color = 'black'>${question.toAccount}</font>
+>><font color = 'black'>${question.assignTo}</font>
 >####级别
 >><font color = 'black'>${question.level}</font>
 >####状态
