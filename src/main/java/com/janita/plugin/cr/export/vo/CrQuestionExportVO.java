@@ -27,19 +27,9 @@ public class CrQuestionExportVO {
     private String type;
 
     /**
-     * 起始行
-     */
-    private Integer lineFrom;
-
-    /**
-     * 结束行
-     */
-    private Integer lineTo;
-
-    /**
      * 类名称
      */
-    private String className;
+    private String fileName;
 
     /**
      * 问题代码
@@ -59,12 +49,12 @@ public class CrQuestionExportVO {
     /**
      * 接收问题的人
      */
-    private String toAccount;
+    private String assignTo;
 
     /**
      * git分支名称
      */
-    private String gitBranchName;
+    private String createGitBranchName;
 
     /**
      * 状态
