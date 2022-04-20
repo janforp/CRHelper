@@ -33,10 +33,10 @@ public class CrQuestionUtils {
         for (CrQuestion question : crQuestionList) {
             CrQuestionExportVO clone = new CrQuestionExportVO();
             clone.setProjectName(StringUtils.defaultIfBlank(question.getProjectName(), "无"));
-            clone.setGitBranchName(StringUtils.defaultIfBlank(question.getGitBranchName(), "无"));
-            clone.setClassName(StringUtils.defaultIfBlank(question.getClassName(), "无"));
-            clone.setLineFrom(ObjectUtils.defaultIfNull(question.getLineFrom(), 0));
-            clone.setLineTo(ObjectUtils.defaultIfNull(question.getLineTo(), 0));
+            clone.setGitBranchName(StringUtils.defaultIfBlank(question.getCreateGitBranchName(), "无"));
+            clone.setClassName(StringUtils.defaultIfBlank(question.getFilePath(), "无"));
+            clone.setLineFrom(ObjectUtils.defaultIfNull(question.getOffsetStart(), 0));
+            clone.setLineTo(ObjectUtils.defaultIfNull(question.getOffsetEnd(), 0));
             clone.setType(StringUtils.defaultIfBlank(question.getType(), "无"));
             clone.setToAccount(StringUtils.defaultIfBlank(question.getAssignTo(), "无"));
             clone.setLevel(StringUtils.defaultIfBlank(question.getLevel(), "无"));

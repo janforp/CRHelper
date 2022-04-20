@@ -141,7 +141,7 @@ public class CrQuestionListWindow extends JDialog {
                 int button = mouseEvent.getButton();
                 if (button == MouseEvent.BUTTON1) {
                     CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
-                    CommonUtils.openFileAndLocationToText(project, question.getClassName(), question.getLineFrom(), question.getBetterCode());
+                    CommonUtils.openFileAndLocationToText(project, question.getFilePath(), question.getOffsetStart(), question.getBetterCode());
                 }
                 if (button == MouseEvent.BUTTON3) {
                     // 右键

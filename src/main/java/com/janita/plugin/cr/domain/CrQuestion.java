@@ -2,13 +2,9 @@ package com.janita.plugin.cr.domain;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.editor.SelectionModel;
-import com.intellij.openapi.editor.VisualPosition;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.common.domain.SelectTextOffLineHolder;
+import com.janita.plugin.common.domain.SelectFileInfo;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.CompatibleUtils;
@@ -31,14 +27,19 @@ public class CrQuestion {
     private Long id;
 
     /**
-     * 该问题的级别,类似复杂程度,数字越大问题越复杂
-     */
-    private String level;
-
-    /**
      * 项目名称
      */
     private String projectName;
+
+    /**
+     * 文件名称/路径
+     */
+    private String filePath;
+
+    /**
+     * 语言
+     */
+    private String language;
 
     /**
      * 问题类型
@@ -46,19 +47,25 @@ public class CrQuestion {
     private String type;
 
     /**
-     * 起始行
+     * 该问题的级别,类似复杂程度,数字越大问题越复杂
      */
-    private Integer lineFrom;
+    private String level;
 
     /**
-     * 结束行
+     * 状态
+     * 未解决,已解决,重复问题,已关闭
      */
-    private Integer lineTo;
+    private CrQuestionState state;
 
     /**
-     * 类名称
+     * 提出问题的人
      */
-    private String className;
+    private String assignFrom;
+
+    /**
+     * 接收问题的人
+     */
+    private String assignTo;
 
     /**
      * 问题代码
@@ -76,30 +83,14 @@ public class CrQuestion {
     private String desc;
 
     /**
-     * 提出问题的人
+     * 创建git分支名称
      */
-    private String assignFrom;
+    private String createGitBranchName;
 
     /**
-     * 接收问题的人
-     */
-    private String assignTo;
-
-    /**
-     * git分支名称
-     */
-    private String gitBranchName;
-
-    /**
-     * 解决版本
+     * 解决git分支名称
      */
     private String solveGitBranchName;
-
-    /**
-     * 状态
-     * 未解决,已解决,重复问题,已关闭
-     */
-    private CrQuestionState state;
 
     /**
      * 提问时间
@@ -112,45 +103,14 @@ public class CrQuestion {
     private String solveTime;
 
     /**
-     * 开始行
+     * 起始
      */
-    private int documentStartLine;
+    private Integer offsetStart;
 
     /**
-     * 开始行
+     * 结束行
      */
-    private int documentEndLine;
-
-    /**
-     * 开始offset
-     *
-     * @see SelectionModel#getLeadSelectionOffset()
-     */
-    private int leadSelectionOffset;
-
-    /**
-     * @see SelectionModel#getSelectionStartPosition()
-     * @see VisualPosition#getLine()
-     */
-    private int selectionStartPositionLine;
-
-    /**
-     * @see SelectionModel#getSelectionStartPosition()
-     * @see VisualPosition#getColumn()
-     */
-    private int selectionStartPositionColumn;
-
-    /**
-     * @see SelectionModel#getSelectionEndPosition()
-     * @see VisualPosition#getLine()
-     */
-    private int selectionEndPositionLine;
-
-    /**
-     * @see SelectionModel#getSelectionEndPosition()
-     * @see VisualPosition#getColumn()
-     */
-    private int selectionEndPositionColumn;
+    private Integer offsetEnd;
 
     private CrQuestion() {
         // empty
@@ -159,30 +119,21 @@ public class CrQuestion {
     public static CrQuestion newQuestion(AnActionEvent e) {
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         VirtualFile virtualFile = e.getRequiredData(CommonDataKeys.VIRTUAL_FILE);
-        Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
-        Pair<Integer, Integer> startAndEndLine = CommonUtils.getStartAndEndLine(editor);
-        SelectTextOffLineHolder holder = CommonUtils.getSelectTextOffLineHolder(editor);
-        // 用户选择的文本
-        String questionCode = CommonUtils.getSelectedText(e);
+        SelectFileInfo holder = CommonUtils.getSelectFileInfo(e);
 
         CrQuestion question = new CrQuestion();
         question.setProjectName(CompatibleUtils.getProjectNameFromGitFirstThenFromLocal(project, virtualFile));
-        question.setLineFrom(startAndEndLine.getLeft());
-        question.setLineTo(startAndEndLine.getRight());
-        question.setClassName(CommonUtils.getClassName(e));
-        question.setQuestionCode(questionCode);
-        question.setBetterCode(questionCode);
-        question.setAssignFrom(GitUtils.getGitUserName(project));
-        question.setGitBranchName(CompatibleUtils.getBranchNameFromGitFirstThenFromLocal(project, virtualFile));
+        question.setFilePath(holder.getFilePath());
+        question.setLanguage(holder.getLanguage());
         question.setState(CrQuestionState.UNSOLVED);
+        question.setAssignFrom(GitUtils.getGitUserName(project));
+        question.setQuestionCode(holder.getSelectedText());
+        question.setBetterCode(holder.getSelectedText());
+        question.setCreateGitBranchName(CompatibleUtils.getBranchNameFromGitFirstThenFromLocal(project, virtualFile));
         question.setCreateTime(DateUtils.getCurrentDateTime());
-        question.setDocumentStartLine(holder.getDocumentStartLine());
-        question.setDocumentEndLine(holder.getDocumentEndLine());
-        question.setLeadSelectionOffset(holder.getLeadSelectionOffset());
-        question.setSelectionStartPositionLine(holder.getSelectionEndPositionLine());
-        question.setSelectionStartPositionColumn(holder.getSelectionEndPositionColumn());
-        question.setSelectionEndPositionLine(holder.getSelectionStartPositionLine());
-        question.setSelectionEndPositionColumn(holder.getSelectionEndPositionColumn());
+
+        question.setOffsetStart(holder.getOffsetStart());
+        question.setOffsetEnd(holder.getOffsetEnd());
         return question;
     }
 }

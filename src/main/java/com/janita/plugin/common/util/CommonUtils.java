@@ -21,7 +21,7 @@ import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.common.domain.SelectTextOffLineHolder;
+import com.janita.plugin.common.domain.SelectFileInfo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -39,34 +39,29 @@ import java.net.URL;
  */
 public class CommonUtils {
 
-    public static SelectTextOffLineHolder getSelectTextOffLineHolder(Editor editor) {
-        Document document = editor.getDocument();
+    public static SelectFileInfo getSelectFileInfo(AnActionEvent e) {
+        PsiFile psiFile = e.getRequiredData(CommonDataKeys.PSI_FILE);
+        Editor editor = e.getRequiredData(CommonDataKeys.EDITOR);
         SelectionModel selectionModel = editor.getSelectionModel();
         String selectedText = selectionModel.getSelectedText();
-        int leadSelectionOffset = selectionModel.getLeadSelectionOffset();
-        int documentStartLine = document.getLineNumber(leadSelectionOffset);
-        VisualPosition startPosition = selectionModel.getSelectionStartPosition();
-        if (startPosition == null) {
-            startPosition = new VisualPosition(0, 0);
-        }
-        VisualPosition endPosition = selectionModel.getSelectionEndPosition();
-        if (endPosition == null) {
-            endPosition = new VisualPosition(0, 0);
-        }
-        SelectTextOffLineHolder holder = SelectTextOffLineHolder.builder()
+        int offsetStart = selectionModel.getSelectionStart();
+        int offsetEnd = selectionModel.getSelectionEnd();
+        // 虚拟文件
+        VirtualFile virtualFile = psiFile.getVirtualFile();
+        // 获取文件类型,而非后缀
+        String language = psiFile.getLanguage().getDisplayName().toLowerCase();
+        // 获取文件的路径
+        String filePath = virtualFile.getPath();
+        String fileName = virtualFile.getName();
+
+        return SelectFileInfo.builder()
+                .language(language)
+                .filePath(filePath)
+                .fileName(fileName)
                 .selectedText(selectedText)
-                .documentStartLine(documentStartLine)
-                .documentEndLine(0)
-                .leadSelectionOffset(leadSelectionOffset)
-                .selectionStartPositionLine(startPosition.getLine())
-                .selectionStartPositionColumn(startPosition.getColumn())
-                .selectionEndPositionLine(endPosition.getLine())
-                .selectionEndPositionColumn(endPosition.getColumn())
-                .fileFullName(null)
+                .offsetStart(offsetStart)
+                .offsetEnd(offsetEnd)
                 .build();
-        int documentEndLine = holder.getDocumentEndLine();
-        holder.setDocumentEndLine(documentEndLine);
-        return holder;
     }
 
     public static Pair<Integer, Integer> getStartAndEndLine(Editor editor) {

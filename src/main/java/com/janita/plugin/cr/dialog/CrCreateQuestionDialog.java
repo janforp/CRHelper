@@ -208,10 +208,10 @@ public class CrCreateQuestionDialog extends JDialog {
     private void rebuildQuestionWhenSave() {
         question.setType((String) questionTypeBox.getSelectedItem());
         question.setState(CrQuestionState.getByDesc((String) stateBox.getSelectedItem()));
-        question.setBetterCode(betterCodeArea.getText());
-        question.setDesc(descArea.getText());
         question.setLevel((String) levelBox.getSelectedItem());
         question.setAssignTo(getAssigner());
+        question.setBetterCode(betterCodeArea.getText());
+        question.setDesc(descArea.getText());
     }
 
     private String getAssigner() {
@@ -238,7 +238,7 @@ public class CrCreateQuestionDialog extends JDialog {
         selectAssignBox.setSelectedItem(question.getAssignTo() != null ? question.getAssignTo() : new ArrayList<>(developerSet).get(0));
         levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : DataToInit.LEVEL_LIST.get(0));
         pack();
-        setTitle(question.getProjectName() + "-" + question.getGitBranchName() + "-" + question.getClassName());
+        setTitle(question.getProjectName() + "-" + question.getCreateGitBranchName() + "-" + question.getFilePath());
         setMinimumSize(new Dimension(800, 600));
         //两个屏幕处理出现问题，跳到主屏幕去了
         setLocationRelativeTo(WindowManager.getInstance().getFrame(this.project));
