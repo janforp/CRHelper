@@ -21,11 +21,11 @@ import com.intellij.openapi.vfs.JarFileSystem;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.WindowManager;
-import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.janita.plugin.common.domain.SelectFileInfo;
+import lombok.experimental.UtilityClass;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +42,8 @@ import java.util.Objects;
  * @author zhucj
  * @since 20220324
  */
+@UtilityClass
+@SuppressWarnings("unused")
 public class CommonUtils {
 
     public static SelectFileInfo getSelectFileInfo(AnActionEvent e) {
