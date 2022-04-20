@@ -37,6 +37,11 @@ public class CrQuestion {
     private String filePath;
 
     /**
+     * 名称
+     */
+    private String fileName;
+
+    /**
      * 语言
      */
     private String language;
@@ -124,6 +129,7 @@ public class CrQuestion {
         CrQuestion question = new CrQuestion();
         question.setProjectName(CompatibleUtils.getProjectNameFromGitFirstThenFromLocal(project, virtualFile));
         question.setFilePath(holder.getFilePath());
+        question.setFileName(holder.getFileName());
         question.setLanguage(holder.getLanguage());
         question.setState(CrQuestionState.UNSOLVED);
         question.setAssignFrom(GitUtils.getGitUserName(project));

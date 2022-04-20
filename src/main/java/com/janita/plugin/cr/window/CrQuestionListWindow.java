@@ -140,8 +140,9 @@ public class CrQuestionListWindow extends JDialog {
                 questionTable.setRowSelectionInterval(row, row);
                 int button = mouseEvent.getButton();
                 if (button == MouseEvent.BUTTON1) {
+                    // 左键点击一下，打开对应文件，并且选中文本
                     CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
-                    CommonUtils.openFileAndLocationToText(project, question.getFilePath(), question.getOffsetStart(), question.getBetterCode());
+                    CommonUtils.openFileAndLocationToText(project, question.getFilePath(), question.getFileName(), question.getOffsetStart(), question.getOffsetEnd(), question.getBetterCode());
                 }
                 if (button == MouseEvent.BUTTON3) {
                     // 右键

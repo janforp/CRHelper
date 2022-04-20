@@ -8,19 +8,21 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.editor.Document;
 import com.intellij.openapi.editor.Editor;
+import com.intellij.openapi.editor.ScrollType;
 import com.intellij.openapi.editor.SelectionModel;
-import com.intellij.openapi.editor.VisualPosition;
-import com.intellij.openapi.fileEditor.OpenFileDescriptor;
+import com.intellij.openapi.fileEditor.FileEditor;
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.ui.MessageType;
+import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.vfs.JarFileSystem;
+import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.WindowManager;
-import com.intellij.psi.PsiDocumentManager;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.search.FilenameIndex;
 import com.intellij.psi.search.GlobalSearchScope;
-import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.domain.SelectFileInfo;
 
 import javax.swing.*;
@@ -30,6 +32,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.util.Objects;
 
 /**
  * CommonUtils
@@ -62,20 +65,6 @@ public class CommonUtils {
                 .offsetStart(offsetStart)
                 .offsetEnd(offsetEnd)
                 .build();
-    }
-
-    public static Pair<Integer, Integer> getStartAndEndLine(Editor editor) {
-        SelectionModel selectionModel = editor.getSelectionModel();
-        VisualPosition startPosition = selectionModel.getSelectionStartPosition();
-        VisualPosition endPosition = selectionModel.getSelectionEndPosition();
-        int startLine = 0, endLine = 0;
-        if (startPosition != null) {
-            startLine = startPosition.getLine();
-        }
-        if (endPosition != null) {
-            endLine = endPosition.getLine();
-        }
-        return Pair.of(startLine, endLine);
     }
 
     public static String getSelectedText(AnActionEvent e) {
@@ -151,27 +140,48 @@ public class CommonUtils {
     /**
      * 根据文件名称，打开该文件
      */
-    public static void openFileAndLocationToText(Project project, String fileName, Integer lineStart, String locationText) {
-        PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, fileName, GlobalSearchScope.allScope(project));
-        if (psiFiles.length == 0) {
+    public static void openFileAndLocationToText(Project project, String filePath, String fileName, Integer offsetStart, Integer offsetEnd, String locationText) {
+        VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByPath(filePath);
+        if (virtualFile == null) {
+            virtualFile = JarFileSystem.getInstance().findFileByPath(filePath);
+        }
+        if (virtualFile == null) {
+            PsiFile[] psiFiles = FilenameIndex.getFilesByName(project, fileName, GlobalSearchScope.allScope(project));
+            if (psiFiles.length != 0) {
+                PsiFile psiFile = psiFiles[0];
+                virtualFile = psiFile.getVirtualFile();
+            }
+        }
+        if (virtualFile == null) {
             return;
         }
-        PsiFile psiFile = psiFiles[0];
-        // 光标移动到指定位置
-        VirtualFile virtualFile = psiFile.getVirtualFile();
-
-        PsiDocumentManager documentManager = PsiDocumentManager.getInstance(project);
-        Document document = documentManager.getDocument(psiFile);
-        OpenFileDescriptor descriptor;
-        if (document == null) {
-            descriptor = new OpenFileDescriptor(project, virtualFile, lineStart, 0);
-            descriptor.navigate(true);
-        } else {
-            String text = document.getText();
-            int indexOf = text.indexOf(locationText);
-            descriptor = new OpenFileDescriptor(project, virtualFile, indexOf);
+        FileEditor[] fileEditors = FileEditorManager.getInstance(project).openFile(virtualFile, true, true);
+        if (fileEditors.length == 0) {
+            return;
         }
-        descriptor.navigate(true);
+        Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+        if (editor == null) {
+            return;
+        }
+        Document document = editor.getDocument();
+        int maxLen = document.getTextLength();
+        String textInScope = document.getText(new TextRange(offsetStart, offsetEnd));
+        boolean contentEquals = Objects.equals(locationText, textInScope);
+        if (!contentEquals) {
+            String trim = locationText.trim();
+            int index = document.getText().indexOf(trim);
+            if (index >= 0) {
+                int space = offsetEnd - offsetStart;
+                offsetStart = index;
+                offsetEnd = index + (space > 0 ? trim.length() : -trim.length());
+                contentEquals = true;
+            }
+        }
+        if (contentEquals && offsetStart < maxLen && offsetEnd <= maxLen) {
+            editor.getCaretModel().moveToOffset(offsetStart, true);
+            editor.getSelectionModel().setSelection(offsetStart, offsetEnd);
+            editor.getScrollingModel().scrollToCaret(ScrollType.CENTER_UP);
+        }
     }
 
     public static Project getProject() {
