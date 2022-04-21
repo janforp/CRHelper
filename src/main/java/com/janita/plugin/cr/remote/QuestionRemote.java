@@ -7,6 +7,7 @@ import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageFactory;
 import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
+import com.janita.plugin.cr.remote.strategy.impl.SqliteStrategy;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.util.HashSet;
@@ -30,16 +31,20 @@ public class QuestionRemote {
     }
 
     public static boolean add(CrQuestion question) {
+        new SqliteStrategy().add(question);
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
         return strategy.add(question);
     }
 
     public static boolean update(CrQuestion question) {
+        new SqliteStrategy().add(question);
+        new SqliteStrategy().update(question);
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
         return strategy.update(question);
     }
 
     public static Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
+        Pair<Boolean, List<CrQuestion>> query = new SqliteStrategy().query(request);
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
         return strategy.query(request);
     }

@@ -108,14 +108,15 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
                 + "    create_time            TEXT, "
                 + "    solve_time             TEXT, "
                 + "    offset_start           TEXT, "
-                + "    offset_end             TEXT"
+                + "    offset_end             TEXT, "
+                + "    is_delete            INTEGER "
                 + ") ";
 
         try {
             QueryRunner queryRunner = new QueryRunner(getSource());
             queryRunner.update(createQuestionSQL);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

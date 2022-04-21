@@ -116,6 +116,16 @@ public abstract class BaseDAO<T> {
         return count;
     }
 
+    public Integer update(Connection connection, String sql) {
+        int count = 0;
+        try {
+            count = queryRunner.update(connection, sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     //修改多个对象的id;
     public void updateBatch(Connection conn, String sql, Object[][] args) {
         try {

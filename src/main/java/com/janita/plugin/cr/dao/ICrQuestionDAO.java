@@ -13,9 +13,9 @@ import java.util.List;
  */
 public interface ICrQuestionDAO {
 
-    void batchInsert(List<CrQuestion> questionList);
+    void insert(CrQuestion question);
 
-    void batchUpdate(List<CrQuestion> questionList);
+    void update(CrQuestion question);
 
     void batchDelete(List<Integer> questionIdList);
 
