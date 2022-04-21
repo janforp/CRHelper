@@ -37,14 +37,13 @@ public class QuestionRemote {
     }
 
     public static boolean update(CrQuestion question) {
-        new SqliteStrategy().add(question);
         new SqliteStrategy().update(question);
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
         return strategy.update(question);
     }
 
     public static Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
-        Pair<Boolean, List<CrQuestion>> query = new SqliteStrategy().query(request);
+        new SqliteStrategy().query(request);
         CrQuestionStorageStrategy strategy = CrQuestionStorageFactory.getCrQuestionStorage(CrDataStoragePersistent.getPersistentData().getStorageWay());
         return strategy.query(request);
     }
