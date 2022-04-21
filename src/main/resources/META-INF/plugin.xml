@@ -14,11 +14,11 @@
     <depends>com.intellij.modules.lang</depends>
     <depends>Git4Idea</depends>
 
-    <project-components>
-        <!--        <component>-->
-        <!--            <implementation-class>com.janita.plugin.cr.component.CrQueryProjectInfo</implementation-class>-->
-        <!--        </component>-->
-    </project-components>
+    <application-components>
+        <component>
+            <implementation-class>com.janita.plugin.cr.component.CrQuestionApplication</implementation-class>
+        </component>
+    </application-components>
 
     <extensions defaultExtensionNs="com.intellij">
         <!-- 添加右边的 CrQuestion 菜单 -->
@@ -27,8 +27,10 @@
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionPersistent"/>
         <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>
 
-        <!--        sqlit 数据库-->
+        <!-- sqlit 数据库-->
         <applicationService serviceImplementation="com.janita.plugin.db.impl.SqliteDatabaseServiceImpl"/>
+        <!-- mysql 数据库-->
+        <applicationService serviceImplementation="com.janita.plugin.db.impl.MySqlDatabaseServiceImpl"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.service.CrQuestionService"/>
     </extensions>
 

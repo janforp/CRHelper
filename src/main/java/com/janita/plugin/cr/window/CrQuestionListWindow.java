@@ -1,7 +1,6 @@
 package com.janita.plugin.cr.window;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
@@ -19,7 +18,7 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
 import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
-import com.janita.plugin.cr.remote.QuestionRemote;
+import com.janita.plugin.cr.service.CrQuestionService;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
 import com.janita.plugin.cr.window.table.CrQuestionTable;
@@ -121,11 +120,11 @@ public class CrQuestionListWindow extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 String projectName = (String) projectBox.getSelectedItem();
                 CrQuestionState state = CrQuestionState.getByDesc((String) stateBox.getSelectedItem());
-                CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(state)), projectName);
+                CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectName, new HashSet<>(Collections.singletonList(state)));
                 ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
                     @Override
                     public void doProcess() {
-                        CrQuestionHouse.refreshQuestionTable(request);
+                        CrQuestionHouse.rerenderTable(request);
                     }
                 });
             }
@@ -207,8 +206,8 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
-        CrQuestionQueryRequest request = new CrQuestionQueryRequest(new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)), projectNameList.get(0));
-        CrQuestionHouse.refreshQuestionTable(request);
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectNameList.get(0), new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)));
+        CrQuestionHouse.rerenderTable(request);
 
         for (CrQuestionState state : CrQuestionState.values()) {
             stateBox.addItem(state.getDesc());
@@ -251,7 +250,7 @@ public class CrQuestionListWindow extends JDialog {
 
     private void showQuestionDetailDialog(int row) {
         CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
-        Set<String> developerSet = QuestionRemote.queryDeveloperNameSet(question.getProjectName());
+        Set<String> developerSet = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project, developerSet);
         dialog.open(question);
     }

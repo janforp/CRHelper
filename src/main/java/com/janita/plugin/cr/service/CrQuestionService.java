@@ -1,12 +1,19 @@
 package com.janita.plugin.cr.service;
 
+import com.google.common.collect.Sets;
 import com.intellij.openapi.application.ApplicationManager;
-import com.janita.plugin.cr.dao.CrQuestionDAOSqlite;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.dao.CrQuestionDAOFactory;
+import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * CrQuestionService
@@ -25,23 +32,43 @@ public class CrQuestionService {
     private CrQuestionService() {
     }
 
-    public void insert(CrQuestion crQuestion) {
-        CrQuestionDAOSqlite crQuestionDAO = CrQuestionDAOFactory.getDAO();
-        crQuestionDAO.insert(crQuestion);
+    public boolean insert(CrQuestion crQuestion) {
+        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        return crQuestionDAO.insert(crQuestion);
     }
 
-    public void update(CrQuestion crQuestion) {
-        CrQuestionDAOSqlite crQuestionDAO = CrQuestionDAOFactory.getDAO();
+    public boolean update(CrQuestion crQuestion) {
+        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
         crQuestionDAO.update(crQuestion);
+        return true;
     }
 
-    public void batchDelete(List<Integer> questionIdList) {
-        CrQuestionDAOSqlite crQuestionDAO = CrQuestionDAOFactory.getDAO();
-        crQuestionDAO.batchDelete(questionIdList);
+    public boolean batchDelete(List<Integer> questionIdList) {
+        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        return crQuestionDAO.batchDelete(questionIdList);
     }
 
-    public List<CrQuestion> query(CrQuestionQueryRequest request) {
-        CrQuestionDAOSqlite crQuestionDAO = CrQuestionDAOFactory.getDAO();
+    public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
+        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
         return crQuestionDAO.query(request);
+    }
+
+    public Set<String> queryAssignName(String projectName) {
+        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest();
+        request.setProjectName(projectName);
+        Pair<Boolean, List<CrQuestion>> pair = crQuestionDAO.query(request);
+        if (BooleanUtils.isNotTrue(pair.getLeft())) {
+            return Sets.newHashSet("--请手动指派--");
+        }
+        List<CrQuestion> list = pair.getRight();
+        if (CollectionUtils.isEmpty(list)) {
+            return Sets.newHashSet("--请手动指派--");
+        }
+        Set<String> collect = list.stream().map(CrQuestion::getAssignTo).filter(Objects::nonNull).collect(Collectors.toSet());
+        if (CollectionUtils.isEmpty(collect)) {
+            return Sets.newHashSet("--请手动指派--");
+        }
+        return collect;
     }
 }

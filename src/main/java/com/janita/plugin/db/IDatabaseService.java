@@ -3,8 +3,6 @@ package com.janita.plugin.db;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
 /**
  * IDatabaseService
@@ -35,10 +33,6 @@ public interface IDatabaseService {
 
     /**
      * 释放资源
-     *
-     * @param conn 链接
-     * @param statement 语句
-     * @param rs 结果
      */
-    void closeResource(Connection conn, Statement statement, ResultSet rs);
+    void closeResource();
 }

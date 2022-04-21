@@ -36,6 +36,13 @@ public enum CrDataStorageEnum {
         }
     },
 
+    SQLITE_DB(true, "本地sqlite数据库") {
+        @Override
+        public ValidationInfo check(JTextField... fields) {
+            return null;
+        }
+    },
+
     DB(false, "数据库") {
         @Override
         public ValidationInfo check(JTextField... fields) {

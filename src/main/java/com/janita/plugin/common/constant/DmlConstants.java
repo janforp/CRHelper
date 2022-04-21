@@ -1,4 +1,4 @@
-package com.janita.plugin.cr.dao;
+package com.janita.plugin.common.constant;
 
 import lombok.experimental.UtilityClass;
 

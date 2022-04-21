@@ -3,10 +3,10 @@ package com.janita.plugin.cr.window.table;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
-import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import com.janita.plugin.cr.remote.QuestionRemote;
+import com.janita.plugin.cr.service.CrQuestionService;
+import org.fest.util.Lists;
 
 import java.util.List;
 
@@ -19,8 +19,8 @@ import java.util.List;
 public class CrQuestionHouse {
 
     public static void add(CrQuestion question) {
-        boolean add = QuestionRemote.add(question);
-        if (!add) {
+        boolean success = CrQuestionService.getInstance().insert(question);
+        if (!success) {
             return;
         }
         CrQuestionTable.getCrQuestionList().add(question);
@@ -29,7 +29,7 @@ public class CrQuestionHouse {
     }
 
     public static void delete(int row, CrQuestion question) {
-        boolean update = QuestionRemote.update(question);
+        boolean update = CrQuestionService.getInstance().batchDelete(Lists.newArrayList(question.getId()));
         if (!update) {
             return;
         }
@@ -39,7 +39,7 @@ public class CrQuestionHouse {
     }
 
     public static void update(Integer editIndex, CrQuestion question) {
-        boolean update = QuestionRemote.update(question);
+        boolean update = CrQuestionService.getInstance().update(question);
         if (!update) {
             return;
         }
@@ -49,12 +49,8 @@ public class CrQuestionHouse {
         CrQuestionTable.TABLE_MODEL.insertRow(editIndex, raw);
     }
 
-    public static void refreshQuestionTable(CrQuestionQueryRequest request) {
-        boolean clickOk = CrQuestionStorageDialog.checkStorageAndReturnIfClickOk(false);
-        if (!clickOk) {
-            return;
-        }
-        Pair<Boolean, List<CrQuestion>> pair = QuestionRemote.query(request);
+    public static void rerenderTable(CrQuestionQueryRequest request) {
+        Pair<Boolean, List<CrQuestion>> pair = CrQuestionService.getInstance().query(request);
         if (!pair.getLeft()) {
             return;
         }

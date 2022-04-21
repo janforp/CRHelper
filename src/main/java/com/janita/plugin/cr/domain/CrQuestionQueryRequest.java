@@ -3,6 +3,7 @@ package com.janita.plugin.cr.domain;
 import com.janita.plugin.common.enums.CrQuestionState;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Set;
@@ -14,15 +15,16 @@ import java.util.Set;
 @Data
 @ToString
 @AllArgsConstructor
+@NoArgsConstructor
 public class CrQuestionQueryRequest {
-
-    /**
-     * 状态
-     */
-    private final Set<CrQuestionState> stateSet;
 
     /**
      * 当前 project 下的所有仓库名称
      */
-    private final String projectName;
+    private String projectName;
+
+    /**
+     * 状态
+     */
+    private Set<CrQuestionState> stateSet;
 }

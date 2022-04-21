@@ -9,9 +9,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 /**
  * SqliteDatabaseServiceImpl
@@ -25,7 +23,7 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
 
     private static final String DATABASE_URL = "jdbc:sqlite:" + PluginConstant.DB_FILE_PATH;
 
-    public static SqliteDatabaseServiceImpl getInstance() {
+    public static IDatabaseService getInstance() {
         return ApplicationManager.getApplication().getService(SqliteDatabaseServiceImpl.class);
     }
 
@@ -136,28 +134,14 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
     }
 
     @Override
-    public void closeResource(Connection conn, Statement statement, ResultSet rs) {
-        return;
-//        if (rs != null) {
-        //            try {
-        //                rs.close();
-        //            } catch (SQLException e) {
-        //                e.printStackTrace();
-        //            }
-        //        }
-        //        if (statement != null) {
-        //            try {
-        //                statement.close();
-        //            } catch (SQLException e) {
-        //                e.printStackTrace();
-        //            }
-        //        }
-        //        if (conn != null) {
-        //            try {
-        //                conn.close();
-        //            } catch (SQLException e) {
-        //                e.printStackTrace();
-        //            }
-        //        }
+    public void closeResource() {
+        if (connection == null) {
+            return;
+        }
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -1,12 +1,16 @@
-package com.janita.plugin.cr.dao;
+package com.janita.plugin.cr.dao.impl;
 
+import com.janita.plugin.common.constant.DmlConstants;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
+import com.janita.plugin.cr.dao.BaseDAO;
+import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.db.IDatabaseService;
 import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -21,35 +25,43 @@ import java.util.stream.Collectors;
  * @since 20220324
  */
 @SuppressWarnings("unused")
-public class CrQuestionDAOSqlite extends BaseDAO<CrQuestion> implements ICrQuestionDAO {
+public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuestionDAO {
 
     private static final IDatabaseService SQLITE_DATA = SqliteDatabaseServiceImpl.getInstance();
 
-    public static CrQuestionDAOSqlite getInstance() {
-        return new CrQuestionDAOSqlite();
+    public static CrQuestionSqliteDAO getInstance() {
+        return new CrQuestionSqliteDAO();
     }
 
-    public void insert(CrQuestion question) {
+    public boolean insert(CrQuestion question) {
         Connection connection = SQLITE_DATA.getConnection();
         try {
-            update(connection, DmlConstants.INSERT_SQL,
+            boolean success = update(connection, DmlConstants.INSERT_SQL,
                     question.getId(), question.getProjectName(), question.getFilePath(), question.getFileName(),
                     question.getLanguage(), question.getType(), question.getLevel(), question.getState(),
                     question.getAssignFrom(), question.getAssignTo(), question.getQuestionCode(), question.getBetterCode(),
                     question.getDescription(), question.getCreateGitBranchName(), question.getSolveGitBranchName(), question.getCreateTime(),
                     question.getSolveTime(), question.getOffsetStart(), question.getOffsetEnd());
+            if (!success) {
+                return false;
+            }
+            Pair<Boolean, Integer> pair = getValue(connection, DmlConstants.LAST_INSERT_ROW_ID);
+            if (BooleanUtils.isNotTrue(pair.getLeft())) {
+                return false;
+            }
+            question.setId(pair.getRight());
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            SQLITE_DATA.closeResource(connection, null, null);
+            return false;
         }
     }
 
     @Override
-    public void update(CrQuestion note) {
+    public boolean update(CrQuestion note) {
         Connection connection = SQLITE_DATA.getConnection();
         try {
-            update(connection, DmlConstants.UPDATE_SQL,
+            return update(connection, DmlConstants.UPDATE_SQL,
                     note.getProjectName(), note.getFilePath(), note.getFileName(), note.getLanguage(),
                     note.getType(), note.getLevel(), note.getState(), note.getAssignFrom(),
                     note.getAssignTo(), note.getQuestionCode(), note.getBetterCode(), note.getDescription(),
@@ -57,20 +69,18 @@ public class CrQuestionDAOSqlite extends BaseDAO<CrQuestion> implements ICrQuest
                     note.getOffsetEnd(), note.getId());
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            SQLITE_DATA.closeResource(connection, null, null);
+            return false;
         }
     }
 
     @Override
-    public void batchDelete(List<Integer> questionIdList) {
+    public boolean batchDelete(List<Integer> questionIdList) {
         if (CollectionUtils.isEmpty(questionIdList)) {
-            return;
+            return true;
         }
         Connection connection = SQLITE_DATA.getConnection();
         if (questionIdList.size() == 1) {
-            update(connection, DmlConstants.DELETE_SQL, questionIdList.get(0));
-            return;
+            return update(connection, DmlConstants.DELETE_SQL, questionIdList.get(0));
         }
         int size = questionIdList.size();
         Object[][] args = new Object[size][1];
@@ -78,26 +88,28 @@ public class CrQuestionDAOSqlite extends BaseDAO<CrQuestion> implements ICrQuest
             Integer id = questionIdList.get(i);
             args[i][0] = id;
         }
-        updateBatch(connection, DmlConstants.DELETE_SQL, args);
+        return updateBatch(connection, DmlConstants.DELETE_SQL, args);
     }
 
     @Override
-    public List<CrQuestion> query(CrQuestionQueryRequest request) {
+    public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         Set<CrQuestionState> stateSet = request.getStateSet();
         Connection connection = SQLITE_DATA.getConnection();
         try {
             List<CrQuestion> questionList = queryList(connection, DmlConstants.QUERY_SAL, request.getProjectName());
             if (CollectionUtils.isEmpty(questionList)) {
-                return new ArrayList<>(0);
+                return Pair.of(true, new ArrayList<>(0));
             }
             if (CollectionUtils.isEmpty(stateSet)) {
-                return questionList;
+                return Pair.of(true, questionList);
+
             }
-            return questionList.stream().filter(item -> stateSet.contains(item.getState())).collect(Collectors.toList());
+            List<CrQuestion> list = questionList.stream().filter(item -> stateSet.contains(CrQuestionState.getByDesc(item.getState()))).collect(Collectors.toList());
+            return Pair.of(true, list);
         } catch (Exception e) {
             e.printStackTrace();
+            return Pair.of(false, new ArrayList<>(0));
         }
-        return null;
     }
 
     private void doInsert(Connection connection, List<CrQuestion> questionList) {

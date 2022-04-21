@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.dao;
 
+import com.janita.plugin.common.domain.Pair;
 import org.apache.commons.dbutils.BasicRowProcessor;
 import org.apache.commons.dbutils.BeanProcessor;
 import org.apache.commons.dbutils.GenerousBeanProcessor;
@@ -22,7 +23,7 @@ import java.util.List;
  *
  * @param <T>
  */
-@SuppressWarnings("unchecked")
+@SuppressWarnings({ "unchecked", "unused" })
 public abstract class BaseDAO<T> {
 
     private final Class<T> clazz;
@@ -50,6 +51,18 @@ public abstract class BaseDAO<T> {
             e.printStackTrace();
         }
         return result;
+    }
+
+    public <E> Pair<Boolean, E> getValue(Connection conn, String sql) {
+        E result = null;
+        ScalarHandler<E> handler = new ScalarHandler<E>();
+        try {
+            result = queryRunner.query(conn, sql, handler);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Pair.of(false, null);
+        }
+        return Pair.of(true, result);
     }
 
     //查询多个对象--ver3.0
@@ -106,14 +119,14 @@ public abstract class BaseDAO<T> {
     }
 
     //增删改 通用--ver3.0
-    public Integer update(Connection conn, String sql, Object... args) {
-        int count = 0;
+    public boolean update(Connection conn, String sql, Object... args) {
         try {
-            count = queryRunner.update(conn, sql, args);
+            queryRunner.update(conn, sql, args);
         } catch (SQLException e) {
             e.printStackTrace();
+            return false;
         }
-        return count;
+        return true;
     }
 
     public Integer update(Connection connection, String sql) {
@@ -127,11 +140,13 @@ public abstract class BaseDAO<T> {
     }
 
     //修改多个对象的id;
-    public void updateBatch(Connection conn, String sql, Object[][] args) {
+    public boolean updateBatch(Connection conn, String sql, Object[][] args) {
         try {
             queryRunner.batch(conn, sql, args);
         } catch (SQLException throwables) {
             throwables.printStackTrace();
+            return false;
         }
+        return true;
     }
 }

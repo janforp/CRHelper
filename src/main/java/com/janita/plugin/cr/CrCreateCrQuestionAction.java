@@ -8,7 +8,7 @@ import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.remote.QuestionRemote;
+import com.janita.plugin.cr.service.CrQuestionService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -28,7 +28,7 @@ public class CrCreateCrQuestionAction extends AnAction {
         }
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         CrQuestion question = CrQuestion.newQuestion(e);
-        Set<String> developerSet = QuestionRemote.queryDeveloperNameSet(question.getProjectName());
+        Set<String> developerSet = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
         CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project, developerSet);
         CommonUtils.setToClipboard(question.getQuestionCode());
         dialog.open(question);

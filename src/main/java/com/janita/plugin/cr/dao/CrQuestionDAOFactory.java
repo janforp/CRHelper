@@ -1,6 +1,9 @@
 package com.janita.plugin.cr.dao;
 
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.cr.dao.impl.CrQuestionIdeaCacheDAO;
+import com.janita.plugin.cr.dao.impl.CrQuestionSqliteDAO;
+import com.janita.plugin.cr.domain.CrDataStorage;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
 
 /**
@@ -11,13 +14,23 @@ import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
  */
 public class CrQuestionDAOFactory {
 
-    private static final CrQuestionDAOSqlite crQuestionDAO = new CrQuestionDAOSqlite();
+    private static final ICrQuestionDAO sqliteDAO = new CrQuestionSqliteDAO();
 
-    public static CrQuestionDAOSqlite getDAO() {
-        CrDataStorageEnum storageWay = CrDataStoragePersistent.getInstance().getState().getStorageWay();
-        if (storageWay == CrDataStorageEnum.LOCAL_CACHE) {
-            return crQuestionDAO;
+    private static final ICrQuestionDAO ideaCacheDAO = new CrQuestionIdeaCacheDAO();
+
+    public static ICrQuestionDAO getDAO() {
+        CrDataStoragePersistent persistent = CrDataStoragePersistent.getInstance();
+        CrDataStorage storage = persistent.getState();
+        if (storage == null) {
+            return sqliteDAO;
         }
-        return crQuestionDAO;
+        CrDataStorageEnum storageWay = storage.getStorageWay();
+        if (storageWay == CrDataStorageEnum.LOCAL_CACHE) {
+            return sqliteDAO;
+        }
+        if (storageWay == CrDataStorageEnum.SQLITE_DB) {
+            return ideaCacheDAO;
+        }
+        return sqliteDAO;
     }
 }

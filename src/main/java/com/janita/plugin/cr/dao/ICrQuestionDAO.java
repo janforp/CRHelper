@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.dao;
 
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 
@@ -13,11 +14,11 @@ import java.util.List;
  */
 public interface ICrQuestionDAO {
 
-    void insert(CrQuestion question);
+    boolean insert(CrQuestion question);
 
-    void update(CrQuestion question);
+    boolean update(CrQuestion question);
 
-    void batchDelete(List<Integer> questionIdList);
+    boolean batchDelete(List<Integer> questionIdList);
 
-    List<CrQuestion> query(CrQuestionQueryRequest request);
+    Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request);
 }

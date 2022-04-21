@@ -1,13 +1,12 @@
-package com.janita.plugin.cr.remote.strategy.impl;
+package com.janita.plugin.cr.dao.impl;
 
-import com.google.common.collect.Sets;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
-import com.janita.plugin.cr.domain.CrDeveloper;
+import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.persistent.CrQuestionPersistent;
-import com.janita.plugin.cr.remote.strategy.CrQuestionStorageStrategy;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
 
@@ -16,37 +15,25 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
- * LocalCacheStorage
+ * CrQuestionIdeaCacheDAO
  *
  * @author zhucj
  * @since 20220324
  */
-public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
-
-    private static final AtomicInteger ID_GEN = new AtomicInteger(2);
+public class CrQuestionIdeaCacheDAO implements ICrQuestionDAO {
 
     private static final CrQuestionPersistent CR_QUESTION_PERSISTENT = CrQuestionPersistent.getInstance();
 
     @Override
-    public Set<CrDeveloper> queryDeveloper(String projectName) {
-        CrDeveloper developer = new CrDeveloper("自己", "邮件", "自己");
-        return Sets.newHashSet(developer);
-    }
-
-    @Override
-    public boolean add(CrQuestion question) {
+    public boolean insert(CrQuestion question) {
         List<CrQuestion> questionListInCache = CR_QUESTION_PERSISTENT.getState();
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
-
         Optional<Integer> max = questionListInCache.stream().map(CrQuestion::getId).max(Long::compare);
         int maxId = max.orElse(0);
-        ID_GEN.set(maxId + 1);
-
-        question.setId(ID_GEN.incrementAndGet());
+        question.setId(maxId + 1);
         questionListInCache.add(question);
         CR_QUESTION_PERSISTENT.loadState(questionListInCache);
         return true;
@@ -67,13 +54,24 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
     }
 
     @Override
+    public boolean batchDelete(List<Integer> questionIdList) {
+        List<CrQuestion> questionList = CR_QUESTION_PERSISTENT.getState();
+        if (CollectionUtils.isEmpty(questionList)) {
+            return true;
+        }
+        questionList.removeIf(question -> questionIdList.contains(question.getId()));
+        CR_QUESTION_PERSISTENT.loadState(questionList);
+        return true;
+    }
+
+    @Override
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         List<CrQuestion> questionListInCache = CR_QUESTION_PERSISTENT.getState();
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
         String projectName = request.getProjectName();
         Set<CrQuestionState> stateSet = request.getStateSet();
         Set<CrQuestionState> stateSet2 = ObjectUtils.defaultIfNull(stateSet, new HashSet<>());
-        List<CrQuestion> crQuestions = questionListInCache.stream().filter(question -> question.getProjectName().equals(projectName) && stateSet2.contains(question.getState())).collect(Collectors.toList());
+        List<CrQuestion> crQuestions = questionListInCache.stream().filter(question -> question.getProjectName().equals(projectName) && stateSet2.contains(CrQuestionState.getByDesc(question.getState()))).collect(Collectors.toList());
         return Pair.of(true, crQuestions);
     }
 }
