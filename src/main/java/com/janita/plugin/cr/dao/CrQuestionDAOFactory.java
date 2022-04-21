@@ -26,9 +26,6 @@ public class CrQuestionDAOFactory {
         }
         CrDataStorageEnum storageWay = storage.getStorageWay();
         if (storageWay == CrDataStorageEnum.LOCAL_CACHE) {
-            return sqliteDAO;
-        }
-        if (storageWay == CrDataStorageEnum.SQLITE_DB) {
             return ideaCacheDAO;
         }
         return sqliteDAO;
