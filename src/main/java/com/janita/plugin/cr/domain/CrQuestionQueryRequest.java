@@ -24,5 +24,5 @@ public class CrQuestionQueryRequest {
     /**
      * 当前 project 下的所有仓库名称
      */
-    private final Set<String> projectNameSet;
+    private final String projectName;
 }

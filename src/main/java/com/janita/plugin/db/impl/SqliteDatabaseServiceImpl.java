@@ -31,6 +31,8 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
 
     private BasicDataSource source;
 
+    private Connection connection;
+
     public SqliteDatabaseServiceImpl() {
         try {
             //创建了DBCP的数据库连接池
@@ -77,12 +79,25 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
 
     @Override
     public Connection getConnection() {
-        try {
-            return source.getConnection();
-        } catch (SQLException exception) {
-            exception.printStackTrace();
+        if (connection == null) {
+            try {
+                connection = source.getConnection();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-        return null;
+        try {
+            if (connection.isClosed()) {
+                try {
+                    connection = source.getConnection();
+                } catch (SQLException exception) {
+                    exception.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return connection;
     }
 
     @Override
@@ -107,8 +122,8 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
                 + "    solve_git_branch_name  TEXT, "
                 + "    create_time            TEXT, "
                 + "    solve_time             TEXT, "
-                + "    offset_start           TEXT, "
-                + "    offset_end             TEXT, "
+                + "    offset_start           INTEGER, "
+                + "    offset_end             INTEGER, "
                 + "    is_delete            INTEGER "
                 + ") ";
 
@@ -122,26 +137,27 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
 
     @Override
     public void closeResource(Connection conn, Statement statement, ResultSet rs) {
-        if (rs != null) {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (statement != null) {
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        return;
+//        if (rs != null) {
+        //            try {
+        //                rs.close();
+        //            } catch (SQLException e) {
+        //                e.printStackTrace();
+        //            }
+        //        }
+        //        if (statement != null) {
+        //            try {
+        //                statement.close();
+        //            } catch (SQLException e) {
+        //                e.printStackTrace();
+        //            }
+        //        }
+        //        if (conn != null) {
+        //            try {
+        //                conn.close();
+        //            } catch (SQLException e) {
+        //                e.printStackTrace();
+        //            }
+        //        }
     }
 }

@@ -9,8 +9,10 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * CrQuestionDAO
@@ -81,11 +83,17 @@ public class CrQuestionDAOSqlite extends BaseDAO<CrQuestion> implements ICrQuest
 
     @Override
     public List<CrQuestion> query(CrQuestionQueryRequest request) {
-        Set<String> projectNameSet = request.getProjectNameSet();
         Set<CrQuestionState> stateSet = request.getStateSet();
         Connection connection = SQLITE_DATA.getConnection();
         try {
-            return queryList(connection, DmlConstants.QUERY_SAL, StringUtils.join(projectNameSet, ","), StringUtils.join(stateSet, ","));
+            List<CrQuestion> questionList = queryList(connection, DmlConstants.QUERY_SAL, request.getProjectName());
+            if (CollectionUtils.isEmpty(questionList)) {
+                return new ArrayList<>(0);
+            }
+            if (CollectionUtils.isEmpty(stateSet)) {
+                return questionList;
+            }
+            return questionList.stream().filter(item -> stateSet.contains(item.getState())).collect(Collectors.toList());
         } catch (Exception e) {
             e.printStackTrace();
         }

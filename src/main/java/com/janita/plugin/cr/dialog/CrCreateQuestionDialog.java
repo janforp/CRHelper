@@ -207,7 +207,7 @@ public class CrCreateQuestionDialog extends JDialog {
 
     private void rebuildQuestionWhenSave() {
         question.setType((String) questionTypeBox.getSelectedItem());
-        question.setState(CrQuestionState.getByDesc((String) stateBox.getSelectedItem()));
+        question.setState((String) stateBox.getSelectedItem());
         question.setLevel((String) levelBox.getSelectedItem());
         question.setAssignTo(getAssigner());
         question.setBetterCode(betterCodeArea.getText());
@@ -230,7 +230,7 @@ public class CrCreateQuestionDialog extends JDialog {
         initBox(question.getAssignTo());
 
         questionTypeBox.setSelectedItem(question.getType() != null ? question.getType() : DataToInit.QUESTION_TYPE_LIST.get(0));
-        stateBox.setSelectedItem(question.getState() != null ? question.getState().getDesc() : CrQuestionState.UNSOLVED.getDesc());
+        stateBox.setSelectedItem(question.getState() != null ? question.getState() : CrQuestionState.UNSOLVED.getDesc());
         questionCodeArea.setText(question.getQuestionCode());
         questionCodeArea.setEditable(false);
         betterCodeArea.setText(question.getBetterCode());

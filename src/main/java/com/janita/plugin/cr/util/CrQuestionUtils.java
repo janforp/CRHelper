@@ -17,12 +17,11 @@ import java.util.List;
 public class CrQuestionUtils {
 
     public static void solveQuestion(int index, CrQuestion question) {
-        question.setState(CrQuestionState.SOLVED);
+        question.setState(CrQuestionState.SOLVED.getDesc());
         question.setSolveTime(DateUtils.getCurrentDateTime());
         CrQuestionHouse.update(index, question);
     }
 
-    @SuppressWarnings("all")
     public static List<CrQuestionExportVO> processBeforeExport(List<CrQuestion> crQuestionList) {
         if (crQuestionList == null) {
             return new ArrayList<>(0);
@@ -37,7 +36,7 @@ public class CrQuestionUtils {
             clone.setType(StringUtils.defaultIfBlank(question.getType(), "无"));
             clone.setAssignTo(StringUtils.defaultIfBlank(question.getAssignTo(), "无"));
             clone.setLevel(StringUtils.defaultIfBlank(question.getLevel(), "无"));
-            clone.setState(StringUtils.defaultIfBlank(question.getState().getDesc(), "无"));
+            clone.setState(StringUtils.defaultIfBlank(question.getState(), "无"));
             clone.setQuestionCode(setCodeMark(StringUtils.defaultIfBlank(question.getQuestionCode(), "无")));
             clone.setBetterCode(setCodeMark(StringUtils.defaultIfBlank(question.getBetterCode(), "无")));
             clone.setDesc(setCodeMark(StringUtils.defaultIfBlank(question.getDescription(), "无")));

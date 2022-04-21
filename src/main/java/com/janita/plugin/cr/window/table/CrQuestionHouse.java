@@ -1,6 +1,5 @@
 package com.janita.plugin.cr.window.table;
 
-import com.google.common.collect.Lists;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
@@ -35,7 +34,7 @@ public class CrQuestionHouse {
             return;
         }
         CrQuestionTable.getCrQuestionList().remove(row);
-        question.setState(CrQuestionState.CLOSED);
+        question.setState(CrQuestionState.CLOSED.getDesc());
         CrQuestionTable.TABLE_MODEL.removeRow(row);
     }
 

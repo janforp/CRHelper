@@ -44,5 +44,5 @@ public class DmlConstants {
             + "SET is_delete = id\n"
             + "WHERE  id = ?";
 
-    public final String QUERY_SAL = "SELECT * FROM cr_question WHERE project_name IN (?) AND state IN (?) AND is_delete = 0 ORDER BY create_time DESC";
+    public final String QUERY_SAL = "SELECT id, project_name, file_path, file_name,language, type, level, state, assign_from, assign_to, question_code, better_code, description, create_git_branch_name, solve_git_branch_name, create_time, solve_time,offset_start, offset_end FROM cr_question WHERE project_name = ? AND is_delete = 0 ORDER BY create_time DESC";
 }

@@ -38,9 +38,9 @@ create table IF NOT EXISTS cr_question
     solve_time
     TEXT,
     offset_start
-    TEXT,
+    INTEGER ,
     offset_end
-    TEXT,
+    INTEGER,
 );
 
 

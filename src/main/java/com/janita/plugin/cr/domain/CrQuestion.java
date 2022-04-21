@@ -24,7 +24,7 @@ public class CrQuestion {
     /**
      * id
      */
-    private Long id;
+    private Integer id;
 
     /**
      * 项目名称
@@ -59,8 +59,9 @@ public class CrQuestion {
     /**
      * 状态
      * 未解决,已解决,重复问题,已关闭
+     * @see CrQuestionState
      */
-    private CrQuestionState state;
+    private String state;
 
     /**
      * 提出问题的人
@@ -117,7 +118,7 @@ public class CrQuestion {
      */
     private Integer offsetEnd;
 
-    private CrQuestion() {
+    public CrQuestion() {
         // empty
     }
 
@@ -131,7 +132,7 @@ public class CrQuestion {
         question.setFilePath(holder.getFilePath());
         question.setFileName(holder.getFileName());
         question.setLanguage(holder.getLanguage());
-        question.setState(CrQuestionState.UNSOLVED);
+        question.setState(CrQuestionState.UNSOLVED.getDesc());
         question.setAssignFrom(GitUtils.getGitUserName(project));
         question.setQuestionCode(holder.getSelectedText());
         question.setBetterCode(holder.getSelectedText());

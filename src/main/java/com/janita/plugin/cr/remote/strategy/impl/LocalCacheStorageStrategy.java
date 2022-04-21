@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
 
-    private static final AtomicLong ID_GEN = new AtomicLong(2);
+    private static final AtomicInteger ID_GEN = new AtomicInteger(2);
 
     private static final CrQuestionPersistent CR_QUESTION_PERSISTENT = CrQuestionPersistent.getInstance();
 
@@ -42,8 +42,8 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
         List<CrQuestion> questionListInCache = CR_QUESTION_PERSISTENT.getState();
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
 
-        Optional<Long> max = questionListInCache.stream().map(CrQuestion::getId).max(Long::compare);
-        long maxId = max.isPresent() ? max.get() : 0;
+        Optional<Integer> max = questionListInCache.stream().map(CrQuestion::getId).max(Long::compare);
+        int maxId = max.orElse(0);
         ID_GEN.set(maxId + 1);
 
         question.setId(ID_GEN.incrementAndGet());
@@ -54,7 +54,7 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
 
     @Override
     public boolean update(CrQuestion question) {
-        Long id = question.getId();
+        Integer id = question.getId();
         List<CrQuestion> crQuestionListInCache = CR_QUESTION_PERSISTENT.getState();
         crQuestionListInCache = ObjectUtils.defaultIfNull(crQuestionListInCache, new ArrayList<>());
         Optional<CrQuestion> questionInCache = crQuestionListInCache.stream().filter(item -> item.getId().equals(id)).findFirst();
@@ -70,11 +70,10 @@ public class LocalCacheStorageStrategy implements CrQuestionStorageStrategy {
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         List<CrQuestion> questionListInCache = CR_QUESTION_PERSISTENT.getState();
         questionListInCache = ObjectUtils.defaultIfNull(questionListInCache, new ArrayList<>());
-        Set<String> projectNameSet = request.getProjectNameSet();
-        Set<String> projectNameSet2 = ObjectUtils.defaultIfNull(projectNameSet, new HashSet<>());
+        String projectName = request.getProjectName();
         Set<CrQuestionState> stateSet = request.getStateSet();
         Set<CrQuestionState> stateSet2 = ObjectUtils.defaultIfNull(stateSet, new HashSet<>());
-        List<CrQuestion> crQuestions = questionListInCache.stream().filter(question -> projectNameSet2.contains(question.getProjectName()) && stateSet2.contains(question.getState())).collect(Collectors.toList());
+        List<CrQuestion> crQuestions = questionListInCache.stream().filter(question -> question.getProjectName().equals(projectName) && stateSet2.contains(question.getState())).collect(Collectors.toList());
         return Pair.of(true, crQuestions);
     }
 }
