@@ -211,7 +211,7 @@ public class CrCreateQuestionDialog extends JDialog {
         question.setLevel((String) levelBox.getSelectedItem());
         question.setAssignTo(getAssigner());
         question.setBetterCode(betterCodeArea.getText());
-        question.setDesc(descArea.getText());
+        question.setDescription(descArea.getText());
     }
 
     private String getAssigner() {
@@ -234,7 +234,7 @@ public class CrCreateQuestionDialog extends JDialog {
         questionCodeArea.setText(question.getQuestionCode());
         questionCodeArea.setEditable(false);
         betterCodeArea.setText(question.getBetterCode());
-        descArea.setText(question.getDesc());
+        descArea.setText(question.getDescription());
         selectAssignBox.setSelectedItem(question.getAssignTo() != null ? question.getAssignTo() : new ArrayList<>(developerSet).get(0));
         levelBox.setSelectedItem(question.getLevel() != null ? question.getLevel() : DataToInit.LEVEL_LIST.get(0));
         pack();

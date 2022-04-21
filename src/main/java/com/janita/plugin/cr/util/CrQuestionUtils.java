@@ -5,7 +5,6 @@ import com.janita.plugin.common.util.DateUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -41,7 +40,7 @@ public class CrQuestionUtils {
             clone.setState(StringUtils.defaultIfBlank(question.getState().getDesc(), "无"));
             clone.setQuestionCode(setCodeMark(StringUtils.defaultIfBlank(question.getQuestionCode(), "无")));
             clone.setBetterCode(setCodeMark(StringUtils.defaultIfBlank(question.getBetterCode(), "无")));
-            clone.setDesc(setCodeMark(StringUtils.defaultIfBlank(question.getDesc(), "无")));
+            clone.setDesc(setCodeMark(StringUtils.defaultIfBlank(question.getDescription(), "无")));
             questionList.add(clone);
         }
         return questionList;

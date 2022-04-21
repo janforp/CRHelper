@@ -26,6 +26,10 @@
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrDataStoragePersistent"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionPersistent"/>
         <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>
+
+        <!--        sqlit 数据库-->
+        <applicationService serviceImplementation="com.janita.plugin.db.impl.SqliteDatabaseServiceImpl"/>
+        <applicationService serviceImplementation="com.janita.plugin.cr.service.CrQuestionService"/>
     </extensions>
 
     <actions>

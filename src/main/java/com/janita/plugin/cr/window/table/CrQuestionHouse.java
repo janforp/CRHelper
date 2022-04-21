@@ -1,5 +1,6 @@
 package com.janita.plugin.cr.window.table;
 
+import com.google.common.collect.Lists;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
@@ -7,6 +8,7 @@ import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.remote.QuestionRemote;
+import com.janita.plugin.cr.service.CrQuestionService;
 
 import java.util.List;
 
@@ -19,6 +21,8 @@ import java.util.List;
 public class CrQuestionHouse {
 
     public static void add(CrQuestion question) {
+
+        CrQuestionService.getInstance().batchInsert(Lists.newArrayList(question));
         boolean add = QuestionRemote.add(question);
         if (!add) {
             return;
