@@ -18,12 +18,16 @@ import java.awt.*;
 public class CrSettingBuilder {
 
     public static CrQuestionDataStorageSettingComponent createSettingComponent() {
-        JPanel jf = new JPanel();
-        jf.setSize(450, 300);
+        JPanel panel = new JPanel();
+        panel.setSize(450, 300);
         JRadioButton localCacheButton = new JRadioButton("本地缓存");
+        localCacheButton.setToolTipText("使用idea本地缓存，清空idea缓存数据将会丢失");
         JRadioButton localSqliteDbButton = new JRadioButton("本地DB");
+        localSqliteDbButton.setToolTipText("使用本地Sqlite数据库，数据持久化在本地磁盘中");
         JRadioButton remoteMysqlDbButton = new JRadioButton("远程DB");
+        remoteMysqlDbButton.setToolTipText("用户自己提供mysql数据库，数据持久化在用户的数据库中");
         JRadioButton remoteHttpApiButton = new JRadioButton("远程接口");
+        remoteHttpApiButton.setToolTipText("用户自己开发的rest服务，通过rest接口进行数据的存储");
 
         JLabel dbUrlLabel = new JLabel("数据库URL:");
         JLabel dbUsernameLabel = new JLabel("数据库用户:");
@@ -31,14 +35,14 @@ public class CrSettingBuilder {
         JLabel apiDomainLabel = new JLabel("接口域名:");
 
         JTextField dbUrlField = new JTextField(50);
-        dbUrlField.setToolTipText("如 jdbc:mysql://ip:port/xxx,后面需要添加database名称");
+        dbUrlField.setToolTipText("如 jdbc:mysql://ip:port/database?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true,后面需要添加database名称");
         JTextField dbUsernameField = new JTextField(50);
         JPasswordField dbPwdField = new JPasswordField(50);
         JTextField apiDomainField = new JTextField(50);
         apiDomainField.setToolTipText("如 https://www.baidu.com");
 
         GridBagLayout gridBagLayout = new GridBagLayout();
-        jf.setLayout(gridBagLayout);
+        panel.setLayout(gridBagLayout);
 
         GridBagConstraints gridBagConstraints = new GridBagConstraints();
         gridBagConstraints.fill = GridBagConstraints.BOTH;
@@ -128,22 +132,22 @@ public class CrSettingBuilder {
         group.add(remoteMysqlDbButton);
         group.add(remoteHttpApiButton);
 
-        jf.add(localCacheButton);
-        jf.add(localSqliteDbButton);
-        jf.add(remoteMysqlDbButton);
-        jf.add(remoteHttpApiButton);
-        jf.add(dbUrlLabel);
-        jf.add(dbUsernameLabel);
-        jf.add(dbPwdLabel);
-        jf.add(apiDomainLabel);
-        jf.add(dbUrlField);
-        jf.add(dbUsernameField);
-        jf.add(dbPwdField);
-        jf.add(apiDomainField);
-        jf.add(verticalStrut);
+        panel.add(localCacheButton);
+        panel.add(localSqliteDbButton);
+        panel.add(remoteMysqlDbButton);
+        panel.add(remoteHttpApiButton);
+        panel.add(dbUrlLabel);
+        panel.add(dbUsernameLabel);
+        panel.add(dbPwdLabel);
+        panel.add(apiDomainLabel);
+        panel.add(dbUrlField);
+        panel.add(dbUsernameField);
+        panel.add(dbPwdField);
+        panel.add(apiDomainField);
+        panel.add(verticalStrut);
 
         CrQuestionDataStorageSettingComponent component = CrQuestionDataStorageSettingComponent.builder().
-                totalContent(jf)
+                totalContent(panel)
                 .group(group)
                 .localCacheButton(localCacheButton)
                 .localSqliteDbButton(localSqliteDbButton)
