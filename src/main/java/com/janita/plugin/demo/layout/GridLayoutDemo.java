@@ -12,11 +12,23 @@ import java.awt.*;
 public class GridLayoutDemo {
 
     public static void main(String[] args) {
-        JFrame frame = new JFrame("GridLayou布局计算器");
-        JPanel panel = new JPanel();    //创建面板
+        JFrame frame = new JFrame("计算器");
+
+        //创建面板
+        JPanel panel = new JPanel();
+
         //指定面板的布局为GridLayout，4行4列，间隙为5
         panel.setLayout(new GridLayout(4, 4, 5, 5));
-        panel.add(new JButton("7"));    //添加按钮
+
+        /* 添加按钮
+         * 7    8   9   /
+         * 4    5   6   *
+         * 1    2   3   -
+         * 0    .   =   +
+         *
+         * 按顺序从左到右从上到下展示
+         */
+        panel.add(new JButton("7"));
         panel.add(new JButton("8"));
         panel.add(new JButton("9"));
         panel.add(new JButton("/"));
@@ -32,9 +44,11 @@ public class GridLayoutDemo {
         panel.add(new JButton("."));
         panel.add(new JButton("="));
         panel.add(new JButton("+"));
+
         frame.add(panel);    //添加面板到容器
-        frame.setBounds(300, 200, 200, 150);
+        //frame.setBounds(300, 200, 200, 150);
+        frame.setSize(new Dimension(600, 600));
         frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 }
