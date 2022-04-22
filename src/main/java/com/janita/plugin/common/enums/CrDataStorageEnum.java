@@ -43,7 +43,7 @@ public enum CrDataStorageEnum {
         }
     },
 
-    DB(false, "数据库") {
+    MYSQL_DB(false, "数据库") {
         @Override
         public ValidationInfo check(JTextField... fields) {
             if (fields == null || fields.length == 0) {

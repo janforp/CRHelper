@@ -57,8 +57,8 @@ public class CrQuestionStorageDialog extends DialogWrapper {
         CrDataStorageEnum storageEnum = (CrDataStorageEnum) storageBox.getSelectedItem();
         if (storageEnum == CrDataStorageEnum.REST_API) {
             return CrDataStorageEnum.REST_API.check(restDomainField);
-        } else if (storageEnum == CrDataStorageEnum.DB) {
-            return CrDataStorageEnum.DB.check(urlField, pwdField);
+        } else if (storageEnum == CrDataStorageEnum.MYSQL_DB) {
+            return CrDataStorageEnum.MYSQL_DB.check(urlField, pwdField);
         }
         return null;
     }

@@ -70,6 +70,10 @@ public class CrQuestionService {
         if (CollectionUtils.isEmpty(collect)) {
             return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
         }
+        collect.remove(PluginConstant.PLEASE_MANUAL_ASSIGN);
+        if (CollectionUtils.isEmpty(collect)) {
+            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
+        }
         return collect;
     }
 }

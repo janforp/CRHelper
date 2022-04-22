@@ -80,7 +80,7 @@ public class CrDataStorageDialogComponentHolder {
             holder.urlField.setEnabled(false);
             holder.pwdField.setEnabled(false);
             holder.restDomainField.setEnabled(true);
-        } else if (CrDataStorageEnum.DB == way) {
+        } else if (CrDataStorageEnum.MYSQL_DB == way) {
             holder.urlField.setEnabled(true);
             holder.pwdField.setEnabled(true);
             holder.restDomainField.setEnabled(false);

@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.domain;
 
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Set;
 
 /**
@@ -47,7 +50,16 @@ public class CrDataStorage {
         if (CrDataStorageEnum.LOCAL_CACHE == storageWay) {
             return true;
         }
-        if (CrDataStorageEnum.DB == storageWay) {
+        if (CrDataStorageEnum.SQLITE_DB == storageWay) {
+            Connection connection = SqliteDatabaseServiceImpl.getInstance().getConnection();
+            try {
+                return !connection.isClosed();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        if (CrDataStorageEnum.MYSQL_DB == storageWay) {
             return StringUtils.isNoneBlank(storage.getDbUrl(), storage.getDbPwd());
         }
         if (CrDataStorageEnum.REST_API == storageWay) {
