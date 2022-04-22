@@ -1,9 +1,8 @@
 package com.janita.plugin.db.impl;
 
-import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.ApplicationManager;
-import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.constant.PluginConstant;
+import com.janita.plugin.cr.setting.CrQuestionSetting;
 import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
 
@@ -28,9 +27,10 @@ public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
         source = new BasicDataSource();
         source.setMaxActive(1);
         source.setDriverClassName(PluginConstant.DbDrivers.MYSQL_DATABASE_DRIVER);
-        source.setUrl(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_URL));
-        source.setUsername(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_USERNAME));
-        source.setPassword(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_PWD));
+        CrQuestionSetting setting = CrQuestionSetting.getCrQuestionSettingFromCache();
+        source.setUrl(setting.getDbUrl());
+        source.setUsername(setting.getDbUsername());
+        source.setPassword(setting.getDbPwd());
         return source;
     }
 

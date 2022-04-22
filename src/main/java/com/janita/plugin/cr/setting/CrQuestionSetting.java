@@ -3,6 +3,7 @@ package com.janita.plugin.cr.setting;
 import com.intellij.ide.util.PropertiesComponent;
 import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.db.DatabaseServiceFactory;
 import com.janita.plugin.db.impl.MySqlDatabaseServiceImpl;
 import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import lombok.Data;
@@ -56,6 +57,7 @@ public class CrQuestionSetting {
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_USERNAME, setting.getDbUsername());
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_PWD, setting.getDbPwd());
         PropertiesComponent.getInstance().setValue(PersistentKeys.REST_API_DOMAIN, setting.getRestApiDomain());
+        DatabaseServiceFactory.getDatabase().onDatasourceChange();
     }
 
     public static CrQuestionSetting getCrQuestionSettingFromCache() {

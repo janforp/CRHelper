@@ -159,10 +159,11 @@ public class SettingBuilder {
     }
 
     private static void initFieldText(CrQuestionDataStorageSettingComponent component) {
-        component.getDbUrlField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_URL));
-        component.getDbUsernameField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_USERNAME));
-        component.getDbPwdField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_PWD));
-        component.getApiDomainField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN));
+        CrQuestionSetting setting = CrQuestionSetting.getCrQuestionSettingFromCache();
+        component.getDbUrlField().setText(setting.getDbUrl());
+        component.getDbUsernameField().setText(setting.getDbUsername());
+        component.getDbPwdField().setText(setting.getDbPwd());
+        component.getApiDomainField().setText(setting.getRestApiDomain());
     }
 
     private static void selectRadix(CrQuestionDataStorageSettingComponent component) {

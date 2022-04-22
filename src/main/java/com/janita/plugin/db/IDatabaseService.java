@@ -11,6 +11,11 @@ import java.sql.Connection;
 public interface IDatabaseService {
 
     /**
+     * 配置发生变化
+     */
+    void onDatasourceChange();
+
+    /**
      * 获取链接
      *
      * @return 数据库链接
