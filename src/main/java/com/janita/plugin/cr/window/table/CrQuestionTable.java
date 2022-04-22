@@ -27,7 +27,7 @@ public class CrQuestionTable {
     public static String[] convertToRaw(CrQuestion question) {
         String[] raw = new String[7];
         raw[0] = question.getProjectName();
-        raw[1] = question.getFilePath();
+        raw[1] = question.getFileName();
         raw[2] = question.getType();
         raw[3] = question.getLevel();
         raw[4] = question.getAssignTo();
