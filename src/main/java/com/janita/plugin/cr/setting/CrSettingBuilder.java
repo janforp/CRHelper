@@ -31,9 +31,11 @@ public class CrSettingBuilder {
         JLabel apiDomainLabel = new JLabel("接口域名:");
 
         JTextField dbUrlField = new JTextField(50);
+        dbUrlField.setToolTipText("如 jdbc:mysql://ip:port/xxx,后面需要添加database名称");
         JTextField dbUsernameField = new JTextField(50);
         JPasswordField dbPwdField = new JPasswordField(50);
         JTextField apiDomainField = new JTextField(50);
+        apiDomainField.setToolTipText("如 https://www.baidu.com");
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         jf.setLayout(gridBagLayout);
