@@ -7,8 +7,8 @@ import com.intellij.openapi.project.Project;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.persistent.SettingBuilder;
 import com.janita.plugin.cr.service.CrQuestionService;
+import com.janita.plugin.cr.setting.SettingBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;

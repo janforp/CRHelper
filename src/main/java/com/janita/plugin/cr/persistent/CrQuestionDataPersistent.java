@@ -16,13 +16,13 @@ import java.util.List;
  * @author zhucj
  * @since 20220324
  */
-@State(name = "CrQuestionPersistent", storages = { @Storage(value = "CrQuestionPersistent.xml") })
-public class CrQuestionPersistent implements PersistentStateComponent<List<CrQuestion>> {
+@State(name = "CrQuestionDataPersistent", storages = { @Storage(value = "CrQuestionDataPersistent.xml") })
+public class CrQuestionDataPersistent implements PersistentStateComponent<List<CrQuestion>> {
 
     private List<CrQuestion> questionList;
 
-    public static CrQuestionPersistent getInstance() {
-        return ServiceManager.getService(CrQuestionPersistent.class);
+    public static CrQuestionDataPersistent getInstance() {
+        return ServiceManager.getService(CrQuestionDataPersistent.class);
     }
 
     @Override

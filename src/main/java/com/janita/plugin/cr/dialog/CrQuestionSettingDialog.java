@@ -5,8 +5,8 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
-import com.janita.plugin.cr.persistent.CrQuestionDataStorageSettingComponent;
-import com.janita.plugin.cr.persistent.SettingBuilder;
+import com.janita.plugin.cr.setting.CrQuestionDataStorageSettingComponent;
+import com.janita.plugin.cr.setting.SettingBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;

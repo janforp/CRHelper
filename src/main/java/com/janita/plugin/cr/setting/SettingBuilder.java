@@ -1,4 +1,4 @@
-package com.janita.plugin.cr.persistent;
+package com.janita.plugin.cr.setting;
 
 import com.intellij.ide.util.PropertiesComponent;
 import com.janita.plugin.common.constant.PersistentKeys;
@@ -23,18 +23,6 @@ import java.util.Set;
  * @since 20220324
  */
 public class SettingBuilder {
-
-    //        public static void main(String args[]) {
-    //            SettingBuilder ui = new SettingBuilder();
-    //            CrQuestionDataStorageSettingComponent  show = ui.createSettingComponent();
-    //            JFrame jf = new JFrame();
-    //            jf.setSize(450, 300);
-    //            jf.setLocationRelativeTo(null);
-    //            jf.setDefaultCloseOperation(3);
-    //            jf.setResizable(false);
-    //            jf.add(show.getTotalContent());
-    //            jf.setVisible(true);
-    //        }
 
     public static CrQuestionDataStorageSettingComponent createSettingComponent() {
         JPanel jf = new JPanel();

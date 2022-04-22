@@ -1,4 +1,4 @@
-package com.janita.plugin.cr.persistent;
+package com.janita.plugin.cr.setting;
 
 import lombok.Builder;
 import lombok.Getter;

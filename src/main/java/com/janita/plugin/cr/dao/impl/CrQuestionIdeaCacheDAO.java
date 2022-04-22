@@ -5,7 +5,7 @@ import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import com.janita.plugin.cr.persistent.CrQuestionPersistent;
+import com.janita.plugin.cr.persistent.CrQuestionDataPersistent;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
  */
 public class CrQuestionIdeaCacheDAO implements ICrQuestionDAO {
 
-    private static final CrQuestionPersistent CR_QUESTION_PERSISTENT = CrQuestionPersistent.getInstance();
+    private static final CrQuestionDataPersistent CR_QUESTION_PERSISTENT = CrQuestionDataPersistent.getInstance();
 
     @Override
     public boolean insert(CrQuestion question) {
