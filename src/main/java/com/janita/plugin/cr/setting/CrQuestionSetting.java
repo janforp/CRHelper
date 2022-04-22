@@ -3,9 +3,14 @@ package com.janita.plugin.cr.setting;
 import com.intellij.ide.util.PropertiesComponent;
 import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.db.impl.MySqlDatabaseServiceImpl;
+import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Connection;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * CrQuestionSetting
@@ -91,5 +96,44 @@ public class CrQuestionSetting {
             return CrDataStorageEnum.REST_API;
         }
         return CrDataStorageEnum.SQLITE_DB;
+    }
+
+    public static boolean checkValid() {
+        String storageWay = PropertiesComponent.getInstance().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(storageWay);
+        if (storageEnum == null) {
+            return false;
+        }
+        Set<CrDataStorageEnum> supportSet = CrDataStorageEnum.getSupportSet();
+        if (!supportSet.contains(storageEnum)) {
+            // 如果之前设置的方式已经不支持了，则再次弹出
+            return false;
+        }
+        if (CrDataStorageEnum.LOCAL_CACHE == storageEnum) {
+            return true;
+        }
+        if (CrDataStorageEnum.SQLITE_DB == storageEnum) {
+            try {
+                Connection connection = SqliteDatabaseServiceImpl.getInstance().getConnection();
+                return !connection.isClosed();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        if (CrDataStorageEnum.MYSQL_DB == storageEnum) {
+            try {
+                Connection connection = MySqlDatabaseServiceImpl.getInstance().getConnection();
+                return !connection.isClosed();
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        if (CrDataStorageEnum.REST_API == storageEnum) {
+            String domain = PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN);
+            return StringUtils.isNotBlank(domain);
+        }
+        return false;
     }
 }

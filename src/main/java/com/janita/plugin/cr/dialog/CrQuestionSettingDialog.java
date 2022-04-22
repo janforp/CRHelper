@@ -91,4 +91,17 @@ public class CrQuestionSettingDialog extends DialogWrapper {
         }
         return null;
     }
+
+    public static boolean checkStorageAndReturnIfClickOk() {
+        boolean valid = CrQuestionSetting.checkValid();
+        if (valid) {
+            return true;
+        }
+        CrQuestionSettingDialog dialog = new CrQuestionSettingDialog();
+        if (dialog.showAndGet()) {
+            dialog.doOKAction();
+            return true;
+        }
+        return false;
+    }
 }
