@@ -15,7 +15,7 @@ import java.awt.*;
  * @author zhucj
  * @since 20220324
  */
-public class SettingBuilder {
+public class CrSettingBuilder {
 
     public static CrQuestionDataStorageSettingComponent createSettingComponent() {
         JPanel jf = new JPanel();
@@ -30,10 +30,10 @@ public class SettingBuilder {
         JLabel dbPwdLabel = new JLabel("数据库密码:");
         JLabel apiDomainLabel = new JLabel("接口域名:");
 
-        JTextField dbUrlField = new JTextField();
-        JTextField dbUsernameField = new JTextField();
-        JPasswordField dbPwdField = new JPasswordField();
-        JTextField apiDomainField = new JTextField();
+        JTextField dbUrlField = new JTextField(50);
+        JTextField dbUsernameField = new JTextField(50);
+        JPasswordField dbPwdField = new JPasswordField(50);
+        JTextField apiDomainField = new JTextField(50);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         jf.setLayout(gridBagLayout);

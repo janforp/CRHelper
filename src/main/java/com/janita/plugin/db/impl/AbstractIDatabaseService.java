@@ -33,6 +33,8 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
 
     @Override
     public void onDatasourceChange() {
+        this.source = null;
+        this.connection = null;
         this.source = initDataSource();
         this.connection = getConnection();
     }

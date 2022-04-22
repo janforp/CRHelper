@@ -5,7 +5,7 @@ import com.intellij.openapi.ui.ValidationInfo;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 import com.janita.plugin.cr.setting.CrQuestionDataStorageSettingComponent;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
-import com.janita.plugin.cr.setting.SettingBuilder;
+import com.janita.plugin.cr.setting.CrSettingBuilder;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
@@ -46,7 +46,7 @@ public class CrQuestionSettingDialog extends DialogWrapper {
     @Override
     @Nullable
     protected JComponent createCenterPanel() {
-        CrQuestionDataStorageSettingComponent component = SettingBuilder.createSettingComponent();
+        CrQuestionDataStorageSettingComponent component = CrSettingBuilder.createSettingComponent();
         this.component = component;
         initFields(component);
         return totalContent;
