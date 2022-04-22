@@ -41,41 +41,60 @@ public class GridBagLayoutDemo {
 
     public static void main(String[] agrs) {
         JFrame frame = new JFrame("拨号盘");
-        GridBagLayout gbaglayout = new GridBagLayout();    //创建GridBagLayout布局管理器
+
+        //创建GridBagLayout布局管理器
+        GridBagLayout gridBagLayout = new GridBagLayout();
+        //使用GridBagLayout布局管理器
+        frame.setLayout(gridBagLayout);
+
         GridBagConstraints constraints = new GridBagConstraints();
-        frame.setLayout(gbaglayout);    //使用GridBagLayout布局管理器
-        constraints.fill = GridBagConstraints.BOTH;    //组件填充显示区域
-        constraints.weightx = 0.0;    //恢复默认值
-        constraints.gridwidth = GridBagConstraints.REMAINDER;    //结束行
-        JTextField tf = new JTextField("13612345678");
-        gbaglayout.setConstraints(tf, constraints);
-        frame.add(tf);
-        constraints.weightx = 0.5;    // 指定组件的分配区域
+        //组件填充显示区域
+        constraints.fill = GridBagConstraints.BOTH;
+        //恢复默认值
+        constraints.weightx = 0.0;
+        // 网格宽度
+        //结束行
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+
+        JTextField numberField = new JTextField("13612345678");
+        gridBagLayout.setConstraints(numberField, constraints);
+        frame.add(numberField);
+
+        // 指定组件的分配区域
+        constraints.weightx = 0.5;
         constraints.weighty = 0.2;
+        // 网格宽度
         constraints.gridwidth = 1;
-        makeButton("7", frame, gbaglayout, constraints);    //调用方法，添加按钮组件
-        makeButton("8", frame, gbaglayout, constraints);
-        constraints.gridwidth = GridBagConstraints.REMAINDER;    //结束行
-        makeButton("9", frame, gbaglayout, constraints);
-        constraints.gridwidth = 1;    //重新设置gridwidth的值
-
-        makeButton("4", frame, gbaglayout, constraints);
-        makeButton("5", frame, gbaglayout, constraints);
+        //调用方法，添加按钮组件
+        makeButton("7", frame, gridBagLayout, constraints);
+        makeButton("8", frame, gridBagLayout, constraints);
+        //结束行
         constraints.gridwidth = GridBagConstraints.REMAINDER;
-        makeButton("6", frame, gbaglayout, constraints);
+        makeButton("9", frame, gridBagLayout, constraints);
+        //重新设置gridWidth的值
         constraints.gridwidth = 1;
 
-        makeButton("1", frame, gbaglayout, constraints);
-        makeButton("2", frame, gbaglayout, constraints);
+        makeButton("4", frame, gridBagLayout, constraints);
+        makeButton("5", frame, gridBagLayout, constraints);
+        //结束行
         constraints.gridwidth = GridBagConstraints.REMAINDER;
-        makeButton("3", frame, gbaglayout, constraints);
+        makeButton("6", frame, gridBagLayout, constraints);
         constraints.gridwidth = 1;
 
-        makeButton("返回", frame, gbaglayout, constraints);
+        makeButton("1", frame, gridBagLayout, constraints);
+        makeButton("2", frame, gridBagLayout, constraints);
+        //结束行
         constraints.gridwidth = GridBagConstraints.REMAINDER;
-        makeButton("拨号", frame, gbaglayout, constraints);
+        makeButton("3", frame, gridBagLayout, constraints);
         constraints.gridwidth = 1;
-        frame.setBounds(400, 400, 400, 400);    //设置容器大小
+
+        makeButton("返回", frame, gridBagLayout, constraints);
+        //结束行
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        makeButton("拨号", frame, gridBagLayout, constraints);
+        constraints.gridwidth = 1;
+        //设置容器大小
+        frame.setBounds(400, 400, 400, 400);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
