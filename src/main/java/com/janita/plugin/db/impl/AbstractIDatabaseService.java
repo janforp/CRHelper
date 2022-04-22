@@ -20,11 +20,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     protected Connection connection;
 
     protected AbstractIDatabaseService() {
-        source = initDataSource();
-        // 如果不存在,创建DB文件
-        createFileAndDir();
-        // 如果表不存在,创建表
-        initTable();
+        onDatasourceChange();
     }
 
     protected void createFileAndDir() {
@@ -37,6 +33,9 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
         this.connection = null;
         this.source = initDataSource();
         this.connection = getConnection();
+        this.initTable();
+        // 如果不存在,创建DB文件
+        createFileAndDir();
     }
 
     @Override

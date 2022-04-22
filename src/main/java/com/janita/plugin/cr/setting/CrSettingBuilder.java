@@ -23,7 +23,7 @@ public class CrSettingBuilder {
         JRadioButton localCacheButton = new JRadioButton("本地缓存");
         localCacheButton.setToolTipText("使用idea本地缓存，清空idea缓存数据将会丢失");
         JRadioButton localSqliteDbButton = new JRadioButton("本地DB");
-        localSqliteDbButton.setToolTipText("使用本地Sqlite数据库，数据持久化在本地磁盘中");
+        localSqliteDbButton.setToolTipText("使用本地Sqlite数据库，数据持久化在本地磁盘中,路径为：${USER_HOME_PATH}/.ideaCRHelperFile/CRHelper.db");
         JRadioButton remoteMysqlDbButton = new JRadioButton("远程DB");
         remoteMysqlDbButton.setToolTipText("用户自己提供mysql数据库，数据持久化在用户的数据库中");
         JRadioButton remoteHttpApiButton = new JRadioButton("远程接口");

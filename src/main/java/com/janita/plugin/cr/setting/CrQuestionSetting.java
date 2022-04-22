@@ -41,8 +41,11 @@ public class CrQuestionSetting {
             return false;
         }
         CrQuestionSetting that = (CrQuestionSetting) o;
-        return storageWay == that.storageWay && Objects.equals(dbUrl, that.dbUrl) && Objects.equals(dbUsername, that.dbUsername) && Objects.equals(dbPwd, that.dbPwd) && Objects
-                .equals(restApiDomain, that.restApiDomain);
+        return storageWay == that.storageWay
+                && Objects.equals(dbUrl, that.dbUrl)
+                && Objects.equals(dbUsername, that.dbUsername)
+                && Objects.equals(dbPwd, that.dbPwd)
+                && Objects.equals(restApiDomain, that.restApiDomain);
     }
 
     @Override

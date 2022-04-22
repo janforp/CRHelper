@@ -102,7 +102,7 @@ public class PluginConstant {
 
     /**
      * SQLite database file for this plugin:
-     * USER_HOME_PATH/.ideaCRHelperFile/notebooks.db
+     * USER_HOME_PATH/.ideaCRHelperFile/CRHelper.db
      */
     public Path DB_FILE_PATH = PROJECT_DB_DIRECTORY_PATH.resolve("CRHelper.db");
 
