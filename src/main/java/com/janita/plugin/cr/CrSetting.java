@@ -1,10 +1,10 @@
 package com.janita.plugin.cr;
 
 import com.intellij.openapi.ui.DialogWrapper;
+import com.janita.plugin.demo.layout.SettingDemo;
 import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
-import java.awt.*;
 
 /**
  * CrSetting
@@ -22,13 +22,6 @@ public class CrSetting extends DialogWrapper {
     @Override
     protected @Nullable
     JComponent createCenterPanel() {
-        JPanel panel = new JPanel(new GridBagLayout());
-        //单选框 本地缓存/本地Sqlite/rest接口/mysql数据库
-        JPanel top = new JPanel();
-
-        JPanel middle = new JPanel();
-        JPanel down = new JPanel();
-        //
-        return null;
+        return new SettingDemo().show();
     }
 }

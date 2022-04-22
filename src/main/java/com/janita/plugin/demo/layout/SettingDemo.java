@@ -13,16 +13,19 @@ public class SettingDemo {
 
     public static void main(String args[]) {
         SettingDemo ui = new SettingDemo();
-        ui.show();
-    }
-
-    private void show() {
+        JComponent show = ui.show();
         JFrame jf = new JFrame();
         jf.setSize(450, 300);
         jf.setLocationRelativeTo(null);
         jf.setDefaultCloseOperation(3);
         jf.setResizable(false);
+        jf.add(show);
+        jf.setVisible(true);
+    }
 
+    public JComponent show() {
+        JPanel jf = new JPanel();
+        jf.setSize(450, 300);
         JRadioButton localCacheButton = new JRadioButton("本地缓存");
         JRadioButton localSqliteDbButton = new JRadioButton("本地DB");
         JRadioButton remoteMysqlDbButton = new JRadioButton("远程DB");
@@ -142,9 +145,8 @@ public class SettingDemo {
         jf.add(dbPwdField);
         jf.add(apiDomainField);
         jf.add(verticalStrut);
-
         jf.setVisible(true);
-
+        return jf;
     }
 
 }
