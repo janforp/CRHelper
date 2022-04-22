@@ -2,6 +2,7 @@ package com.janita.plugin.cr.service;
 
 import com.google.common.collect.Sets;
 import com.intellij.openapi.application.ApplicationManager;
+import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.cr.dao.CrQuestionDAOFactory;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
@@ -59,15 +60,15 @@ public class CrQuestionService {
         request.setProjectName(projectName);
         Pair<Boolean, List<CrQuestion>> pair = crQuestionDAO.query(request);
         if (BooleanUtils.isNotTrue(pair.getLeft())) {
-            return Sets.newHashSet("--请手动指派--");
+            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
         }
         List<CrQuestion> list = pair.getRight();
         if (CollectionUtils.isEmpty(list)) {
-            return Sets.newHashSet("--请手动指派--");
+            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
         }
         Set<String> collect = list.stream().map(CrQuestion::getAssignTo).filter(Objects::nonNull).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(collect)) {
-            return Sets.newHashSet("--请手动指派--");
+            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
         }
         return collect;
     }

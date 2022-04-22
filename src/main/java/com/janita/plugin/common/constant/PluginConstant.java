@@ -22,6 +22,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @UtilityClass
 public class PluginConstant {
 
+    /**
+     * 请手动指派
+     */
+    public final String PLEASE_MANUAL_ASSIGN = "--请手动指派--";
+
     String TOOLWINDOW_ID = "Notebook";
 
     /**

@@ -4,7 +4,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.common.constant.DataToInit;
+import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.enums.CrQuestionState;
+import com.janita.plugin.common.exception.PluginRuntimeException;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
@@ -215,10 +217,17 @@ public class CrCreateQuestionDialog extends JDialog {
     }
 
     private String getAssigner() {
+        String assignTo = null;
         if (manualAssign) {
-            return manualAssignerField.getText();
+            assignTo = manualAssignerField.getText();
+        } else {
+            assignTo = (String) selectAssignBox.getSelectedItem();
         }
-        return (String) selectAssignBox.getSelectedItem();
+        if (PluginConstant.PLEASE_MANUAL_ASSIGN.equals(assignTo)) {
+            // TODO 请手动指派 异常显示
+            throw new PluginRuntimeException("请手动指派");
+        }
+        return assignTo;
     }
 
     private void closeDialog() {
