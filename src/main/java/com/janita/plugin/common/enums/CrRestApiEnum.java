@@ -1,7 +1,7 @@
 package com.janita.plugin.common.enums;
 
-import com.janita.plugin.cr.domain.CrDataStorage;
-import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
+import com.intellij.ide.util.PropertiesComponent;
+import com.janita.plugin.common.constant.PersistentKeys;
 import lombok.AllArgsConstructor;
 
 /**
@@ -23,8 +23,7 @@ public enum CrRestApiEnum {
     private final String url;
 
     public String getFullUrl() {
-        CrDataStorage storageWay = CrDataStoragePersistent.getInstance().getState();
-        String restDomain = storageWay.getRestApiDomain();
-        return restDomain + url;
+        String domain = PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN);
+        return domain + url;
     }
 }

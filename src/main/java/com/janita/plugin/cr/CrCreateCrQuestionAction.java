@@ -6,8 +6,8 @@ import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
-import com.janita.plugin.cr.dialog.CrQuestionStorageDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
+import com.janita.plugin.cr.persistent.SettingBuilder;
 import com.janita.plugin.cr.service.CrQuestionService;
 import org.jetbrains.annotations.NotNull;
 
@@ -21,7 +21,7 @@ public class CrCreateCrQuestionAction extends AnAction {
 
     @Override
     public void actionPerformed(@NotNull AnActionEvent e) {
-        boolean clickOk = CrQuestionStorageDialog.checkStorageAndReturnIfClickOk(false);
+        boolean clickOk = SettingBuilder.checkStorageAndReturnIfClickOk();
         if (!clickOk) {
             // 用户点击了取消
             return;

@@ -1,8 +1,8 @@
 package com.janita.plugin.db;
 
+import com.intellij.ide.util.PropertiesComponent;
+import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
-import com.janita.plugin.cr.domain.CrDataStorage;
-import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
 import com.janita.plugin.db.impl.MySqlDatabaseServiceImpl;
 import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 
@@ -15,12 +15,8 @@ import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 public class DatabaseServiceFactory {
 
     public static IDatabaseService getDatabase() {
-        CrDataStoragePersistent persistent = CrDataStoragePersistent.getInstance();
-        CrDataStorage storage = persistent.getState();
-        if (storage == null) {
-            return SqliteDatabaseServiceImpl.getInstance();
-        }
-        CrDataStorageEnum storageWay = storage.getStorageWay();
+        String way = PropertiesComponent.getInstance().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        CrDataStorageEnum storageWay = CrDataStorageEnum.getByDesc(way);
         if (storageWay == CrDataStorageEnum.MYSQL_DB) {
             return MySqlDatabaseServiceImpl.getInstance();
         }
