@@ -4,36 +4,44 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
 
-import java.sql.Connection;
-
 /**
  * MySqlDatabaseServiceImpl
  *
  * @author zhucj
  * @since 20220324
  */
-public class MySqlDatabaseServiceImpl implements IDatabaseService {
+public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
+
+    private final String url = "jdbc:mysql://10.199.139.12:3306/hermes?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true";
+
+    private final String user = "hermes";
+
+    private final String pwd = "hermes_123";
+
+    private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
 
     public static IDatabaseService getInstance() {
         return ApplicationManager.getApplication().getService(MySqlDatabaseServiceImpl.class);
     }
 
     private MySqlDatabaseServiceImpl() {
+
     }
 
     @Override
-    public BasicDataSource getSource() {
-        return null;
+    protected BasicDataSource initDataSource() {
+        source = new BasicDataSource();
+        source.setMaxActive(1);
+        source.setDriverClassName(DATABASE_DRIVER);
+        source.setUrl(url);
+        source.setUsername(user);
+        source.setPassword(pwd);
+        return source;
     }
 
     @Override
-    public Connection getConnection() {
-        return null;
-    }
-
-    @Override
-    public void initTable() {
-        String sql = "create table IF NOT EXISTS cr_question\n"
+    protected String getTableSql() {
+        return "create table IF NOT EXISTS cr_question\n"
                 + "(\n"
                 + "    id                     int auto_increment not null comment '自增id' primary key,\n"
                 + "    project_name           varchar(20)        not null comment '项目名称',\n"
@@ -55,10 +63,5 @@ public class MySqlDatabaseServiceImpl implements IDatabaseService {
                 + "    offset_start           int(20) default null comment '起始offset',\n"
                 + "    offset_end             int(20) default null comment '结束offset'\n"
                 + ") comment 'cr问题'";
-    }
-
-    @Override
-    public void closeResource() {
-
     }
 }

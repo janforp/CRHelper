@@ -4,12 +4,9 @@ import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.commons.dbutils.QueryRunner;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.sql.Connection;
-import java.sql.SQLException;
 
 /**
  * SqliteDatabaseServiceImpl
@@ -17,7 +14,7 @@ import java.sql.SQLException;
  * @author zhucj
  * @since 20220324
  */
-public class SqliteDatabaseServiceImpl implements IDatabaseService {
+public class SqliteDatabaseServiceImpl extends AbstractIDatabaseService {
 
     private static final String DATABASE_DRIVER = "org.sqlite.JDBC";
 
@@ -27,14 +24,15 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
         return ApplicationManager.getApplication().getService(SqliteDatabaseServiceImpl.class);
     }
 
-    private BasicDataSource source;
+    private SqliteDatabaseServiceImpl() {
 
-    private Connection connection;
+    }
 
-    public SqliteDatabaseServiceImpl() {
+    @Override
+    protected BasicDataSource initDataSource() {
+        //创建了DBCP的数据库连接池
+        BasicDataSource source = new BasicDataSource();
         try {
-            //创建了DBCP的数据库连接池
-            source = new BasicDataSource();
             //设置基本信息
             source.setMaxActive(1);
             source.setDriverClassName(DATABASE_DRIVER);
@@ -42,66 +40,12 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        // 如果不存在,创建DB文件
-        createFileAndDir();
-        // 如果表不存在,创建表
-        initTable();
-    }
-
-    /**
-     * 如果不存在目录和文件就创建
-     */
-    private void createFileAndDir() {
-        //"C:\Users\Administrator\.ideaCRHelperFile"
-        if (!Files.exists(PluginConstant.PROJECT_DB_DIRECTORY_PATH)) {
-            try {
-                Files.createDirectories(PluginConstant.PROJECT_DB_DIRECTORY_PATH);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        //"C:\Users\Administrator\.ideaCRHelperFileotebooks.db"
-        if (!Files.exists(PluginConstant.DB_FILE_PATH)) {
-            try {
-                Files.createFile(PluginConstant.DB_FILE_PATH);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    @Override
-    public BasicDataSource getSource() {
         return source;
     }
 
     @Override
-    public Connection getConnection() {
-        if (connection == null) {
-            try {
-                connection = source.getConnection();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            if (connection.isClosed()) {
-                try {
-                    connection = source.getConnection();
-                } catch (SQLException exception) {
-                    exception.printStackTrace();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
-
-    @Override
-    public void initTable() {
-
-        String createQuestionSQL = "create table IF NOT EXISTS cr_question"
+    protected String getTableSql() {
+        return "create table IF NOT EXISTS cr_question"
                 + "("
                 + "    id                     INTEGER   PRIMARY KEY AUTOINCREMENT, "
                 + "    project_name           TEXT, "
@@ -124,24 +68,27 @@ public class SqliteDatabaseServiceImpl implements IDatabaseService {
                 + "    offset_end             INTEGER, "
                 + "    is_delete            INTEGER "
                 + ") ";
-
-        try {
-            QueryRunner queryRunner = new QueryRunner(getSource());
-            queryRunner.update(createQuestionSQL);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
-    @Override
-    public void closeResource() {
-        if (connection == null) {
-            return;
+    /**
+     * 如果不存在目录和文件就创建
+     */
+    protected void createFileAndDir() {
+        //"C:\Users\Administrator\.ideaCRHelperFile"
+        if (!Files.exists(PluginConstant.PROJECT_DB_DIRECTORY_PATH)) {
+            try {
+                Files.createDirectories(PluginConstant.PROJECT_DB_DIRECTORY_PATH);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        //"C:\Users\Administrator\.ideaCRHelperFileotebooks.db"
+        if (!Files.exists(PluginConstant.DB_FILE_PATH)) {
+            try {
+                Files.createFile(PluginConstant.DB_FILE_PATH);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

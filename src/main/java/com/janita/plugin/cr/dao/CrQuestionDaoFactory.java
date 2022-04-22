@@ -12,7 +12,7 @@ import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
  * @author zhucj
  * @since 20220324
  */
-public class CrQuestionDAOFactory {
+public class CrQuestionDaoFactory {
 
     private static final ICrQuestionDAO sqliteDAO = new CrQuestionSqliteDAO();
 

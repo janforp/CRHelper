@@ -7,8 +7,8 @@ import com.janita.plugin.cr.dao.BaseDAO;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
+import com.janita.plugin.db.DatabaseServiceFactory;
 import com.janita.plugin.db.IDatabaseService;
-import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
@@ -27,13 +27,12 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuestionDAO {
 
-    private static final IDatabaseService SQLITE_DATA = SqliteDatabaseServiceImpl.getInstance();
-
     public static CrQuestionSqliteDAO getInstance() {
         return new CrQuestionSqliteDAO();
     }
 
     public boolean insert(CrQuestion question) {
+        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
         Connection connection = SQLITE_DATA.getConnection();
         try {
             boolean success = update(connection, DmlConstants.INSERT_SQL,
@@ -59,6 +58,7 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
 
     @Override
     public boolean update(CrQuestion note) {
+        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
         Connection connection = SQLITE_DATA.getConnection();
         try {
             return update(connection, DmlConstants.UPDATE_SQL,
@@ -78,6 +78,7 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
         if (CollectionUtils.isEmpty(questionIdList)) {
             return true;
         }
+        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
         Connection connection = SQLITE_DATA.getConnection();
         if (questionIdList.size() == 1) {
             return update(connection, DmlConstants.DELETE_SQL, questionIdList.get(0));
@@ -94,6 +95,7 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
     @Override
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         Set<CrQuestionState> stateSet = request.getStateSet();
+        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
         Connection connection = SQLITE_DATA.getConnection();
         try {
             List<CrQuestion> questionList = queryList(connection, DmlConstants.QUERY_SAL, request.getProjectName());

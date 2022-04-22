@@ -4,7 +4,7 @@ import com.google.common.collect.Sets;
 import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.cr.dao.CrQuestionDAOFactory;
+import com.janita.plugin.cr.dao.CrQuestionDaoFactory;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
@@ -34,28 +34,28 @@ public class CrQuestionService {
     }
 
     public boolean insert(CrQuestion crQuestion) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
         return crQuestionDAO.insert(crQuestion);
     }
 
     public boolean update(CrQuestion crQuestion) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
         crQuestionDAO.update(crQuestion);
         return true;
     }
 
     public boolean batchDelete(List<Integer> questionIdList) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
         return crQuestionDAO.batchDelete(questionIdList);
     }
 
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
         return crQuestionDAO.query(request);
     }
 
     public Set<String> queryAssignName(String projectName) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDAOFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
         CrQuestionQueryRequest request = new CrQuestionQueryRequest();
         request.setProjectName(projectName);
         Pair<Boolean, List<CrQuestion>> pair = crQuestionDAO.query(request);
