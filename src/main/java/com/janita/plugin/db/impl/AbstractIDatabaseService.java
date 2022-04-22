@@ -36,7 +36,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
         if (connection == null) {
             try {
                 connection = source.getConnection();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -44,11 +44,11 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
             if (connection.isClosed()) {
                 try {
                     connection = source.getConnection();
-                } catch (SQLException exception) {
+                } catch (Exception exception) {
                     exception.printStackTrace();
                 }
             }
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return connection;
