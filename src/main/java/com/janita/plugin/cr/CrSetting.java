@@ -25,6 +25,7 @@ public class CrSetting extends DialogWrapper {
         JPanel panel = new JPanel(new GridBagLayout());
         //单选框 本地缓存/本地Sqlite/rest接口/mysql数据库
         JPanel top = new JPanel();
+
         JPanel middle = new JPanel();
         JPanel down = new JPanel();
         //
