@@ -1,7 +1,9 @@
 package com.janita.plugin.cr.persistent;
 
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.util.ui.JBUI;
+import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 import com.janita.plugin.cr.domain.CrDataStorage;
 import lombok.Builder;
@@ -43,6 +45,9 @@ public class CrDataStorageDialogComponentHolder {
         String url = urlField.getText();
         String pwd = pwdField.getText();
         String domain = restDomainField.getText();
+        PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_URL, url);
+        PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_USERNAME, null);
+        PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_PWD, pwd);
         return new CrDataStorage(name, url, pwd, domain);
     }
 

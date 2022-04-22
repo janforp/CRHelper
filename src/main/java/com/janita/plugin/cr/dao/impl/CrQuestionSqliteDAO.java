@@ -9,9 +9,11 @@ import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.db.DatabaseServiceFactory;
 import com.janita.plugin.db.IDatabaseService;
+import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
+import java.math.BigInteger;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +34,8 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
     }
 
     public boolean insert(CrQuestion question) {
-        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
-        Connection connection = SQLITE_DATA.getConnection();
+        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        Connection connection = database.getConnection();
         try {
             boolean success = update(connection, DmlConstants.INSERT_SQL,
                     question.getId(), question.getProjectName(), question.getFilePath(), question.getFileName(),
@@ -44,7 +46,7 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
             if (!success) {
                 return false;
             }
-            Pair<Boolean, Integer> pair = getValue(connection, DmlConstants.LAST_INSERT_ROW_ID);
+            Pair<Boolean, Integer> pair = getLastInsertId(connection, database instanceof SqliteDatabaseServiceImpl ? DmlConstants.LAST_INSERT_ROW_ID_OF_SQLITE : DmlConstants.LAST_INSERT_ROW_ID_OF_MYSQL);
             if (BooleanUtils.isNotTrue(pair.getLeft())) {
                 return false;
             }
@@ -56,10 +58,23 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
         }
     }
 
+    private Pair<Boolean, Integer> getLastInsertId(Connection connection, String sql) {
+        Pair<Boolean, Object> pair = getValue(connection, sql);
+        if (BooleanUtils.isNotTrue(pair.getLeft())) {
+            return Pair.of(false, null);
+        }
+        Object right = pair.getRight();
+        if (right instanceof BigInteger) {
+            BigInteger id = (BigInteger) right;
+            return Pair.of(true, id.intValue());
+        }
+        return Pair.of(true, (Integer) right);
+    }
+
     @Override
     public boolean update(CrQuestion note) {
-        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
-        Connection connection = SQLITE_DATA.getConnection();
+        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        Connection connection = database.getConnection();
         try {
             return update(connection, DmlConstants.UPDATE_SQL,
                     note.getProjectName(), note.getFilePath(), note.getFileName(), note.getLanguage(),
@@ -78,8 +93,8 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
         if (CollectionUtils.isEmpty(questionIdList)) {
             return true;
         }
-        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
-        Connection connection = SQLITE_DATA.getConnection();
+        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        Connection connection = database.getConnection();
         if (questionIdList.size() == 1) {
             return update(connection, DmlConstants.DELETE_SQL, questionIdList.get(0));
         }
@@ -95,8 +110,8 @@ public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuest
     @Override
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         Set<CrQuestionState> stateSet = request.getStateSet();
-        IDatabaseService SQLITE_DATA = DatabaseServiceFactory.getDatabase();
-        Connection connection = SQLITE_DATA.getConnection();
+        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        Connection connection = database.getConnection();
         try {
             List<CrQuestion> questionList = queryList(connection, DmlConstants.QUERY_SAL, request.getProjectName());
             if (CollectionUtils.isEmpty(questionList)) {

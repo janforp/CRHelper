@@ -1,6 +1,8 @@
 package com.janita.plugin.db.impl;
 
+import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.ApplicationManager;
+import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
 
@@ -11,12 +13,6 @@ import org.apache.commons.dbcp.BasicDataSource;
  * @since 20220324
  */
 public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
-
-    private final String url = "jdbc:mysql://10.199.139.12:3306/hermes?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&rewriteBatchedStatements=true";
-
-    private final String user = "hermes";
-
-    private final String pwd = "hermes_123";
 
     private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
 
@@ -33,9 +29,9 @@ public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
         source = new BasicDataSource();
         source.setMaxActive(1);
         source.setDriverClassName(DATABASE_DRIVER);
-        source.setUrl(url);
-        source.setUsername(user);
-        source.setPassword(pwd);
+        source.setUrl(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_URL));
+        source.setUsername(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_USERNAME));
+        source.setPassword(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_PWD));
         return source;
     }
 
@@ -61,7 +57,8 @@ public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
                 + "    create_time            varchar(20)        not null comment '提问时间',\n"
                 + "    solve_time             varchar(20) default null comment '解决时间',\n"
                 + "    offset_start           int(20) default null comment '起始offset',\n"
-                + "    offset_end             int(20) default null comment '结束offset'\n"
+                + "    offset_end             int(20) default null comment '结束offset',\n"
+                + "    is_delete              int(20) default 0 comment '逻辑删除'\n"
                 + ") comment 'cr问题'";
     }
 }

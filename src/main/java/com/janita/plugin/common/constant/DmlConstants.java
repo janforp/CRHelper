@@ -11,7 +11,9 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class DmlConstants {
 
-    public final String LAST_INSERT_ROW_ID = "SELECT last_insert_rowid() id";
+    public final String LAST_INSERT_ROW_ID_OF_SQLITE = "SELECT last_insert_rowid() id";
+
+    public final String LAST_INSERT_ROW_ID_OF_MYSQL = "SELECT LAST_INSERT_ID() id";
 
     public final String INSERT_SQL = "INSERT INTO cr_question (id, project_name, file_path, file_name, \n"
             + "                         language, type, level, state, \n"
