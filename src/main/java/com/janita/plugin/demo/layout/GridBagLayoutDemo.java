@@ -55,7 +55,6 @@ public class GridBagLayoutDemo {
         // 网格宽度
         //结束行
         constraints.gridwidth = GridBagConstraints.REMAINDER;
-
         JTextField numberField = new JTextField("13612345678");
         gridBagLayout.setConstraints(numberField, constraints);
         frame.add(numberField);
