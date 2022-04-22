@@ -54,8 +54,8 @@ public abstract class BaseDAO<T> {
     }
 
     public <E> Pair<Boolean, E> getValue(Connection conn, String sql) {
-        E result = null;
-        ScalarHandler<E> handler = new ScalarHandler<E>();
+        E result;
+        ScalarHandler<E> handler = new ScalarHandler<>();
         try {
             result = queryRunner.query(conn, sql, handler);
         } catch (SQLException e) {
