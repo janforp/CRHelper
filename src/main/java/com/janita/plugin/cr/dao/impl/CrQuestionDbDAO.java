@@ -27,10 +27,10 @@ import java.util.stream.Collectors;
  * @since 20220324
  */
 @SuppressWarnings("unused")
-public class CrQuestionSqliteDAO extends BaseDAO<CrQuestion> implements ICrQuestionDAO {
+public class CrQuestionDbDAO extends BaseDAO<CrQuestion> implements ICrQuestionDAO {
 
-    public static CrQuestionSqliteDAO getInstance() {
-        return new CrQuestionSqliteDAO();
+    public static CrQuestionDbDAO getInstance() {
+        return new CrQuestionDbDAO();
     }
 
     public boolean insert(CrQuestion question) {

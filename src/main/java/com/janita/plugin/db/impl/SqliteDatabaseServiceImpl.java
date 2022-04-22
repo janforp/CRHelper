@@ -16,8 +16,6 @@ import java.nio.file.Files;
  */
 public class SqliteDatabaseServiceImpl extends AbstractIDatabaseService {
 
-    private static final String DATABASE_DRIVER = "org.sqlite.JDBC";
-
     private static final String DATABASE_URL = "jdbc:sqlite:" + PluginConstant.DB_FILE_PATH;
 
     public static IDatabaseService getInstance() {
@@ -35,7 +33,7 @@ public class SqliteDatabaseServiceImpl extends AbstractIDatabaseService {
         try {
             //设置基本信息
             source.setMaxActive(1);
-            source.setDriverClassName(DATABASE_DRIVER);
+            source.setDriverClassName(PluginConstant.DbDrivers.SQLITE_DATABASE_DRIVER);
             source.setUrl(DATABASE_URL);
         } catch (Exception e) {
             e.printStackTrace();

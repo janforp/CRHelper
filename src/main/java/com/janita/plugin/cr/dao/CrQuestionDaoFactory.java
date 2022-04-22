@@ -1,8 +1,8 @@
 package com.janita.plugin.cr.dao;
 
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.cr.dao.impl.CrQuestionDbDAO;
 import com.janita.plugin.cr.dao.impl.CrQuestionIdeaCacheDAO;
-import com.janita.plugin.cr.dao.impl.CrQuestionSqliteDAO;
 import com.janita.plugin.cr.domain.CrDataStorage;
 import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
 
@@ -14,7 +14,7 @@ import com.janita.plugin.cr.persistent.CrDataStoragePersistent;
  */
 public class CrQuestionDaoFactory {
 
-    private static final ICrQuestionDAO sqliteDAO = new CrQuestionSqliteDAO();
+    private static final ICrQuestionDAO sqliteDAO = new CrQuestionDbDAO();
 
     private static final ICrQuestionDAO ideaCacheDAO = new CrQuestionIdeaCacheDAO();
 

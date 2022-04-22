@@ -3,6 +3,7 @@ package com.janita.plugin.db.impl;
 import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.common.constant.PersistentKeys;
+import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
 
@@ -13,8 +14,6 @@ import org.apache.commons.dbcp.BasicDataSource;
  * @since 20220324
  */
 public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
-
-    private static final String DATABASE_DRIVER = "com.mysql.jdbc.Driver";
 
     public static IDatabaseService getInstance() {
         return ApplicationManager.getApplication().getService(MySqlDatabaseServiceImpl.class);
@@ -28,7 +27,7 @@ public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
     protected BasicDataSource initDataSource() {
         source = new BasicDataSource();
         source.setMaxActive(1);
-        source.setDriverClassName(DATABASE_DRIVER);
+        source.setDriverClassName(PluginConstant.DbDrivers.MYSQL_DATABASE_DRIVER);
         source.setUrl(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_URL));
         source.setUsername(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_USERNAME));
         source.setPassword(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_PWD));

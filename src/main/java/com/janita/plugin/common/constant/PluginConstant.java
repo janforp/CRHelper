@@ -27,6 +27,13 @@ public class PluginConstant {
      */
     public final String PLEASE_MANUAL_ASSIGN = "--请手动指派--";
 
+    public static class DbDrivers {
+
+        public static final String MYSQL_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
+
+        public static final String SQLITE_DATABASE_DRIVER = "org.sqlite.JDBC";
+    }
+
     String TOOLWINDOW_ID = "Notebook";
 
     /**

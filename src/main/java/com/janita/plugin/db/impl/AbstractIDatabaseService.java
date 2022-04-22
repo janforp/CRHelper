@@ -31,8 +31,6 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
         // empty
     }
 
-    protected abstract BasicDataSource initDataSource();
-
     @Override
     public Connection getConnection() {
         if (connection == null) {
@@ -56,8 +54,6 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
         return connection;
     }
 
-    protected abstract String getTableSql();
-
     private void initTable() {
         String createQuestionSQL = getTableSql();
         try {
@@ -79,4 +75,18 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 数据源初始化
+     *
+     * @return 数据源初始化
+     */
+    protected abstract BasicDataSource initDataSource();
+
+    /**
+     * 创建表
+     *
+     * @return sql
+     */
+    protected abstract String getTableSql();
 }
