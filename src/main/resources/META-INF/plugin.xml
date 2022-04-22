@@ -24,7 +24,10 @@
         <!-- 添加右边的 CrQuestion 菜单 -->
         <toolWindow factoryClass="com.janita.plugin.cr.window.CrQuestionListWindowFactory" id="CodeReviewList" anchor="right" icon="/img/mark.png"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.persistent.CrQuestionDataPersistent"/>
-        <!--        <applicationConfigurable instance="com.janita.plugin.cr.persistent.CrMainSetting" dynamic="true"/>-->
+
+        <applicationConfigurable parentId="tools"
+                                 instance="com.janita.plugin.cr.setting.CrSettingConfigurable"
+                                 id="com.janita.plugin.cr.setting.CrSettingConfigurable"/>
 
         <!-- sqlit 数据库-->
         <applicationService serviceImplementation="com.janita.plugin.db.impl.SqliteDatabaseServiceImpl"/>

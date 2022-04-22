@@ -13,7 +13,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Set;
 
 /**
@@ -160,7 +159,39 @@ public class SettingBuilder {
                 .apiDomainField(apiDomainField)
                 .build();
         addActionListener(component);
+        selectRadix(component);
+        initFieldText(component);
         return component;
+    }
+
+    private static void initFieldText(CrQuestionDataStorageSettingComponent component) {
+        component.getDbUrlField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_URL));
+        component.getDbUsernameField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_USERNAME));
+        component.getDbPwdField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_PWD));
+        component.getApiDomainField().setText(PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN));
+    }
+
+    private static void selectRadix(CrQuestionDataStorageSettingComponent component) {
+        String way = PropertiesComponent.getInstance().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(way);
+        if (storageEnum == CrDataStorageEnum.LOCAL_CACHE) {
+            component.getLocalCacheButton().setSelected(true);
+            return;
+        }
+        if (storageEnum == CrDataStorageEnum.SQLITE_DB) {
+            component.getLocalSqliteDbButton().setSelected(true);
+            return;
+        }
+        if (storageEnum == CrDataStorageEnum.MYSQL_DB) {
+            component.getRemoteMysqlDbButton().setSelected(true);
+            return;
+        }
+        if (storageEnum == CrDataStorageEnum.REST_API) {
+            component.getRemoteHttpApiButton().setSelected(true);
+            return;
+        }
+        // 默认
+        component.getLocalSqliteDbButton().setSelected(true);
     }
 
     private static void addActionListener(CrQuestionDataStorageSettingComponent component) {
@@ -225,19 +256,19 @@ public class SettingBuilder {
             return true;
         }
         if (CrDataStorageEnum.SQLITE_DB == storageEnum) {
-            Connection connection = SqliteDatabaseServiceImpl.getInstance().getConnection();
             try {
+                Connection connection = SqliteDatabaseServiceImpl.getInstance().getConnection();
                 return !connection.isClosed();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
         }
         if (CrDataStorageEnum.MYSQL_DB == storageEnum) {
-            Connection connection = MySqlDatabaseServiceImpl.getInstance().getConnection();
             try {
+                Connection connection = MySqlDatabaseServiceImpl.getInstance().getConnection();
                 return !connection.isClosed();
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 return false;
             }
