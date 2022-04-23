@@ -1,8 +1,8 @@
 package com.janita.plugin.db.impl;
 
 import com.intellij.openapi.application.ApplicationManager;
+import com.janita.plugin.common.util.DruidDbUtils;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
-import com.janita.plugin.db.DruidDbUtils;
 import com.janita.plugin.db.IDatabaseService;
 
 import javax.sql.DataSource;

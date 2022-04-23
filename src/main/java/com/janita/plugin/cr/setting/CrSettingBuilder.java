@@ -1,7 +1,5 @@
 package com.janita.plugin.cr.setting;
 
-import com.intellij.ide.util.PropertiesComponent;
-import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 
@@ -205,8 +203,7 @@ public class CrSettingBuilder {
     }
 
     private static void selectRadix(CrQuestionDataStorageSettingComponent component) {
-        String way = PropertiesComponent.getInstance().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
-        CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(way);
+        CrDataStorageEnum storageEnum = CrQuestionSetting.getStorageWayFromCache();
         if (storageEnum == CrDataStorageEnum.LOCAL_CACHE) {
             component.getLocalCacheButton().setSelected(true);
             return;

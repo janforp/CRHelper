@@ -1,7 +1,6 @@
 package com.janita.plugin.common.enums;
 
-import com.intellij.ide.util.PropertiesComponent;
-import com.janita.plugin.common.constant.PersistentKeys;
+import com.janita.plugin.cr.setting.CrQuestionSetting;
 import lombok.AllArgsConstructor;
 
 /**
@@ -23,7 +22,7 @@ public enum CrRestApiEnum {
     private final String url;
 
     public String getFullUrl() {
-        String domain = PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN);
-        return domain + url;
+        String restApiDomain = CrQuestionSetting.getCrQuestionSettingFromCache().getRestApiDomain();
+        return restApiDomain + url;
     }
 }

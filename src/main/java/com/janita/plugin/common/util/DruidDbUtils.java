@@ -1,4 +1,4 @@
-package com.janita.plugin.db;
+package com.janita.plugin.common.util;
 
 import com.alibaba.druid.pool.DruidDataSource;
 

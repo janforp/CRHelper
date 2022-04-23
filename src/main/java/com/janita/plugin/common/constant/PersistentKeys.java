@@ -17,5 +17,4 @@ public class PersistentKeys {
     public static final String MYSQL_PWD = "com.janita.plugin.mysql.password";
 
     public static final String REST_API_DOMAIN = "com.janita.plugin.rest.api.domain";
-
 }

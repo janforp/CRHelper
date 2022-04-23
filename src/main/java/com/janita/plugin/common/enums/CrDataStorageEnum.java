@@ -2,7 +2,7 @@ package com.janita.plugin.common.enums;
 
 import com.intellij.openapi.ui.ValidationInfo;
 import com.janita.plugin.common.domain.Pair;
-import com.janita.plugin.db.DruidDbUtils;
+import com.janita.plugin.common.util.DruidDbUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

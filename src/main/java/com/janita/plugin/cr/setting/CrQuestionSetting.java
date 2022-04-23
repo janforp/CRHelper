@@ -76,6 +76,11 @@ public class CrQuestionSetting {
         return setting;
     }
 
+    public static CrDataStorageEnum getStorageWayFromCache() {
+        CrQuestionSetting setting = getCrQuestionSettingFromCache();
+        return setting.getStorageWay();
+    }
+
     public static CrQuestionSetting getCrQuestionSettingFromInput(CrQuestionDataStorageSettingComponent component) {
         CrDataStorageEnum storageWay = getSelectedStorageWay(component);
         CrQuestionSetting setting = new CrQuestionSetting();
