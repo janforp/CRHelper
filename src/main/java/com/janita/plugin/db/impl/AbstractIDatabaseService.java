@@ -1,9 +1,9 @@
 package com.janita.plugin.db.impl;
 
 import com.janita.plugin.db.IDatabaseService;
-import org.apache.commons.dbcp.BasicDataSource;
 import org.apache.commons.dbutils.QueryRunner;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public abstract class AbstractIDatabaseService implements IDatabaseService {
 
-    protected BasicDataSource source;
+    protected DataSource source;
 
     protected Connection connection;
 
@@ -88,7 +88,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
      *
      * @return 数据源初始化
      */
-    protected abstract BasicDataSource initDataSource();
+    protected abstract DataSource initDataSource();
 
     /**
      * 创建表

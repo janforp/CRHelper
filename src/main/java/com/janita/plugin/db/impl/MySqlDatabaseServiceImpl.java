@@ -1,10 +1,11 @@
 package com.janita.plugin.db.impl;
 
 import com.intellij.openapi.application.ApplicationManager;
-import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
+import com.janita.plugin.db.DruidDbUtils;
 import com.janita.plugin.db.IDatabaseService;
-import org.apache.commons.dbcp.BasicDataSource;
+
+import javax.sql.DataSource;
 
 /**
  * MySqlDatabaseServiceImpl
@@ -23,14 +24,13 @@ public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
     }
 
     @Override
-    protected BasicDataSource initDataSource() {
-        source = new BasicDataSource();
-        source.setMaxActive(1);
-        source.setDriverClassName(PluginConstant.DbDrivers.MYSQL_DATABASE_DRIVER);
+    protected DataSource initDataSource() {
         CrQuestionSetting setting = CrQuestionSetting.getCrQuestionSettingFromCache();
-        source.setUrl(setting.getDbUrl());
-        source.setUsername(setting.getDbUsername());
-        source.setPassword(setting.getDbPwd());
+        try {
+            source = DruidDbUtils.getDataSource(setting.getDbUrl(), setting.getDbUsername(), setting.getDbPwd());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return source;
     }
 

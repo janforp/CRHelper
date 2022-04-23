@@ -5,6 +5,7 @@ import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
 
+import javax.sql.DataSource;
 import java.io.IOException;
 import java.nio.file.Files;
 
@@ -27,7 +28,7 @@ public class SqliteDatabaseServiceImpl extends AbstractIDatabaseService {
     }
 
     @Override
-    protected BasicDataSource initDataSource() {
+    protected DataSource initDataSource() {
         //创建了DBCP的数据库连接池
         BasicDataSource source = new BasicDataSource();
         try {
