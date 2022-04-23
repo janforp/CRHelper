@@ -87,7 +87,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
         String createQuestionSQL = getTableSql();
         try {
             QueryRunner queryRunner = new QueryRunner(source);
-            queryRunner.update(createQuestionSQL);
+            queryRunner.update(getConnection(), createQuestionSQL);
         } catch (SQLException e) {
             e.printStackTrace();
         }
