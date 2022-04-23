@@ -2,12 +2,15 @@ package com.janita.plugin.cr.setting;
 
 import com.intellij.ide.util.PropertiesComponent;
 import com.janita.plugin.common.constant.PersistentKeys;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * SettingDemo
@@ -40,6 +43,10 @@ public class CrSettingBuilder {
         JPasswordField dbPwdField = new JPasswordField(50);
         JTextField apiDomainField = new JTextField(50);
         apiDomainField.setToolTipText("如 https://www.baidu.com");
+
+        JButton testDbBtn = new JButton("Test Connect");
+        JTextField testField = new JTextField("连接测试结果");
+        testField.setEnabled(false);
 
         GridBagLayout gridBagLayout = new GridBagLayout();
         panel.setLayout(gridBagLayout);
@@ -102,6 +109,12 @@ public class CrSettingBuilder {
         gridBagConstraints.gridheight = 1;
         gridBagLayout.setConstraints(apiDomainLabel, gridBagConstraints);
 
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 1;
+        gridBagConstraints.gridheight = 1;
+        gridBagLayout.setConstraints(testDbBtn, gridBagConstraints);
+
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.gridwidth = 3;
@@ -126,6 +139,12 @@ public class CrSettingBuilder {
         gridBagConstraints.gridheight = 1;
         gridBagLayout.setConstraints(apiDomainField, gridBagConstraints);
 
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridheight = 1;
+        gridBagLayout.setConstraints(testField, gridBagConstraints);
+
         ButtonGroup group = new ButtonGroup();
         group.add(localCacheButton);
         group.add(localSqliteDbButton);
@@ -145,6 +164,8 @@ public class CrSettingBuilder {
         panel.add(dbPwdField);
         panel.add(apiDomainField);
         panel.add(verticalStrut);
+        panel.add(testDbBtn);
+        panel.add(testField);
 
         CrQuestionDataStorageSettingComponent component = CrQuestionDataStorageSettingComponent.builder().
                 totalContent(panel)
@@ -158,6 +179,8 @@ public class CrSettingBuilder {
                 .dbPwdField(dbPwdField)
                 .apiDomainField(apiDomainField)
                 .createFromSetting(createFromSetting)
+                .testDbButton(testDbBtn)
+                .testField(testField)
                 .build();
         addActionListener(component);
         selectRadix(component);
@@ -239,6 +262,15 @@ public class CrSettingBuilder {
                     component.getDbPwdField().setEnabled(false);
                     component.getApiDomainField().setEnabled(true);
                 }
+            }
+        });
+        component.getTestDbButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CrQuestionSetting setting = CrQuestionSetting.getCrQuestionSettingFromInput(component);
+                CrDataStorageEnum storageWay = setting.getStorageWay();
+                Pair<Boolean, String> connectResult = storageWay.checkConnect(component.getDbUrlField(), component.getDbUsernameField(), component.getDbPwdField(), component.getApiDomainField());
+                component.getTestField().setText(connectResult.getRight());
             }
         });
     }

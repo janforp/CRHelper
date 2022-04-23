@@ -21,6 +21,13 @@ public interface IDatabaseService {
     boolean checkParam(String url, String username, String pwd);
 
     /**
+     * 获取链接
+     *
+     * @return 数据库链接
+     */
+    Connection getConnectDirectly();
+
+    /**
      * 配置发生变化
      */
     void onDatasourceChange();

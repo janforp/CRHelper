@@ -20,24 +20,6 @@ public class CrQuestionSettingDialog extends DialogWrapper {
 
     private CrQuestionDataStorageSettingComponent component;
 
-    private JComponent totalContent;
-
-    private JRadioButton localCacheButton;
-
-    private JRadioButton localSqliteDbButton;
-
-    private JRadioButton remoteMysqlDbButton;
-
-    private JRadioButton remoteHttpApiButton;
-
-    private JTextField dbUrlField;
-
-    private JTextField dbUsernameField;
-
-    private JPasswordField dbPwdField;
-
-    private JTextField apiDomainField;
-
     public CrQuestionSettingDialog() {
         super(true);
         init();
@@ -46,22 +28,8 @@ public class CrQuestionSettingDialog extends DialogWrapper {
     @Override
     @Nullable
     protected JComponent createCenterPanel() {
-        CrQuestionDataStorageSettingComponent component = CrSettingBuilder.createSettingComponent(false);
-        this.component = component;
-        initFields(component);
-        return totalContent;
-    }
-
-    private void initFields(CrQuestionDataStorageSettingComponent component) {
-        this.totalContent = component.getTotalContent();
-        this.localCacheButton = component.getLocalCacheButton();
-        this.localSqliteDbButton = component.getLocalSqliteDbButton();
-        this.remoteMysqlDbButton = component.getRemoteMysqlDbButton();
-        this.remoteHttpApiButton = component.getRemoteHttpApiButton();
-        this.dbUrlField = component.getDbUrlField();
-        this.dbUsernameField = component.getDbUsernameField();
-        this.dbPwdField = component.getDbPwdField();
-        this.apiDomainField = component.getApiDomainField();
+        this.component = CrSettingBuilder.createSettingComponent(false);
+        return component.getTotalContent();
     }
 
     @Override
@@ -81,15 +49,19 @@ public class CrQuestionSettingDialog extends DialogWrapper {
     @Nullable
     protected ValidationInfo doValidate() {
         // 还要确保输入的配置正确
-        if (localCacheButton.isSelected() || localSqliteDbButton.isSelected()) {
+        if (component.getLocalCacheButton().isSelected() || component.getLocalSqliteDbButton().isSelected()) {
             return null;
         }
-        if (remoteMysqlDbButton.isSelected()) {
-            return CrDataStorageEnum.MYSQL_DB.check(dbUrlField, dbUsernameField, dbPwdField);
+        if (component.getRemoteMysqlDbButton().isSelected()) {
+            String text = component.getTestField().getText();
+            if ("连接失败".equals(text) || "连接测试结果".equals(text)) {
+                return new ValidationInfo("请确保数据库连接成功！如果数据库不可用建议使用其他存储方式");
+            }
+            return null;
         }
-        if (remoteHttpApiButton.isSelected()) {
+        if (component.getRemoteHttpApiButton().isSelected()) {
             // TODO 肯定要检查服务是否监控存活
-            return CrDataStorageEnum.REST_API.check(apiDomainField);
+            return CrDataStorageEnum.REST_API.check(component.getApiDomainField());
         }
         return null;
     }

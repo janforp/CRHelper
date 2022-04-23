@@ -37,14 +37,22 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
         this.connection = null;
         this.source = initDataSource();
         this.connection = getConnection();
-        this.initTable();
         // 如果不存在,创建DB文件
         createFileAndDir();
+        if (this.connection == INVALID_CONNECT) {
+            return;
+        }
+        this.initTable();
     }
 
     @Override
     public boolean checkParam(String url, String username, String pwd) {
         return false;
+    }
+
+    @Override
+    public Connection getConnectDirectly() {
+        return connection;
     }
 
     @Override
@@ -58,7 +66,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
             }
         }
         try {
-            if (connection.isClosed()) {
+            if (connection != INVALID_CONNECT && connection.isClosed()) {
                 try {
                     connection = source.getConnection();
                 } catch (Exception exception) {
@@ -87,6 +95,10 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
 
     @Override
     public void closeResource() {
+        if (connection == INVALID_CONNECT) {
+            connection = null;
+            return;
+        }
         if (connection == null) {
             return;
         }

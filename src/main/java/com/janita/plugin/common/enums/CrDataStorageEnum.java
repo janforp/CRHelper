@@ -1,10 +1,15 @@
 package com.janita.plugin.common.enums;
 
 import com.intellij.openapi.ui.ValidationInfo;
+import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.db.DruidDbUtils;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import javax.sql.DataSource;
 import javax.swing.*;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -66,6 +71,27 @@ public enum CrDataStorageEnum {
             }
             return null;
         }
+
+        @Override
+        public Pair<Boolean, String> checkConnect(JTextField... fields) {
+            JTextField urlField = fields[0];
+            JTextField usernameField = fields[1];
+            JTextField pwdField = fields[2];
+            String url = urlField.getText();
+            String username = usernameField.getText();
+            String pwd = pwdField.getText();
+            DataSource dataSource = DruidDbUtils.getDataSource(url, username, pwd);
+            try {
+                Connection connection = dataSource.getConnection();
+                if (!connection.isClosed()) {
+                    return Pair.of(true, "连接成功");
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return Pair.of(false, "连接失败");
+            }
+            return Pair.of(true, "连接成功");
+        }
     },
     ;
 
@@ -78,6 +104,10 @@ public enum CrDataStorageEnum {
     }
 
     public abstract ValidationInfo check(JTextField... fields);
+
+    public Pair<Boolean, String> checkConnect(JTextField... fields) {
+        return Pair.of(true, "连接成功");
+    }
 
     public static CrDataStorageEnum getByDesc(String desc) {
         for (CrDataStorageEnum storageEnum : CrDataStorageEnum.values()) {

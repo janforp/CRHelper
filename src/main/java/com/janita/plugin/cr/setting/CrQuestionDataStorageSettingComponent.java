@@ -36,4 +36,8 @@ public class CrQuestionDataStorageSettingComponent {
     private final JPasswordField dbPwdField;
 
     private final JTextField apiDomainField;
+
+    private final JButton testDbButton;
+
+    private final JTextField testField;
 }
