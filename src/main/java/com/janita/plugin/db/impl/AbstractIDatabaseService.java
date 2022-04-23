@@ -63,6 +63,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
                     connection = source.getConnection();
                 } catch (Exception exception) {
                     exception.printStackTrace();
+                    connection = INVALID_CONNECT;
                 }
             }
         } catch (Exception e) {
