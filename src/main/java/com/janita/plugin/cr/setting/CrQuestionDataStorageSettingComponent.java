@@ -15,6 +15,8 @@ import javax.swing.*;
 @Getter
 public class CrQuestionDataStorageSettingComponent {
 
+    private final boolean createFromSetting;
+
     private final JComponent totalContent;
 
     private final ButtonGroup group;

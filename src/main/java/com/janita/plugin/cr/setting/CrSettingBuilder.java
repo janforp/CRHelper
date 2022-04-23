@@ -17,7 +17,7 @@ import java.awt.*;
  */
 public class CrSettingBuilder {
 
-    public static CrQuestionDataStorageSettingComponent createSettingComponent() {
+    public static CrQuestionDataStorageSettingComponent createSettingComponent(boolean createFromSetting) {
         JPanel panel = new JPanel();
         panel.setSize(450, 300);
         JRadioButton localCacheButton = new JRadioButton("本地缓存");
@@ -157,6 +157,7 @@ public class CrSettingBuilder {
                 .dbUsernameField(dbUsernameField)
                 .dbPwdField(dbPwdField)
                 .apiDomainField(apiDomainField)
+                .createFromSetting(createFromSetting)
                 .build();
         addActionListener(component);
         selectRadix(component);

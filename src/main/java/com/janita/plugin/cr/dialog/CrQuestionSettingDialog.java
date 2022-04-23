@@ -46,7 +46,7 @@ public class CrQuestionSettingDialog extends DialogWrapper {
     @Override
     @Nullable
     protected JComponent createCenterPanel() {
-        CrQuestionDataStorageSettingComponent component = CrSettingBuilder.createSettingComponent();
+        CrQuestionDataStorageSettingComponent component = CrSettingBuilder.createSettingComponent(false);
         this.component = component;
         initFields(component);
         return totalContent;
@@ -80,6 +80,7 @@ public class CrQuestionSettingDialog extends DialogWrapper {
     @Override
     @Nullable
     protected ValidationInfo doValidate() {
+        // 还要确保输入的配置正确
         if (localCacheButton.isSelected() || localSqliteDbButton.isSelected()) {
             return null;
         }
@@ -87,6 +88,7 @@ public class CrQuestionSettingDialog extends DialogWrapper {
             return CrDataStorageEnum.MYSQL_DB.check(dbUrlField, dbUsernameField, dbPwdField);
         }
         if (remoteHttpApiButton.isSelected()) {
+            // TODO 肯定要检查服务是否监控存活
             return CrDataStorageEnum.REST_API.check(apiDomainField);
         }
         return null;

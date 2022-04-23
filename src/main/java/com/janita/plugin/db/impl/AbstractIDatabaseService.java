@@ -1,6 +1,7 @@
 package com.janita.plugin.db.impl;
 
 import com.janita.plugin.db.IDatabaseService;
+import com.mysql.cj.jdbc.ConnectionImpl;
 import org.apache.commons.dbutils.QueryRunner;
 
 import javax.sql.DataSource;
@@ -14,6 +15,8 @@ import java.sql.SQLException;
  * @since 20220324
  */
 public abstract class AbstractIDatabaseService implements IDatabaseService {
+
+    public static final Connection INVALID_CONNECT = new C();
 
     protected DataSource source;
 
@@ -30,6 +33,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     @Override
     public void onDatasourceChange() {
         this.source = null;
+        this.closeResource();
         this.connection = null;
         this.source = initDataSource();
         this.connection = getConnection();
@@ -39,12 +43,18 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     }
 
     @Override
+    public boolean checkParam(String url, String username, String pwd) {
+        return false;
+    }
+
+    @Override
     public Connection getConnection() {
-        if (connection == null) {
+        if (connection == null || connection == INVALID_CONNECT) {
             try {
                 connection = source.getConnection();
             } catch (Exception e) {
                 e.printStackTrace();
+                connection = INVALID_CONNECT;
             }
         }
         try {
@@ -57,6 +67,9 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        if (connection == null) {
+            return INVALID_CONNECT;
         }
         return connection;
     }
@@ -96,4 +109,12 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
      * @return sql
      */
     protected abstract String getTableSql();
+
+    private static class C extends ConnectionImpl {
+
+        @Override
+        public String toString() {
+            return "数据库配置异常";
+        }
+    }
 }

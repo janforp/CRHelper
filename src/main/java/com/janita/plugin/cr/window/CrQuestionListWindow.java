@@ -14,7 +14,6 @@ import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.CompatibleUtils;
 import com.janita.plugin.common.util.DateUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
-import com.janita.plugin.cr.dialog.CrQuestionSettingDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.cr.export.MDFreeMarkProcessor;
@@ -129,7 +128,6 @@ public class CrQuestionListWindow extends JDialog {
                             CrQuestionHouse.rerenderTable(request);
                         } catch (Exception e) {
                             e.printStackTrace();
-                            CrQuestionSettingDialog.checkStorageAndReturnIfClickOk();
                         }
                     }
                 });
@@ -212,13 +210,6 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
-        CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectNameList.get(0), new HashSet<>(Collections.singletonList(CrQuestionState.UNSOLVED)));
-        try {
-            CrQuestionHouse.rerenderTable(request);
-        } catch (Exception e) {
-            // 如果用户故意设置错误的数据库信息，避免无法渲染出列表
-            e.printStackTrace();
-        }
         for (CrQuestionState state : CrQuestionState.values()) {
             stateBox.addItem(state.getDesc());
         }

@@ -25,7 +25,7 @@ public class CrSettingConfigurable implements Configurable {
     @Override
     @Nullable
     public JComponent createComponent() {
-        CrQuestionDataStorageSettingComponent settingComponent = CrSettingBuilder.createSettingComponent();
+        CrQuestionDataStorageSettingComponent settingComponent = CrSettingBuilder.createSettingComponent(true);
         this.component = settingComponent;
         return settingComponent.getTotalContent();
     }

@@ -34,6 +34,17 @@ public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
         return source;
     }
 
+    public boolean checkParam(String url, String username, String pwd) {
+        try {
+            source = DruidDbUtils.getDataSource(url, username, pwd);
+            connection = source.getConnection();
+            return !connection.isClosed();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     @Override
     protected String getTableSql() {
         return "create table IF NOT EXISTS cr_question\n"
