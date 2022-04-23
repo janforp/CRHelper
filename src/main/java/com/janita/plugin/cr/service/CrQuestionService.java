@@ -40,8 +40,7 @@ public class CrQuestionService {
 
     public boolean update(CrQuestion crQuestion) {
         ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
-        crQuestionDAO.update(crQuestion);
-        return true;
+        return crQuestionDAO.update(crQuestion);
     }
 
     public boolean batchDelete(List<Integer> questionIdList) {

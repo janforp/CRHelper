@@ -44,7 +44,7 @@ public abstract class BaseDAO<T> {
     //除开增删改查. 还需要sql语句查询比如总共有多少个用户之类的通用方法
     public <E> E getValue(Connection conn, String sql, Object... args) {
         E result = null;
-        ScalarHandler<E> handler = new ScalarHandler<E>();
+        ScalarHandler<E> handler = new ScalarHandler<>();
         try {
             result = queryRunner.query(conn, sql, handler, args);
         } catch (SQLException e) {
@@ -71,7 +71,7 @@ public abstract class BaseDAO<T> {
         //开启驼峰映射 因为数据库是 create_time .而java 类是createTime
         BeanProcessor bean = new GenerousBeanProcessor();
         RowProcessor processor = new BasicRowProcessor(bean);
-        BeanListHandler<T> handler = new BeanListHandler<T>(clazz, processor);
+        BeanListHandler<T> handler = new BeanListHandler<>(clazz, processor);
         try {
             list = queryRunner.query(conn, sql, handler, objs);
         } catch (SQLException e) {
@@ -83,7 +83,7 @@ public abstract class BaseDAO<T> {
     //List<Object>每个列数据类型不同
     public List<String> queryTitleList(Connection conn, String sql, Object... objs) {
         List<String> list = null;
-        ColumnListHandler<String> handler = new ColumnListHandler<String>("title");
+        ColumnListHandler<String> handler = new ColumnListHandler<>("title");
         try {
             list = queryRunner.query(conn, sql, handler, objs);
         } catch (SQLException e) {
@@ -95,7 +95,7 @@ public abstract class BaseDAO<T> {
     //List<Object>每个列数据类型不同
     public List<String> queryImageRecords(Connection conn, String sql, Object... objs) {
         List<String> list = null;
-        ColumnListHandler<String> handler = new ColumnListHandler<String>("image_records");
+        ColumnListHandler<String> handler = new ColumnListHandler<>("image_records");
         try {
             list = queryRunner.query(conn, sql, handler, objs);
         } catch (SQLException e) {
@@ -111,7 +111,7 @@ public abstract class BaseDAO<T> {
             //开启驼峰映射
             BeanProcessor bean = new GenerousBeanProcessor();
             RowProcessor processor = new BasicRowProcessor(bean);
-            t = queryRunner.query(conn, sql, new BeanHandler<T>(clazz, processor), objs);
+            t = queryRunner.query(conn, sql, new BeanHandler<>(clazz, processor), objs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
