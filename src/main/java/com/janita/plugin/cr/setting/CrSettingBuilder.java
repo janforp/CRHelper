@@ -23,13 +23,21 @@ public class CrSettingBuilder {
     public static CrQuestionDataStorageSettingComponent createSettingComponent(boolean createFromSetting) {
         JPanel panel = new JPanel();
         panel.setSize(450, 300);
+
         JRadioButton localCacheButton = new JRadioButton("本地缓存");
+        localCacheButton.setEnabled(CrDataStorageEnum.LOCAL_CACHE.isSupport());
         localCacheButton.setToolTipText("使用idea本地缓存，清空idea缓存数据将会丢失");
+
         JRadioButton localSqliteDbButton = new JRadioButton("本地DB");
+        localSqliteDbButton.setEnabled(CrDataStorageEnum.SQLITE_DB.isSupport());
         localSqliteDbButton.setToolTipText("使用本地Sqlite数据库，数据持久化在本地磁盘中,路径为：${USER_HOME_PATH}/.ideaCRHelperFile/CRHelper.db");
+
         JRadioButton remoteMysqlDbButton = new JRadioButton("远程DB");
+        remoteMysqlDbButton.setEnabled(CrDataStorageEnum.MYSQL_DB.isSupport());
         remoteMysqlDbButton.setToolTipText("用户自己提供mysql数据库，数据持久化在用户的数据库中");
+
         JRadioButton remoteHttpApiButton = new JRadioButton("远程接口");
+        remoteHttpApiButton.setEnabled(CrDataStorageEnum.REST_API.isSupport());
         remoteHttpApiButton.setToolTipText("用户自己开发的rest服务，通过rest接口进行数据的存储");
 
         JLabel dbUrlLabel = new JLabel("数据库URL:");
@@ -228,6 +236,7 @@ public class CrSettingBuilder {
                     component.getDbUsernameField().setEnabled(false);
                     component.getDbPwdField().setEnabled(false);
                     component.getApiDomainField().setEnabled(false);
+                    component.getTestField().setText("连接成功");
                 }
             }
         });
@@ -239,6 +248,7 @@ public class CrSettingBuilder {
                     component.getDbUsernameField().setEnabled(false);
                     component.getDbPwdField().setEnabled(false);
                     component.getApiDomainField().setEnabled(false);
+                    component.getTestField().setText("连接成功");
                 }
             }
         });
@@ -250,6 +260,7 @@ public class CrSettingBuilder {
                     component.getDbUsernameField().setEnabled(true);
                     component.getDbPwdField().setEnabled(true);
                     component.getApiDomainField().setEnabled(false);
+                    component.getTestField().setText("连接测试结果");
                 }
             }
         });
@@ -261,6 +272,7 @@ public class CrSettingBuilder {
                     component.getDbUsernameField().setEnabled(false);
                     component.getDbPwdField().setEnabled(false);
                     component.getApiDomainField().setEnabled(true);
+                    component.getTestField().setText("连接测试结果");
                 }
             }
         });
