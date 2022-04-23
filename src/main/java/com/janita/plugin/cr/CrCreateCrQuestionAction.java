@@ -4,6 +4,8 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.MessageType;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.dialog.CrQuestionSettingDialog;
@@ -28,8 +30,12 @@ public class CrCreateCrQuestionAction extends AnAction {
         }
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         CrQuestion question = CrQuestion.newQuestion(e);
-        Set<String> developerSet = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
-        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project, developerSet);
+        Pair<Boolean, Set<String>> pair = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
+        if (!pair.getLeft()) {
+            CommonUtils.showNotification("CRHelper数据库配置不正确", MessageType.ERROR);
+            return;
+        }
+        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project, pair.getRight());
         CommonUtils.setToClipboard(question.getQuestionCode());
         dialog.open(question);
     }

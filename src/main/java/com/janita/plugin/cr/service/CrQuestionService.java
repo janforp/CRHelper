@@ -8,9 +8,12 @@ import com.janita.plugin.cr.dao.CrQuestionDaoFactory;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
+import com.janita.plugin.db.DatabaseServiceFactory;
+import com.janita.plugin.db.impl.AbstractIDatabaseService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
 
+import java.sql.Connection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -53,26 +56,30 @@ public class CrQuestionService {
         return crQuestionDAO.query(request);
     }
 
-    public Set<String> queryAssignName(String projectName) {
+    public Pair<Boolean, Set<String>> queryAssignName(String projectName) {
+        Connection connection = DatabaseServiceFactory.getDatabase().getConnectDirectly();
+        if (connection == AbstractIDatabaseService.INVALID_CONNECT) {
+            return Pair.of(false, null);
+        }
         ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
         CrQuestionQueryRequest request = new CrQuestionQueryRequest();
         request.setProjectName(projectName);
         Pair<Boolean, List<CrQuestion>> pair = crQuestionDAO.query(request);
         if (BooleanUtils.isNotTrue(pair.getLeft())) {
-            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
+            return Pair.of(true, Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN));
         }
         List<CrQuestion> list = pair.getRight();
         if (CollectionUtils.isEmpty(list)) {
-            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
+            return Pair.of(true, Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN));
         }
         Set<String> collect = list.stream().map(CrQuestion::getAssignTo).filter(Objects::nonNull).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(collect)) {
-            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
+            return Pair.of(true, Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN));
         }
         collect.remove(PluginConstant.PLEASE_MANUAL_ASSIGN);
         if (CollectionUtils.isEmpty(collect)) {
-            return Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN);
+            return Pair.of(true, Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN));
         }
-        return collect;
+        return Pair.of(true, collect);
     }
 }

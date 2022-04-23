@@ -4,12 +4,11 @@ import com.intellij.ide.util.PropertiesComponent;
 import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 import com.janita.plugin.db.DatabaseServiceFactory;
-import com.janita.plugin.db.impl.MySqlDatabaseServiceImpl;
-import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
+import com.janita.plugin.db.IDatabaseService;
+import com.janita.plugin.db.impl.AbstractIDatabaseService;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 
-import java.sql.Connection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -122,23 +121,9 @@ public class CrQuestionSetting {
         if (CrDataStorageEnum.LOCAL_CACHE == storageEnum) {
             return true;
         }
-        if (CrDataStorageEnum.SQLITE_DB == storageEnum) {
-            try {
-                Connection connection = SqliteDatabaseServiceImpl.getInstance().getConnection();
-                return !connection.isClosed();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
-        }
-        if (CrDataStorageEnum.MYSQL_DB == storageEnum) {
-            try {
-                Connection connection = MySqlDatabaseServiceImpl.getInstance().getConnection();
-                return !connection.isClosed();
-            } catch (Exception e) {
-                e.printStackTrace();
-                return false;
-            }
+        if (CrDataStorageEnum.SQLITE_DB == storageEnum || CrDataStorageEnum.MYSQL_DB == storageEnum) {
+            IDatabaseService database = DatabaseServiceFactory.getDatabase();
+            return database.getConnectDirectly() != AbstractIDatabaseService.INVALID_CONNECT;
         }
         if (CrDataStorageEnum.REST_API == storageEnum) {
             String domain = PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN);

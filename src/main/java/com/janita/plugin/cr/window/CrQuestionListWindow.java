@@ -7,6 +7,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.progress.AbstractProgressTask;
 import com.janita.plugin.common.progress.ProgressUtils;
@@ -251,8 +252,8 @@ public class CrQuestionListWindow extends JDialog {
 
     private void showQuestionDetailDialog(int row) {
         CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
-        Set<String> developerSet = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
-        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project, developerSet);
+        Pair<Boolean, Set<String>> pair = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
+        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(row, project, pair.getRight());
         dialog.open(question);
     }
 
