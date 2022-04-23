@@ -4,8 +4,6 @@ import lombok.experimental.UtilityClass;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.datatransfer.Clipboard;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -105,8 +103,6 @@ public class PluginConstant {
      * USER_HOME_PATH/.ideaCRHelperFile/CRHelper.db
      */
     public Path DB_FILE_PATH = PROJECT_DB_DIRECTORY_PATH.resolve("CRHelper.db");
-
-    Clipboard CLIPBOARD = Toolkit.getDefaultToolkit().getSystemClipboard();
 
     int MIN_FONT_SIZE = 8;
 

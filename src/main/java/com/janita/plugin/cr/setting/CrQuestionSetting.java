@@ -59,7 +59,7 @@ public class CrQuestionSetting {
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_USERNAME, setting.getDbUsername());
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_PWD, setting.getDbPwd());
         PropertiesComponent.getInstance().setValue(PersistentKeys.REST_API_DOMAIN, setting.getRestApiDomain());
-        DatabaseServiceFactory.getDatabase().onDatasourceChange();
+        DatabaseServiceFactory.getDatabase().initConnect();
     }
 
     public static CrQuestionSetting getCrQuestionSettingFromCache() {

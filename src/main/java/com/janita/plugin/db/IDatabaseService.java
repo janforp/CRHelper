@@ -30,7 +30,7 @@ public interface IDatabaseService {
     /**
      * 配置发生变化
      */
-    void onDatasourceChange();
+    void initConnect();
 
     /**
      * 获取链接

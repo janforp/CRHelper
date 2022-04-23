@@ -23,7 +23,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     protected Connection connection;
 
     protected AbstractIDatabaseService() {
-        onDatasourceChange();
+        initConnect();
     }
 
     protected void createFileAndDir() {
@@ -31,7 +31,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     }
 
     @Override
-    public void onDatasourceChange() {
+    public void initConnect() {
         this.source = null;
         this.closeResource();
         this.connection = null;
