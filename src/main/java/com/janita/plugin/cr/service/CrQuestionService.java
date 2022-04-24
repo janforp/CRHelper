@@ -10,10 +10,10 @@ import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 import com.janita.plugin.db.impl.AbstractIDatabaseService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -64,7 +64,7 @@ public class CrQuestionService {
         if (CollectionUtils.isEmpty(list)) {
             return Pair.of(true, Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN));
         }
-        Set<String> collect = list.stream().map(CrQuestion::getAssignTo).filter(Objects::nonNull).collect(Collectors.toSet());
+        Set<String> collect = list.stream().map(CrQuestion::getAssignTo).filter(StringUtils::isNotBlank).collect(Collectors.toSet());
         if (CollectionUtils.isEmpty(collect)) {
             return Pair.of(true, Sets.newHashSet(PluginConstant.PLEASE_MANUAL_ASSIGN));
         }

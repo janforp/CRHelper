@@ -160,9 +160,7 @@ public class CrCreateQuestionDialog extends JDialog {
                 if (manualAssign) {
                     return;
                 }
-                selectAssignBox.setEnabled(false);
-                manualAssignerField.setEnabled(true);
-                manualAssign = true;
+                setToManualAssign();
             }
         });
 
@@ -178,6 +176,12 @@ public class CrCreateQuestionDialog extends JDialog {
                 closeDialog();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+    }
+
+    private void setToManualAssign() {
+        selectAssignBox.setEnabled(false);
+        manualAssignerField.setEnabled(true);
+        manualAssign = true;
     }
 
     /**
@@ -209,14 +213,13 @@ public class CrCreateQuestionDialog extends JDialog {
     }
 
     private String getAssigner() {
-        String assignTo = null;
+        String assignTo;
         if (manualAssign) {
             assignTo = manualAssignerField.getText();
         } else {
             assignTo = (String) selectAssignBox.getSelectedItem();
         }
         if (PluginConstant.PLEASE_MANUAL_ASSIGN.equals(assignTo)) {
-            // TODO 请手动指派 异常显示
             throw new PluginRuntimeException("请手动指派");
         }
         return assignTo;
@@ -255,6 +258,11 @@ public class CrCreateQuestionDialog extends JDialog {
             stateBox.setEnabled(false);
         }
 
+        // 指派下拉只有一个数据
+        if (developerSet.size() == 1 && developerSet.contains(PluginConstant.PLEASE_MANUAL_ASSIGN)) {
+            // 指派下拉不可用，并且手动指派
+            setToManualAssign();
+        }
         setVisible(true);
     }
 
