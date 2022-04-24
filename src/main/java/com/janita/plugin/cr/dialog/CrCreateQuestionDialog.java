@@ -233,7 +233,7 @@ public class CrCreateQuestionDialog extends JDialog {
         if (StringUtils.isBlank(question.getLevel())) {
             return Pair.of(false, "请选择问题级别");
         }
-        if (StringUtils.isAllBlank(question.getBetterCode(), question.getDescription())) {
+        if (StringUtils.isBlank(question.getBetterCode()) && StringUtils.isBlank(question.getDescription())) {
             return Pair.of(false, "建议写法跟描述至少写一项");
         }
         return Pair.of(true, "");
