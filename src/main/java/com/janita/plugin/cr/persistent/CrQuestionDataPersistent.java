@@ -1,7 +1,6 @@
 package com.janita.plugin.cr.persistent;
 
 import com.intellij.openapi.components.PersistentStateComponent;
-import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.components.State;
 import com.intellij.openapi.components.Storage;
 import com.janita.plugin.cr.domain.CrQuestion;
@@ -21,8 +20,8 @@ public class CrQuestionDataPersistent implements PersistentStateComponent<List<C
 
     private List<CrQuestion> questionList;
 
-    public static CrQuestionDataPersistent getInstance() {
-        return ServiceManager.getService(CrQuestionDataPersistent.class);
+    private CrQuestionDataPersistent() {
+
     }
 
     @Override

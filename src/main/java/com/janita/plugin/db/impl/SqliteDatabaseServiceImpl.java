@@ -1,8 +1,6 @@
 package com.janita.plugin.db.impl;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.common.constant.PluginConstant;
-import com.janita.plugin.db.IDatabaseService;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.io.IOException;
@@ -17,10 +15,6 @@ import java.nio.file.Files;
 public class SqliteDatabaseServiceImpl extends AbstractIDatabaseService {
 
     private static final String DATABASE_URL = "jdbc:sqlite:" + PluginConstant.DB_FILE_PATH;
-
-    public static IDatabaseService getInstance() {
-        return ApplicationManager.getApplication().getService(SqliteDatabaseServiceImpl.class);
-    }
 
     private SqliteDatabaseServiceImpl() {
 

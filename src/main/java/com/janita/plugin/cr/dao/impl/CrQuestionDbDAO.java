@@ -3,11 +3,11 @@ package com.janita.plugin.cr.dao.impl;
 import com.janita.plugin.common.constant.DmlConstants;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.dao.BaseDAO;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import com.janita.plugin.db.DatabaseServiceFactory;
 import com.janita.plugin.db.IDatabaseService;
 import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 import org.apache.commons.collections.CollectionUtils;
@@ -34,7 +34,7 @@ public class CrQuestionDbDAO extends BaseDAO<CrQuestion> implements ICrQuestionD
     }
 
     public boolean insert(CrQuestion question) {
-        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        IDatabaseService database = SingletonBeanFactory.getDatabaseService();
         Connection connection = database.getConnection();
         try {
             boolean success = update(connection, DmlConstants.INSERT_SQL,
@@ -73,7 +73,7 @@ public class CrQuestionDbDAO extends BaseDAO<CrQuestion> implements ICrQuestionD
 
     @Override
     public boolean update(CrQuestion note) {
-        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        IDatabaseService database = SingletonBeanFactory.getDatabaseService();
         Connection connection = database.getConnection();
         try {
             return update(connection, DmlConstants.UPDATE_SQL,
@@ -93,7 +93,7 @@ public class CrQuestionDbDAO extends BaseDAO<CrQuestion> implements ICrQuestionD
         if (CollectionUtils.isEmpty(questionIdList)) {
             return true;
         }
-        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        IDatabaseService database = SingletonBeanFactory.getDatabaseService();
         Connection connection = database.getConnection();
         if (questionIdList.size() == 1) {
             return update(connection, DmlConstants.DELETE_SQL, questionIdList.get(0));
@@ -110,7 +110,7 @@ public class CrQuestionDbDAO extends BaseDAO<CrQuestion> implements ICrQuestionD
     @Override
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
         Set<CrQuestionState> stateSet = request.getStateSet();
-        IDatabaseService database = DatabaseServiceFactory.getDatabase();
+        IDatabaseService database = SingletonBeanFactory.getDatabaseService();
         Connection connection = database.getConnection();
         try {
             List<CrQuestion> questionList = queryList(connection, DmlConstants.QUERY_SAL, request.getProjectName());

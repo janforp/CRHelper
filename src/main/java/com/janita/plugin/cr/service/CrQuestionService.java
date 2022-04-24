@@ -1,14 +1,13 @@
 package com.janita.plugin.cr.service;
 
 import com.google.common.collect.Sets;
-import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.dao.CrQuestionDaoFactory;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import com.janita.plugin.db.DatabaseServiceFactory;
 import com.janita.plugin.db.impl.AbstractIDatabaseService;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.BooleanUtils;
@@ -26,12 +25,6 @@ import java.util.stream.Collectors;
  * @since 20220324
  */
 public class CrQuestionService {
-
-    private static final CrQuestionService CR_QUESTION_SERVICE = ApplicationManager.getApplication().getService(CrQuestionService.class);
-
-    public static CrQuestionService getInstance() {
-        return CR_QUESTION_SERVICE;
-    }
 
     private CrQuestionService() {
     }
@@ -57,7 +50,7 @@ public class CrQuestionService {
     }
 
     public Pair<Boolean, Set<String>> queryAssignName(String projectName) {
-        Connection connection = DatabaseServiceFactory.getDatabase().getConnectDirectly();
+        Connection connection = SingletonBeanFactory.getDatabaseService().getConnectDirectly();
         if (connection == AbstractIDatabaseService.INVALID_CONNECT) {
             return Pair.of(false, null);
         }

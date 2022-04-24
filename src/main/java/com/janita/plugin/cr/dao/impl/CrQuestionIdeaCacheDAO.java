@@ -2,6 +2,7 @@ package com.janita.plugin.cr.dao.impl;
 
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
@@ -25,7 +26,7 @@ import java.util.stream.Collectors;
  */
 public class CrQuestionIdeaCacheDAO implements ICrQuestionDAO {
 
-    private static final CrQuestionDataPersistent CR_QUESTION_PERSISTENT = CrQuestionDataPersistent.getInstance();
+    private static final CrQuestionDataPersistent CR_QUESTION_PERSISTENT = SingletonBeanFactory.getCrQuestionDataPersistent();
 
     @Override
     public boolean insert(CrQuestion question) {

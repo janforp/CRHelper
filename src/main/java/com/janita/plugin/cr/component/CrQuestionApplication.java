@@ -2,10 +2,9 @@ package com.janita.plugin.cr.component;
 
 import com.intellij.openapi.components.ApplicationComponent;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
-import com.janita.plugin.db.DatabaseServiceFactory;
 import com.janita.plugin.db.IDatabaseService;
-import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 
 /**
  * CrQuestionApplication
@@ -27,7 +26,7 @@ public class CrQuestionApplication implements ApplicationComponent {
 
     @Override
     public void disposeComponent() {
-        SqliteDatabaseServiceImpl.getInstance().closeResource();
+        SingletonBeanFactory.getDatabaseService().closeResource();
         ApplicationComponent.super.disposeComponent();
     }
 
@@ -36,7 +35,7 @@ public class CrQuestionApplication implements ApplicationComponent {
         @Override
         public void run() {
             try {
-                IDatabaseService database = DatabaseServiceFactory.getDatabase();
+                IDatabaseService database = SingletonBeanFactory.getDatabaseService();
                 database.reInitConnect();
             } catch (Exception e) {
                 e.printStackTrace();

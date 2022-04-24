@@ -1,9 +1,7 @@
 package com.janita.plugin.db.impl;
 
-import com.intellij.openapi.application.ApplicationManager;
 import com.janita.plugin.common.util.DruidDbUtils;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
-import com.janita.plugin.db.IDatabaseService;
 
 import javax.sql.DataSource;
 
@@ -14,10 +12,6 @@ import javax.sql.DataSource;
  * @since 20220324
  */
 public class MySqlDatabaseServiceImpl extends AbstractIDatabaseService {
-
-    public static IDatabaseService getInstance() {
-        return ApplicationManager.getApplication().getService(MySqlDatabaseServiceImpl.class);
-    }
 
     private MySqlDatabaseServiceImpl() {
 

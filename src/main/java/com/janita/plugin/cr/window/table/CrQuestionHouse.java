@@ -3,9 +3,9 @@ package com.janita.plugin.cr.window.table;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import com.janita.plugin.cr.service.CrQuestionService;
 import org.fest.util.Lists;
 
 import java.util.List;
@@ -19,7 +19,7 @@ import java.util.List;
 public class CrQuestionHouse {
 
     public static void add(CrQuestion question) {
-        boolean success = CrQuestionService.getInstance().insert(question);
+        boolean success = SingletonBeanFactory.getCrQuestionService().insert(question);
         if (!success) {
             return;
         }
@@ -29,7 +29,7 @@ public class CrQuestionHouse {
     }
 
     public static void delete(int row, CrQuestion question) {
-        boolean update = CrQuestionService.getInstance().batchDelete(Lists.newArrayList(question.getId()));
+        boolean update = SingletonBeanFactory.getCrQuestionService().batchDelete(Lists.newArrayList(question.getId()));
         if (!update) {
             return;
         }
@@ -39,7 +39,7 @@ public class CrQuestionHouse {
     }
 
     public static void update(Integer editIndex, CrQuestion question) {
-        boolean update = CrQuestionService.getInstance().update(question);
+        boolean update = SingletonBeanFactory.getCrQuestionService().update(question);
         if (!update) {
             return;
         }
@@ -50,7 +50,7 @@ public class CrQuestionHouse {
     }
 
     public static void rerenderTable(CrQuestionQueryRequest request) {
-        Pair<Boolean, List<CrQuestion>> pair = CrQuestionService.getInstance().query(request);
+        Pair<Boolean, List<CrQuestion>> pair = SingletonBeanFactory.getCrQuestionService().query(request);
         if (!pair.getLeft()) {
             return;
         }

@@ -22,9 +22,6 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
 
     protected Connection connection;
 
-    protected AbstractIDatabaseService() {
-    }
-
     protected void createFileAndDir() {
         // empty
     }

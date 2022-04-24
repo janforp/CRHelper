@@ -7,10 +7,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.CommonUtils;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
 import com.janita.plugin.cr.dialog.CrQuestionSettingDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
-import com.janita.plugin.cr.service.CrQuestionService;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
@@ -30,7 +30,7 @@ public class CrCreateCrQuestionAction extends AnAction {
         }
         Project project = e.getRequiredData(CommonDataKeys.PROJECT);
         CrQuestion question = CrQuestion.newQuestion(e);
-        Pair<Boolean, Set<String>> pair = CrQuestionService.getInstance().queryAssignName(question.getProjectName());
+        Pair<Boolean, Set<String>> pair = SingletonBeanFactory.getCrQuestionService().queryAssignName(question.getProjectName());
         if (!pair.getLeft()) {
             CommonUtils.showNotification("CRHelper数据库配置不正确", MessageType.ERROR);
             return;

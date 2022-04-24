@@ -1,9 +1,8 @@
 package com.janita.plugin.cr.setting;
 
-import com.intellij.ide.util.PropertiesComponent;
 import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
-import com.janita.plugin.db.DatabaseServiceFactory;
+import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.db.IDatabaseService;
 import com.janita.plugin.db.impl.AbstractIDatabaseService;
 import lombok.Data;
@@ -54,13 +53,13 @@ public class CrQuestionSetting {
 
     public static boolean saveFromInput(CrQuestionDataStorageSettingComponent component) {
         CrQuestionSetting setting = getCrQuestionSettingFromInput(component);
-        PropertiesComponent.getInstance().setValue(PersistentKeys.CR_DATA_STORAGE_WAY, setting.getStorageWay().getDesc());
-        PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_URL, setting.getDbUrl());
-        PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_USERNAME, setting.getDbUsername());
-        PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_PWD, setting.getDbPwd());
-        PropertiesComponent.getInstance().setValue(PersistentKeys.REST_API_DOMAIN, setting.getRestApiDomain());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CR_DATA_STORAGE_WAY, setting.getStorageWay().getDesc());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.MYSQL_URL, setting.getDbUrl());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.MYSQL_USERNAME, setting.getDbUsername());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.MYSQL_PWD, setting.getDbPwd());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.REST_API_DOMAIN, setting.getRestApiDomain());
         if (setting.getStorageWay() == CrDataStorageEnum.MYSQL_DB || setting.getStorageWay() == CrDataStorageEnum.SQLITE_DB) {
-            IDatabaseService database = DatabaseServiceFactory.getDatabase();
+            IDatabaseService database = SingletonBeanFactory.getDatabaseService();
             database.reInitConnect();
             return database.connectSuccess();
         }
@@ -68,15 +67,15 @@ public class CrQuestionSetting {
     }
 
     public static CrQuestionSetting getCrQuestionSettingFromCache() {
-        String way = PropertiesComponent.getInstance().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        String way = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
         CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(way);
 
         CrQuestionSetting setting = new CrQuestionSetting();
         setting.setStorageWay(storageEnum);
-        setting.setDbUrl(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_URL));
-        setting.setDbUsername(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_USERNAME));
-        setting.setDbPwd(PropertiesComponent.getInstance().getValue(PersistentKeys.MYSQL_PWD));
-        setting.setRestApiDomain(PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN));
+        setting.setDbUrl(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.MYSQL_URL));
+        setting.setDbUsername(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.MYSQL_USERNAME));
+        setting.setDbPwd(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.MYSQL_PWD));
+        setting.setRestApiDomain(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.REST_API_DOMAIN));
         return setting;
     }
 
@@ -113,7 +112,7 @@ public class CrQuestionSetting {
     }
 
     public static boolean checkValid() {
-        String storageWay = PropertiesComponent.getInstance().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        String storageWay = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
         CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(storageWay);
         if (storageEnum == null) {
             return false;
@@ -127,11 +126,11 @@ public class CrQuestionSetting {
             return true;
         }
         if (CrDataStorageEnum.SQLITE_DB == storageEnum || CrDataStorageEnum.MYSQL_DB == storageEnum) {
-            IDatabaseService database = DatabaseServiceFactory.getDatabase();
+            IDatabaseService database = SingletonBeanFactory.getDatabaseService();
             return database.getConnectDirectly() != AbstractIDatabaseService.INVALID_CONNECT;
         }
         if (CrDataStorageEnum.REST_API == storageEnum) {
-            String domain = PropertiesComponent.getInstance().getValue(PersistentKeys.REST_API_DOMAIN);
+            String domain = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.REST_API_DOMAIN);
             return StringUtils.isNotBlank(domain);
         }
         return false;
