@@ -11,16 +11,6 @@ import java.sql.Connection;
 public interface IDatabaseService {
 
     /**
-     * 检查配置
-     *
-     * @param url url
-     * @param username 用户
-     * @param pwd 密码
-     * @return 配置是否正确
-     */
-    boolean checkParam(String url, String username, String pwd);
-
-    /**
      * 获取链接
      *
      * @return 数据库链接

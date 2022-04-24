@@ -40,11 +40,6 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     }
 
     @Override
-    public boolean checkParam(String url, String username, String pwd) {
-        return false;
-    }
-
-    @Override
     public Connection getConnectDirectly() {
         return connection;
     }
