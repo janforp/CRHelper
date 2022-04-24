@@ -27,23 +27,18 @@ dependencies {
     implementation group: 'commons-dbcp', name: 'commons-dbcp', version: '1.4'
     implementation group: 'commons-dbutils', name: 'commons-dbutils', version: '1.7'
     implementation group: 'commons-pool', name: 'commons-pool', version: '1.6'
-    //存在于IDEAxx\lib 目录下 ,但是webstorm等并不包含SQLite包
     implementation group: 'org.xerial', name: 'sqlite-jdbc', version: '3.34.0'
-    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.27'
-    // https://mvnrepository.com/artifact/commons-dbutils/commons-dbutils
-    implementation group: 'commons-dbutils', name: 'commons-dbutils', version: '1.6'
-    // https://mvnrepository.com/artifact/com.alibaba/druid
     implementation group: 'com.alibaba', name: 'druid', version: '1.2.8'
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.9'
-    // https://mvnrepository.com/artifact/commons-collections/commons-collections
     implementation group: 'commons-collections', name: 'commons-collections', version: '3.2.2'
+    implementation group: 'com.google.guava', name: 'guava', version: '25.1-jre'
+
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
-    version = '2017.3'
+    version = '2020.1'
     updateSinceUntilBuild = false
     plugins = ['git4idea']
 }

@@ -1,12 +1,12 @@
 package com.janita.plugin.cr.window.table;
 
+import com.google.common.collect.Lists;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.SingletonBeanFactory;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
-import org.fest.util.Lists;
 
 import java.util.List;
 
