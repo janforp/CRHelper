@@ -73,15 +73,21 @@ public class CrCreateQuestionDialog extends JDialog {
      */
     private JTextArea questionCodeArea;
 
+    private JScrollPane questionPanel;
+
     /**
      * 建议写法
      */
     private JTextArea betterCodeArea;
 
+    private JScrollPane betterPanel;
+
     /**
      * 描述
      */
     private JTextArea descArea;
+
+    private JScrollPane descPanel;
 
     /**
      * 指派给的人员列表
@@ -138,6 +144,25 @@ public class CrCreateQuestionDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setMinAndMaxSize();
+
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addListener();
+    }
+
+    private void setToManualAssign() {
+        selectAssignBox.setEnabled(false);
+        manualAssignerField.setEnabled(true);
+        manualAssign = true;
+    }
+
+    private void addListener() {
+        // 点击左上角的 X 关闭
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                dispose();
+            }
+        });
         buttonOK.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 saveQuestion();
@@ -147,12 +172,12 @@ public class CrCreateQuestionDialog extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestionUtils.solveQuestion(project, editIndex, question);
-                closeDialog();
+                dispose();
             }
         });
         buttonCancel.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                closeDialog();
+                dispose();
             }
         });
 
@@ -165,25 +190,11 @@ public class CrCreateQuestionDialog extends JDialog {
                 setToManualAssign();
             }
         });
-
-        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
-                closeDialog();
-            }
-        });
-
         contentPane.registerKeyboardAction(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                closeDialog();
+                dispose();
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
-    }
-
-    private void setToManualAssign() {
-        selectAssignBox.setEnabled(false);
-        manualAssignerField.setEnabled(true);
-        manualAssign = true;
     }
 
     /**
@@ -248,10 +259,6 @@ public class CrCreateQuestionDialog extends JDialog {
         return assignTo;
     }
 
-    private void closeDialog() {
-        dispose();
-    }
-
     public void open(CrQuestion question) {
         this.question = question;
         initBox(question.getAssignTo());
@@ -286,7 +293,19 @@ public class CrCreateQuestionDialog extends JDialog {
             // 指派下拉不可用，并且手动指派
             setToManualAssign();
         }
+
         setVisible(true);
+    }
+
+    private void setMinAndMaxSize() {
+        // 3个输入框有最小高度
+        questionPanel.setMinimumSize(new Dimension(100, 150));
+        betterPanel.setMinimumSize(new Dimension(100, 150));
+        descPanel.setMinimumSize(new Dimension(100, 100));
+
+        questionPanel.setMaximumSize(new Dimension(100, 200));
+        betterPanel.setMaximumSize(new Dimension(100, 200));
+        descPanel.setMaximumSize(new Dimension(100, 150));
     }
 
     /**

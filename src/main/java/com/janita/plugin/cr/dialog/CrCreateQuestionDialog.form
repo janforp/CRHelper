@@ -97,7 +97,7 @@
               <text value="描述"/>
             </properties>
           </component>
-          <scrollpane id="5410e">
+          <scrollpane id="5410e" binding="questionPanel">
             <constraints>
               <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -110,7 +110,7 @@
               </component>
             </children>
           </scrollpane>
-          <scrollpane id="5f7d8">
+          <scrollpane id="5f7d8" binding="betterPanel">
             <constraints>
               <grid row="5" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -123,7 +123,7 @@
               </component>
             </children>
           </scrollpane>
-          <scrollpane id="e6b56">
+          <scrollpane id="e6b56" binding="descPanel">
             <constraints>
               <grid row="6" column="1" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
