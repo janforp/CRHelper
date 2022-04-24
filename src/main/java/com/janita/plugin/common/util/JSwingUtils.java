@@ -1,10 +1,13 @@
 package com.janita.plugin.common.util;
 
+import com.intellij.ui.JBColor;
 import com.janita.plugin.common.enums.ButtonType;
+import com.janita.plugin.common.enums.CrQuestionState;
 import lombok.experimental.UtilityClass;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 
 /**
@@ -26,7 +29,27 @@ public class JSwingUtils {
      * @param table 列表
      */
     public void setTableTextCenter(JTable table) {
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        // 设置表格行宽
+        table.setRowHeight(30);
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                // TODO
+                if (value instanceof String) {
+                    String text = (String) value;
+                    CrQuestionState state = CrQuestionState.getByDesc(text);
+                    if (CrQuestionState.UNSOLVED == state) {
+                        setBackground(JBColor.GREEN);
+                        setForeground(JBColor.RED);
+                    }
+                    if (CrQuestionState.SOLVED == state) {
+                        setBackground(JBColor.WHITE);
+                        setForeground(JBColor.BLACK);
+                    }
+                }
+                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            }
+        };
         renderer.setHorizontalAlignment(JLabel.CENTER);
         table.setDefaultRenderer(Object.class, renderer);
     }
