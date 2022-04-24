@@ -19,13 +19,7 @@ import java.util.Set;
 public class CompatibleUtils {
 
     public static String getProjectNameFromGitFirstThenFromLocal(Project project, VirtualFile file) {
-        String projectName;
-        try {
-            projectName = GitUtils.getProjectNameInGitOrThrow(project, file);
-        } catch (PluginException e) {
-            e.printStackTrace();
-            projectName = getProjectNameInLocalLocal(project, file);
-        }
+        String projectName = GitUtils.getRepositoryNameOfFile(project, file);
         if (StringUtils.isBlank(projectName)) {
             projectName = getProjectNameInLocalLocal(project, file);
         }

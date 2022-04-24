@@ -106,4 +106,17 @@ public class GitUtils {
         return instance.getOrReadUser(project.getBaseDir());
     }
 
+    public static String getRepositoryNameOfFile(Project project, VirtualFile file) {
+        VcsRepositoryManager vcsRepositoryManager = VcsRepositoryManager.getInstance(project);
+        ProjectLevelVcsManager projectLevelVcsManager = ProjectLevelVcsManager.getInstance(project);
+        VcsRoot vcsRoot = projectLevelVcsManager.getVcsRootObjectFor(file);
+        if (vcsRoot == null) {
+            return null;
+        }
+        Repository repository = vcsRepositoryManager.getRepositoryForRootQuick(vcsRoot.getPath());
+        if (repository == null) {
+            return null;
+        }
+        return repository.getRoot().getName();
+    }
 }
