@@ -16,6 +16,8 @@ public enum CrQuestionState {
 
     SOLVED("已解决"),
 
+    REJECT("不予解决"),
+
     DUPLICATE("重复问题"),
 
     CLOSED("已关闭"),
