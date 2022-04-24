@@ -15,6 +15,9 @@ import java.util.List;
  */
 public class CrQuestionRestApiDAO implements ICrQuestionDAO {
 
+    private CrQuestionRestApiDAO() {
+    }
+
     @Override
     public boolean insert(CrQuestion question) {
         return false;

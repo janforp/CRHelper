@@ -4,6 +4,10 @@ import com.intellij.ide.util.PropertiesComponent;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.ServiceManager;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
+import com.janita.plugin.cr.dao.ICrQuestionDAO;
+import com.janita.plugin.cr.dao.impl.CrQuestionDbDAO;
+import com.janita.plugin.cr.dao.impl.CrQuestionIdeaCacheDAO;
+import com.janita.plugin.cr.dao.impl.CrQuestionRestApiDAO;
 import com.janita.plugin.cr.persistent.CrQuestionDataPersistent;
 import com.janita.plugin.cr.service.CrQuestionService;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
@@ -64,6 +68,35 @@ public class SingletonBeanFactory {
         PropertiesComponent component = PropertiesComponent.getInstance();
         doAfterGetBean("PropertiesComponent", component);
         return component;
+    }
+
+    public static CrQuestionDbDAO getCrQuestionDbDAO() {
+        CrQuestionDbDAO service = ApplicationManager.getApplication().getService(CrQuestionDbDAO.class);
+        doAfterGetBean("CrQuestionDbDAO", service);
+        return service;
+    }
+
+    public static CrQuestionIdeaCacheDAO getCrQuestionIdeaCacheDAO() {
+        CrQuestionIdeaCacheDAO service = ApplicationManager.getApplication().getService(CrQuestionIdeaCacheDAO.class);
+        doAfterGetBean("CrQuestionIdeaCacheDAO", service);
+        return service;
+    }
+
+    public static CrQuestionRestApiDAO getCrQuestionRestApiDAO() {
+        CrQuestionRestApiDAO service = ApplicationManager.getApplication().getService(CrQuestionRestApiDAO.class);
+        doAfterGetBean("CrQuestionRestApiDAO", service);
+        return service;
+    }
+
+    public static ICrQuestionDAO getCrQuestionDAO() {
+        CrDataStorageEnum storageWayEnum = CrQuestionSetting.getStorageWayFromCache();
+        if (storageWayEnum == CrDataStorageEnum.LOCAL_CACHE) {
+            return SingletonBeanFactory.getCrQuestionIdeaCacheDAO();
+        }
+        if (storageWayEnum == CrDataStorageEnum.REST_API) {
+            return SingletonBeanFactory.getCrQuestionRestApiDAO();
+        }
+        return SingletonBeanFactory.getCrQuestionDbDAO();
     }
 
     @SuppressWarnings("all")

@@ -4,7 +4,6 @@ import com.google.common.collect.Sets;
 import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.SingletonBeanFactory;
-import com.janita.plugin.cr.dao.CrQuestionDaoFactory;
 import com.janita.plugin.cr.dao.ICrQuestionDAO;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
@@ -30,22 +29,22 @@ public class CrQuestionService {
     }
 
     public boolean insert(CrQuestion crQuestion) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = SingletonBeanFactory.getCrQuestionDAO();
         return crQuestionDAO.insert(crQuestion);
     }
 
     public boolean update(CrQuestion crQuestion) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = SingletonBeanFactory.getCrQuestionDAO();
         return crQuestionDAO.update(crQuestion);
     }
 
     public boolean batchDelete(List<Integer> questionIdList) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = SingletonBeanFactory.getCrQuestionDAO();
         return crQuestionDAO.batchDelete(questionIdList);
     }
 
     public Pair<Boolean, List<CrQuestion>> query(CrQuestionQueryRequest request) {
-        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = SingletonBeanFactory.getCrQuestionDAO();
         return crQuestionDAO.query(request);
     }
 
@@ -54,7 +53,7 @@ public class CrQuestionService {
         if (connection == AbstractIDatabaseService.INVALID_CONNECT) {
             return Pair.of(false, null);
         }
-        ICrQuestionDAO crQuestionDAO = CrQuestionDaoFactory.getDAO();
+        ICrQuestionDAO crQuestionDAO = SingletonBeanFactory.getCrQuestionDAO();
         CrQuestionQueryRequest request = new CrQuestionQueryRequest();
         request.setProjectName(projectName);
         Pair<Boolean, List<CrQuestion>> pair = crQuestionDAO.query(request);

@@ -29,8 +29,7 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class CrQuestionDbDAO extends BaseDAO<CrQuestion> implements ICrQuestionDAO {
 
-    public static CrQuestionDbDAO getInstance() {
-        return new CrQuestionDbDAO();
+    private CrQuestionDbDAO() {
     }
 
     public boolean insert(CrQuestion question) {

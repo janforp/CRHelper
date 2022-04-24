@@ -34,6 +34,9 @@
         <!-- mysql 数据库-->
         <applicationService serviceImplementation="com.janita.plugin.db.impl.MySqlDatabaseServiceImpl"/>
         <applicationService serviceImplementation="com.janita.plugin.cr.service.CrQuestionService"/>
+        <applicationService serviceImplementation="com.janita.plugin.cr.dao.impl.CrQuestionDbDAO"/>
+        <applicationService serviceImplementation="com.janita.plugin.cr.dao.impl.CrQuestionIdeaCacheDAO"/>
+        <applicationService serviceImplementation="com.janita.plugin.cr.dao.impl.CrQuestionRestApiDAO"/>
     </extensions>
 
     <actions>
