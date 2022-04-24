@@ -141,10 +141,7 @@ public class CommonUtils {
         Notifications.Bus.notify(notification);
     }
 
-    /**
-     * 根据文件名称，打开该文件
-     */
-    public static void openFileAndLocationToText(Project project, String filePath, String fileName, Integer offsetStart, Integer offsetEnd, String locationText) {
+    public static VirtualFile getByPathThenName(Project project, String filePath, String fileName) {
         VirtualFile virtualFile = LocalFileSystem.getInstance().findFileByPath(filePath);
         if (virtualFile == null) {
             virtualFile = JarFileSystem.getInstance().findFileByPath(filePath);
@@ -156,6 +153,14 @@ public class CommonUtils {
                 virtualFile = psiFile.getVirtualFile();
             }
         }
+        return virtualFile;
+    }
+
+    /**
+     * 根据文件名称，打开该文件
+     */
+    public static void openFileAndLocationToText(Project project, String filePath, String fileName, Integer offsetStart, Integer offsetEnd, String locationText) {
+        VirtualFile virtualFile = getByPathThenName(project, filePath, fileName);
         if (virtualFile == null) {
             return;
         }

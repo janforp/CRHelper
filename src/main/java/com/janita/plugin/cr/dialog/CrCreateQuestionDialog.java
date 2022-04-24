@@ -146,7 +146,7 @@ public class CrCreateQuestionDialog extends JDialog {
         solveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                CrQuestionUtils.solveQuestion(editIndex, question);
+                CrQuestionUtils.solveQuestion(project, editIndex, question);
                 closeDialog();
             }
         });

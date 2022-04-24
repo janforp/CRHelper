@@ -243,7 +243,7 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
-                CrQuestionUtils.solveQuestion(row, question);
+                CrQuestionUtils.solveQuestion(project, row, question);
             }
         });
         // 右键框

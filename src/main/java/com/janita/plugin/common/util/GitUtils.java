@@ -36,6 +36,16 @@ public class GitUtils {
         return currentRepository.getCurrentBranch().getName();
     }
 
+    public static String getBranchNameOrReturnNull(Project project, String fullPath, String fileName) {
+        VirtualFile virtualFile = CommonUtils.getByPathThenName(project, fullPath, fileName);
+        try {
+            return getBranchNameOrThrow(project, virtualFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     public static String getGitUserName(Project project) {
         GitUserRegistry instance = GitUserRegistry.getInstance(project);
         VcsUser user = instance.getOrReadUser(project.getBaseDir());

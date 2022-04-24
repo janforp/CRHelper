@@ -1,7 +1,9 @@
 package com.janita.plugin.cr.util;
 
+import com.intellij.openapi.project.Project;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.DateUtils;
+import com.janita.plugin.common.util.GitUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
@@ -16,9 +18,12 @@ import java.util.List;
  */
 public class CrQuestionUtils {
 
-    public static void solveQuestion(int index, CrQuestion question) {
+    public static void solveQuestion(Project project, int index, CrQuestion question) {
+        // 设置解决的版本
+        String branchName = GitUtils.getBranchNameOrReturnNull(project, question.getFilePath(), question.getFileName());
         question.setState(CrQuestionState.SOLVED.getDesc());
         question.setSolveTime(DateUtils.getCurrentDateTime());
+        question.setSolveGitBranchName(branchName);
         CrQuestionHouse.update(index, question);
     }
 
