@@ -16,7 +16,7 @@ import java.sql.SQLException;
  */
 public abstract class AbstractIDatabaseService implements IDatabaseService {
 
-    public static final Connection INVALID_CONNECT = new C();
+    public static final Connection INVALID_CONNECT = new InvalidConnect();
 
     protected DataSource source;
 
@@ -126,7 +126,15 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
      */
     protected abstract String getTableSql();
 
-    private static class C extends ConnectionImpl {
+    private static class InvalidConnect extends ConnectionImpl {
+
+        private InvalidConnect() {
+        }
+
+        @Override
+        public boolean isClosed() {
+            return true;
+        }
 
         @Override
         public String toString() {
