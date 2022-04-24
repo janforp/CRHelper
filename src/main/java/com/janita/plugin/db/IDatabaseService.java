@@ -28,9 +28,16 @@ public interface IDatabaseService {
     Connection getConnectDirectly();
 
     /**
+     * 连接是否成功
+     *
+     * @return 连接是否成功
+     */
+    boolean connectSuccess();
+
+    /**
      * 配置发生变化
      */
-    void initConnect();
+    void reInitConnect();
 
     /**
      * 获取链接

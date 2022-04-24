@@ -23,7 +23,6 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     protected Connection connection;
 
     protected AbstractIDatabaseService() {
-        initConnect();
     }
 
     protected void createFileAndDir() {
@@ -31,10 +30,8 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     }
 
     @Override
-    public void initConnect() {
-        this.source = null;
+    public void reInitConnect() {
         this.closeResource();
-        this.connection = null;
         this.source = initDataSource();
         this.connection = getConnection();
         // 如果不存在,创建DB文件
@@ -56,7 +53,15 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
     }
 
     @Override
+    public boolean connectSuccess() {
+        return connection != null && connection != INVALID_CONNECT;
+    }
+
+    @Override
     public Connection getConnection() {
+        if (source == null) {
+            source = initDataSource();
+        }
         if (connection == null || connection == INVALID_CONNECT) {
             try {
                 connection = source.getConnection();
@@ -95,6 +100,7 @@ public abstract class AbstractIDatabaseService implements IDatabaseService {
 
     @Override
     public void closeResource() {
+        source = null;
         if (connection == INVALID_CONNECT) {
             connection = null;
             return;

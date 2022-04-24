@@ -52,14 +52,19 @@ public class CrQuestionSetting {
         return Objects.hash(storageWay, dbUrl, dbUsername, dbPwd, restApiDomain);
     }
 
-    public static void saveFromInput(CrQuestionDataStorageSettingComponent component) {
+    public static boolean saveFromInput(CrQuestionDataStorageSettingComponent component) {
         CrQuestionSetting setting = getCrQuestionSettingFromInput(component);
         PropertiesComponent.getInstance().setValue(PersistentKeys.CR_DATA_STORAGE_WAY, setting.getStorageWay().getDesc());
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_URL, setting.getDbUrl());
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_USERNAME, setting.getDbUsername());
         PropertiesComponent.getInstance().setValue(PersistentKeys.MYSQL_PWD, setting.getDbPwd());
         PropertiesComponent.getInstance().setValue(PersistentKeys.REST_API_DOMAIN, setting.getRestApiDomain());
-        DatabaseServiceFactory.getDatabase().initConnect();
+        if (setting.getStorageWay() == CrDataStorageEnum.MYSQL_DB || setting.getStorageWay() == CrDataStorageEnum.SQLITE_DB) {
+            IDatabaseService database = DatabaseServiceFactory.getDatabase();
+            database.reInitConnect();
+            return database.connectSuccess();
+        }
+        return true;
     }
 
     public static CrQuestionSetting getCrQuestionSettingFromCache() {

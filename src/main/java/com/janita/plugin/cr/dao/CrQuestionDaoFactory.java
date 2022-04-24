@@ -13,7 +13,7 @@ import com.janita.plugin.cr.setting.CrQuestionSetting;
  */
 public class CrQuestionDaoFactory {
 
-    private static final ICrQuestionDAO sqliteDAO = new CrQuestionDbDAO();
+    private static final ICrQuestionDAO sqliteDAO = CrQuestionDbDAO.getInstance();
 
     private static final ICrQuestionDAO ideaCacheDAO = new CrQuestionIdeaCacheDAO();
 

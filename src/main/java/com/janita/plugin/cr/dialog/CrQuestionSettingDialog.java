@@ -41,7 +41,7 @@ public class CrQuestionSettingDialog extends DialogWrapper {
     private void saveWhenPressOk() {
         ValidationInfo validationInfo = doValidate();
         if (validationInfo == null) {
-            CrQuestionSetting.saveFromInput(component);
+            boolean success = CrQuestionSetting.saveFromInput(component);
         }
     }
 

@@ -4,6 +4,7 @@ import com.intellij.openapi.components.ApplicationComponent;
 import com.janita.plugin.common.enums.CrDataStorageEnum;
 import com.janita.plugin.cr.setting.CrQuestionSetting;
 import com.janita.plugin.db.DatabaseServiceFactory;
+import com.janita.plugin.db.IDatabaseService;
 import com.janita.plugin.db.impl.SqliteDatabaseServiceImpl;
 
 /**
@@ -34,7 +35,12 @@ public class CrQuestionApplication implements ApplicationComponent {
 
         @Override
         public void run() {
-            DatabaseServiceFactory.getDatabase();
+            try {
+                IDatabaseService database = DatabaseServiceFactory.getDatabase();
+                database.reInitConnect();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 }
