@@ -4,8 +4,10 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.constant.PluginConstant;
+import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.exception.PluginRuntimeException;
+import com.janita.plugin.common.util.JSwingUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
@@ -195,12 +197,33 @@ public class CrCreateQuestionDialog extends JDialog {
 
     private void saveQuestion() {
         rebuildQuestionWhenSave();
+        Pair<Boolean, String> pair = checkBeforeSave();
+        if (!pair.getLeft()) {
+            JSwingUtils.showErrorDialog("", pair.getRight());
+            return;
+        }
         if (update) {
             CrQuestionHouse.update(editIndex, question);
         } else {
             CrQuestionHouse.add(question);
         }
         dispose();
+    }
+
+    private Pair<Boolean, String> checkBeforeSave() {
+        if (StringUtils.isBlank(question.getType())) {
+            return Pair.of(false, "请选择问题类型");
+        }
+        if (StringUtils.isBlank(question.getState())) {
+            return Pair.of(false, "请选择问题状态");
+        }
+        if (StringUtils.isBlank(question.getAssignTo())) {
+            return Pair.of(false, "请把该问题指派给他人或者自己");
+        }
+        if (StringUtils.isBlank(question.getLevel())) {
+            return Pair.of(false, "请选择问题级别");
+        }
+        return Pair.of(true, "");
     }
 
     private void rebuildQuestionWhenSave() {
