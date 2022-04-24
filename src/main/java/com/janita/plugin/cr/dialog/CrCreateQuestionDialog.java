@@ -1,13 +1,11 @@
 package com.janita.plugin.cr.dialog;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.wm.WindowManager;
 import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.exception.PluginRuntimeException;
-import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
@@ -143,15 +141,9 @@ public class CrCreateQuestionDialog extends JDialog {
                 saveQuestion();
             }
         });
-
         solveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!update) {
-                    // TODO 如何在当前框显示异常呢？
-                    CommonUtils.showNotification("先保存，之后才能解决", MessageType.ERROR);
-                    return;
-                }
                 CrQuestionUtils.solveQuestion(editIndex, question);
                 closeDialog();
             }
@@ -252,6 +244,17 @@ public class CrCreateQuestionDialog extends JDialog {
         //两个屏幕处理出现问题，跳到主屏幕去了
         setLocationRelativeTo(WindowManager.getInstance().getFrame(this.project));
         manualAssignerField.setEnabled(false);
+
+        boolean isAdd = !update;
+        if (isAdd) {
+            // 如果是添加，则
+            // 1.解决按钮不可点击
+            // 2.状态下拉显示未解决，并且不能选择
+            solveButton.setEnabled(false);
+            stateBox.setSelectedItem("未解决");
+            stateBox.setEnabled(false);
+        }
+
         setVisible(true);
     }
 
