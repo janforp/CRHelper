@@ -8,6 +8,7 @@ import com.intellij.openapi.ui.MessageType;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.wm.ToolWindow;
 import com.janita.plugin.common.domain.Pair;
+import com.janita.plugin.common.enums.ButtonType;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.progress.AbstractProgressTask;
 import com.janita.plugin.common.progress.ProgressUtils;
@@ -150,8 +151,8 @@ public class CrQuestionListWindow extends JDialog {
                 Point p = mouseEvent.getPoint();
                 int row = questionTable.rowAtPoint(p);
                 questionTable.setRowSelectionInterval(row, row);
-                int button = mouseEvent.getButton();
-                if (button == MouseEvent.BUTTON1) {
+                ButtonType buttonType = JSwingUtils.getMouseButtonType(mouseEvent);
+                if (buttonType == ButtonType.LEFT) {
                     // 左键点击一下，打开对应文件，并且选中文本
                     CrQuestion question = CrQuestionTable.getCrQuestionList().get(row);
                     CommonUtils.openFileAndLocationToText(project, question.getFilePath(), question.getFileName(), question.getOffsetStart(), question.getOffsetEnd(), question.getBetterCode());
