@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.window;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.intellij.openapi.fileChooser.FileChooser;
 import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
@@ -25,6 +26,7 @@ import com.janita.plugin.cr.export.vo.CrQuestionExportVO;
 import com.janita.plugin.cr.util.CrQuestionUtils;
 import com.janita.plugin.cr.window.table.CrQuestionHouse;
 import com.janita.plugin.cr.window.table.CrQuestionTable;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,8 +38,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -129,8 +129,8 @@ public class CrQuestionListWindow extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String projectName = (String) projectBox.getSelectedItem();
-                CrQuestionState state = CrQuestionState.getByDesc((String) stateBox.getSelectedItem());
-                CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectName, new HashSet<>(Collections.singletonList(state)));
+                Set<CrQuestionState> stateSet = getStateByUserSelect();
+                CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectName, stateSet);
                 ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
                     @Override
                     public void doProcess() {
@@ -171,6 +171,15 @@ public class CrQuestionListWindow extends JDialog {
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
     }
 
+    private Set<CrQuestionState> getStateByUserSelect() {
+        String stateDesc = (String) stateBox.getSelectedItem();
+        if (StringUtils.equals(stateDesc, CrQuestionState.TOTAL)) {
+            return Sets.newHashSet(CrQuestionState.values());
+        }
+        CrQuestionState state = CrQuestionState.getByDesc(stateDesc);
+        return Sets.newHashSet(state);
+    }
+
     @SuppressWarnings("all")
     private void export() {
         List<CrQuestion> crQuestionList = CrQuestionTable.getCrQuestionList();
@@ -199,6 +208,7 @@ public class CrQuestionListWindow extends JDialog {
     private void initCrQuestionList() {
         questionTable.setModel(CrQuestionTable.TABLE_MODEL);
         questionTable.setEnabled(false);
+        stateBox.addItem(CrQuestionState.TOTAL);
         for (CrQuestionState state : CrQuestionState.values()) {
             stateBox.addItem(state.getDesc());
         }

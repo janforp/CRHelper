@@ -23,6 +23,8 @@ public enum CrQuestionState {
     CLOSED("已关闭"),
     ;
 
+    public static final String TOTAL = "全部";
+
     @Getter
     private final String desc;
 
