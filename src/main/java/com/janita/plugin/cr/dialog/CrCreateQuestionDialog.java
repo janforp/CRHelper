@@ -6,7 +6,6 @@ import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.constant.PluginConstant;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
-import com.janita.plugin.common.exception.PluginRuntimeException;
 import com.janita.plugin.common.util.JSwingUtils;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.util.CrQuestionUtils;
@@ -256,9 +255,6 @@ public class CrCreateQuestionDialog extends JDialog {
         } else {
             assignTo = (String) selectAssignBox.getSelectedItem();
         }
-        if (PluginConstant.PLEASE_MANUAL_ASSIGN.equals(assignTo)) {
-            throw new PluginRuntimeException("请手动指派");
-        }
         return assignTo;
     }
 
@@ -311,13 +307,6 @@ public class CrCreateQuestionDialog extends JDialog {
         descPanel.setMaximumSize(new Dimension(100, 150));
     }
 
-    /**
-     * 时候可以去远程拉去
-     *
-     * 建议，性能， 缺陷， 规范
-     *
-     * @param assignTo 指定人
-     */
     private void initBox(String assignTo) {
         for (String type : DataToInit.QUESTION_TYPE_LIST) {
             questionTypeBox.addItem(type);
