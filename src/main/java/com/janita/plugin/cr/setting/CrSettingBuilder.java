@@ -22,19 +22,19 @@ public class CrSettingBuilder {
         JPanel panel = new JPanel();
         panel.setSize(450, 300);
 
-        JRadioButton localCacheButton = new JRadioButton("本地缓存");
+        JRadioButton localCacheButton = new JRadioButton(CrDataStorageEnum.LOCAL_CACHE.getDesc());
         localCacheButton.setEnabled(CrDataStorageEnum.LOCAL_CACHE.isSupport());
         localCacheButton.setToolTipText("使用idea本地缓存，清空idea缓存数据将会丢失");
 
-        JRadioButton localSqliteDbButton = new JRadioButton("本地DB");
+        JRadioButton localSqliteDbButton = new JRadioButton(CrDataStorageEnum.SQLITE_DB.getDesc());
         localSqliteDbButton.setEnabled(CrDataStorageEnum.SQLITE_DB.isSupport());
         localSqliteDbButton.setToolTipText("使用本地Sqlite数据库，数据持久化在本地磁盘中,路径为：${USER_HOME_PATH}/.ideaCRHelperFile/CRHelper.db");
 
-        JRadioButton remoteMysqlDbButton = new JRadioButton("远程DB");
+        JRadioButton remoteMysqlDbButton = new JRadioButton(CrDataStorageEnum.MYSQL_DB.getDesc());
         remoteMysqlDbButton.setEnabled(CrDataStorageEnum.MYSQL_DB.isSupport());
         remoteMysqlDbButton.setToolTipText("用户自己提供mysql数据库，数据持久化在用户的数据库中");
 
-        JRadioButton remoteHttpApiButton = new JRadioButton("远程接口");
+        JRadioButton remoteHttpApiButton = new JRadioButton(CrDataStorageEnum.REST_API.getDesc());
         remoteHttpApiButton.setEnabled(CrDataStorageEnum.REST_API.isSupport());
         remoteHttpApiButton.setToolTipText("用户自己开发的rest服务，通过rest接口进行数据的存储");
 
