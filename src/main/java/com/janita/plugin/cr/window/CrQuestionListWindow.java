@@ -32,6 +32,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -128,19 +130,7 @@ public class CrQuestionListWindow extends JDialog {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String projectName = (String) projectBox.getSelectedItem();
-                Set<CrQuestionState> stateSet = getStateByUserSelect();
-                CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectName, stateSet);
-                ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
-                    @Override
-                    public void doProcess() {
-                        try {
-                            CrQuestionHouse.rerenderTable(request);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                });
+                query();
             }
         });
 
@@ -169,6 +159,35 @@ public class CrQuestionListWindow extends JDialog {
                 toolWindow.hide(null);
             }
         }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        projectBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                query();
+            }
+        });
+        stateBox.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                query();
+            }
+        });
+    }
+
+    private void query() {
+        String projectName = (String) projectBox.getSelectedItem();
+        Set<CrQuestionState> stateSet = getStateByUserSelect();
+        CrQuestionQueryRequest request = new CrQuestionQueryRequest(projectName, stateSet);
+        ProgressUtils.showProgress(project, "Querying", new AbstractProgressTask() {
+            @Override
+            public void doProcess() {
+                try {
+                    CrQuestionHouse.rerenderTable(request);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private Set<CrQuestionState> getStateByUserSelect() {
