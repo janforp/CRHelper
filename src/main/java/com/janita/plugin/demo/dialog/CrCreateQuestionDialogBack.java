@@ -1,4 +1,4 @@
-package com.janita.plugin.cr.dialog;
+package com.janita.plugin.demo.dialog;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.WindowManager;
@@ -30,7 +30,7 @@ import java.util.Set;
  * @author zhucj
  * @since 20220415
  */
-public class CrCreateQuestionDialog extends JDialog {
+public class CrCreateQuestionDialogBack extends JDialog {
 
     /**
      * 工程
@@ -136,7 +136,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 新建
      */
-    public CrCreateQuestionDialog(Project project, Set<String> developerSet) {
+    public CrCreateQuestionDialogBack(Project project, Set<String> developerSet) {
         this.developerSet = developerSet;
         this.update = false;
         this.project = project;
@@ -199,7 +199,7 @@ public class CrCreateQuestionDialog extends JDialog {
     /**
      * 在列表上编辑
      */
-    public CrCreateQuestionDialog(Integer index, Project project, Set<String> developerSet) {
+    public CrCreateQuestionDialogBack(Integer index, Project project, Set<String> developerSet) {
         this(project, developerSet);
         this.update = true;
         this.editIndex = index;

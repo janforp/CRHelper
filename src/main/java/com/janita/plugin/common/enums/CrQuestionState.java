@@ -45,4 +45,12 @@ public enum CrQuestionState {
         }
         return null;
     }
+
+    public static String[] getDescArray() {
+        String[] arr = new String[CrQuestionState.values().length];
+        for (int i = 0; i < CrQuestionState.values().length; i++) {
+            arr[i] = CrQuestionState.values()[i].getDesc();
+        }
+        return arr;
+    }
 }

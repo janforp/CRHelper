@@ -8,7 +8,7 @@ import com.intellij.openapi.ui.MessageType;
 import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.SingletonBeanFactory;
-import com.janita.plugin.cr.dialog.CrCreateQuestionDialog;
+import com.janita.plugin.cr.dialog.CrQuestionEditDialog;
 import com.janita.plugin.cr.dialog.CrQuestionSettingDialog;
 import com.janita.plugin.cr.domain.CrQuestion;
 import org.jetbrains.annotations.NotNull;
@@ -35,9 +35,8 @@ public class CrCreateCrQuestionAction extends AnAction {
             CommonUtils.showNotification("CRHelper数据库配置不正确", MessageType.ERROR);
             return;
         }
-        CrCreateQuestionDialog dialog = new CrCreateQuestionDialog(project, pair.getRight());
-        CommonUtils.setToClipboard(question.getQuestionCode());
-        dialog.open(question);
+        CrQuestionEditDialog crQuestionEditDialog = new CrQuestionEditDialog(project, question, pair.getRight(), true, null);
+        crQuestionEditDialog.open();
     }
 
     /**
