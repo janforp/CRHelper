@@ -25,6 +25,8 @@ import org.jetbrains.annotations.Nullable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Set;
 
 /**
@@ -34,11 +36,13 @@ import java.util.Set;
  */
 public class CrQuestionEditDialog extends DialogWrapper {
 
+    private static final String MANUAL_TIPS = "手动指派在此输入";
+
     private static final int DEFAULT_WIDTH = 600;
 
     private static final int DEFAULT_HEIGHT = 630;
 
-    private final JBTextField manualAssignerField = new JBTextField("手动指派在此输入", 10);
+    private final JBTextField manualAssignerField = new JBTextField(MANUAL_TIPS, 10);
 
     private final CrQuestion question;
 
@@ -64,9 +68,12 @@ public class CrQuestionEditDialog extends DialogWrapper {
 
     private final Project project;
 
+    private final String rawQuestionCode;
+
     public CrQuestionEditDialog(Project project, CrQuestion question, Set<String> assignToSet, boolean add, Integer editIndex) {
         super(true);
         this.question = question;
+        this.rawQuestionCode = question.getQuestionCode();
         this.add = add;
         this.editIndex = editIndex;
         this.assignToSet = assignToSet;
@@ -84,6 +91,19 @@ public class CrQuestionEditDialog extends DialogWrapper {
         setOKButtonText("保存");
         setComponentSize();
         init();
+
+        addListener();
+    }
+
+    private void addListener() {
+        manualAssignerField.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (MANUAL_TIPS.equals(manualAssignerField.getText())) {
+                    manualAssignerField.setText("");
+                }
+            }
+        });
     }
 
     private void setComponentSize() {
@@ -141,7 +161,7 @@ public class CrQuestionEditDialog extends DialogWrapper {
         Box row2 = Box.createVerticalBox();
         // TAB 切换区域
         JBTabbedPane questionCodeTab = new JBTabbedPane();
-        questionCodeTab.addTab("问题代码：", PluginIcons.Description/*左侧icon*/, questionCodeEditor.getComponent());
+        questionCodeTab.addTab("问题代码(不要修改)：", PluginIcons.Description/*左侧icon*/, questionCodeEditor.getComponent());
 
         JBTabbedPane betterCodeTab = new JBTabbedPane();
         betterCodeTab.addTab("建议写法：", PluginIcons.Description/*左侧icon*/, betterCodeEditor.getComponent());
@@ -177,6 +197,12 @@ public class CrQuestionEditDialog extends DialogWrapper {
         }
         if (StringUtils.isBlank(question.getBetterCode()) && StringUtils.isBlank(question.getDescription())) {
             return new ValidationInfo("建议写法跟描述至少写一项");
+        }
+        if (!rawQuestionCode.equals(questionCodeEditor.getDocument().getText())) {
+            return new ValidationInfo("问题代码不可修改");
+        }
+        if (question.getAssignTo().length() > 8) {
+            return new ValidationInfo("指派人名称长度不能超过7个字符");
         }
         return null;
     }
@@ -215,7 +241,6 @@ public class CrQuestionEditDialog extends DialogWrapper {
         CodeEditorUtil.setEditorHighlighter(questionCodeEditor, question.getLanguage());
         CodeEditorUtil.setEditorHighlighter(betterCodeEditor, question.getLanguage());
         CodeEditorUtil.setEditorHighlighter(descCodeEditor, question.getLanguage());
-        questionCodeEditor.getComponent().setEnabled(false);
         if (question.getType() != null) {
             typeBox.setSelectedItem(question.getType());
         }
@@ -252,7 +277,7 @@ public class CrQuestionEditDialog extends DialogWrapper {
 
     private String getAssigner() {
         String assignTo = manualAssignerField.getText();
-        if (StringUtils.isBlank(assignTo)) {
+        if (StringUtils.isBlank(assignTo) || MANUAL_TIPS.equals(assignTo)) {
             assignTo = (String) assignBox.getSelectedItem();
         }
         if ("手动指派在此输入".equals(assignTo) || PluginConstant.PLEASE_MANUAL_ASSIGN.equals(assignTo)) {
