@@ -16,7 +16,7 @@ public class CrQuestionTable {
 
     private static final List<CrQuestion> CR_QUESTION_LIST = new ArrayList<>();
 
-    public static String[] HEAD = { "项目", "文件", "类型", "级别", "指派给", "提问者", "状态", "创建" };
+    public static String[] HEAD = { "项目", "文件", "类型", "级别", "迭代", "指派给", "提问者", "状态", "创建" };
 
     public static DefaultTableModel TABLE_MODEL = new DefaultTableModel(null, HEAD);
 
@@ -25,15 +25,16 @@ public class CrQuestionTable {
     }
 
     public static String[] convertToRaw(CrQuestion question) {
-        String[] raw = new String[8];
+        String[] raw = new String[9];
         raw[0] = question.getProjectName();
         raw[1] = question.getFileName();
         raw[2] = question.getType();
         raw[3] = question.getLevel();
-        raw[4] = question.getAssignTo();
-        raw[5] = question.getAssignFrom();
-        raw[6] = question.getState();
-        raw[7] = question.getCreateTime();
+        raw[4] = question.getCreateGitBranchName();
+        raw[5] = question.getAssignTo();
+        raw[6] = question.getAssignFrom();
+        raw[7] = question.getState();
+        raw[8] = question.getCreateTime();
         return raw;
     }
 }
