@@ -1,6 +1,7 @@
 package com.janita.plugin.cr.renderer;
 
 import com.intellij.ui.JBColor;
+import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.enums.CrQuestionState;
 
 import javax.swing.*;
@@ -29,11 +30,12 @@ public class CrQuestionTableRenderer extends DefaultTableCellRenderer {
         }
         String text = (String) value;
         CrQuestionState state = CrQuestionState.getByDescOrReturnNull(text);
-        if (state == null) {
+        if (state == null && !DataToInit.LEVEL_LIST.contains(text)) {
             return super.getTableCellRendererComponent(table, value, false, hasFocus, row, column);
         }
         stateLabel.setText(text);
         stateLabel.setHorizontalAlignment(CENTER);
+
         if (CrQuestionState.UNSOLVED == state) {
             stateLabel.setForeground(JBColor.RED);
         }
@@ -49,6 +51,11 @@ public class CrQuestionTableRenderer extends DefaultTableCellRenderer {
         if (CrQuestionState.CLOSED == state) {
             stateLabel.setForeground(JBColor.GRAY);
         }
+
+        if ("阻断".equals(text) || "严重".equals(text)) {
+            stateLabel.setForeground(JBColor.RED);
+        }
+
         return stateLabel;
     }
 }
