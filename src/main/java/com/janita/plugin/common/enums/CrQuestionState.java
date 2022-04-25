@@ -36,4 +36,13 @@ public enum CrQuestionState {
         }
         return UNSOLVED;
     }
+
+    public static CrQuestionState getByDescOrReturnNull(String desc) {
+        for (CrQuestionState state : CrQuestionState.values()) {
+            if (state.getDesc().equals(desc)) {
+                return state;
+            }
+        }
+        return null;
+    }
 }

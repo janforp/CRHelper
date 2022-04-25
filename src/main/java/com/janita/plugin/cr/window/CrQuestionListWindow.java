@@ -97,7 +97,7 @@ public class CrQuestionListWindow extends JDialog {
     public CrQuestionListWindow(Project project, ToolWindow toolWindow) {
         this.project = project;
         this.projectNameList = Lists.newArrayList(CompatibleUtils.getAllProjectNameFromGitFirstThenLocal(project));
-        JSwingUtils.setTableTextCenter(questionTable);
+        JSwingUtils.setTableType(questionTable);
         initCrQuestionList();
         setContentPane(contentPane);
         getRootPane().setDefaultButton(closeCancel);
