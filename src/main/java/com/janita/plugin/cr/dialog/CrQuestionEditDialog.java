@@ -38,7 +38,7 @@ public class CrQuestionEditDialog extends DialogWrapper {
 
     private static final int DEFAULT_HEIGHT = 630;
 
-    private final JBTextField manualAssignerField = new JBTextField(10);
+    private final JBTextField manualAssignerField = new JBTextField("手动指派在此输入", 10);
 
     private final CrQuestion question;
 
@@ -254,6 +254,9 @@ public class CrQuestionEditDialog extends DialogWrapper {
         String assignTo = manualAssignerField.getText();
         if (StringUtils.isBlank(assignTo)) {
             assignTo = (String) assignBox.getSelectedItem();
+        }
+        if ("手动指派在此输入".equals(assignTo) || PluginConstant.PLEASE_MANUAL_ASSIGN.equals(assignTo)) {
+            return null;
         }
         return assignTo;
     }
