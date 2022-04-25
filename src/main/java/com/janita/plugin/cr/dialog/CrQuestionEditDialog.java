@@ -189,7 +189,6 @@ public class CrQuestionEditDialog extends DialogWrapper {
     @NotNull
     private JComponent buildCenterTopPanel() {
         JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.add(manualAssignerField);
         JPanel westPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 2, 0));
         westPanel.add(new JBLabel("类型"));
         westPanel.add(typeBox);
@@ -199,6 +198,7 @@ public class CrQuestionEditDialog extends DialogWrapper {
         westPanel.add(levelBox);
         westPanel.add(new JBLabel("指派"));
         westPanel.add(assignBox);
+        westPanel.add(manualAssignerField);
         topPanel.add(westPanel, BorderLayout.WEST);
         return topPanel;
     }
