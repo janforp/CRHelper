@@ -1,7 +1,6 @@
 package com.janita.plugin.cr.renderer;
 
 import com.intellij.ui.JBColor;
-import com.janita.plugin.common.constant.DataToInit;
 import com.janita.plugin.common.enums.CrQuestionState;
 
 import javax.swing.*;
@@ -28,34 +27,45 @@ public class CrQuestionTableRenderer extends DefaultTableCellRenderer {
         if (!stringType) {
             return super.getTableCellRendererComponent(table, value, false, hasFocus, row, column);
         }
+
         String text = (String) value;
-        CrQuestionState state = CrQuestionState.getByDescOrReturnNull(text);
-        if (state == null && !DataToInit.LEVEL_LIST.contains(text)) {
-            return super.getTableCellRendererComponent(table, value, false, hasFocus, row, column);
-        }
         stateLabel.setText(text);
         stateLabel.setHorizontalAlignment(CENTER);
+        // 因为这个对象是复用的，所以每次都要初始化成默认都颜色，否则就会使用上一次设置都颜色
+        stateLabel.setForeground(JBColor.BLACK);
 
-        if (CrQuestionState.UNSOLVED == state) {
-            stateLabel.setForeground(JBColor.RED);
-        }
-        if (CrQuestionState.SOLVED == state) {
-            stateLabel.setForeground(JBColor.GREEN);
-        }
-        if (CrQuestionState.REJECT == state) {
-            stateLabel.setForeground(JBColor.BLUE);
-        }
-        if (CrQuestionState.DUPLICATE == state) {
-            stateLabel.setForeground(JBColor.GRAY);
-        }
-        if (CrQuestionState.CLOSED == state) {
-            stateLabel.setForeground(JBColor.GRAY);
+        if (column == 6) {
+            CrQuestionState state = CrQuestionState.getByDescOrReturnNull(text);
+            if (CrQuestionState.UNSOLVED == state) {
+                stateLabel.setForeground(JBColor.RED);
+            }
+            if (CrQuestionState.SOLVED == state) {
+                stateLabel.setForeground(JBColor.GREEN);
+            }
+            if (CrQuestionState.REJECT == state) {
+                stateLabel.setForeground(JBColor.BLUE);
+            }
+            if (CrQuestionState.DUPLICATE == state) {
+                stateLabel.setForeground(JBColor.GRAY);
+            }
+            if (CrQuestionState.CLOSED == state) {
+                stateLabel.setForeground(JBColor.GRAY);
+            }
+            return stateLabel;
         }
 
-        if ("阻断".equals(text) || "严重".equals(text)) {
-            stateLabel.setForeground(JBColor.RED);
+        if (column == 3) {
+            if ("阻断".equals(text) || "严重".equals(text)) {
+                stateLabel.setForeground(JBColor.RED);
+            }
+            return stateLabel;
         }
-
-        return stateLabel;
+        if (column == 2) {
+            if ("BUG".equals(text)) {
+                stateLabel.setForeground(JBColor.RED);
+            }
+            return stateLabel;
+        }
+        return super.getTableCellRendererComponent(table, value, false, hasFocus, row, column);
     }
 }
