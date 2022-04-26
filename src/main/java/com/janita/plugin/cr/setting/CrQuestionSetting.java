@@ -53,11 +53,11 @@ public class CrQuestionSetting {
 
     public static boolean saveFromInput(CrQuestionDataStorageSettingComponent component) {
         CrQuestionSetting setting = getCrQuestionSettingFromInput(component);
-        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CR_DATA_STORAGE_WAY, setting.getStorageWay().getDesc());
-        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.MYSQL_URL, setting.getDbUrl());
-        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.MYSQL_USERNAME, setting.getDbUsername());
-        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.MYSQL_PWD, setting.getDbPwd());
-        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.REST_API_DOMAIN, setting.getRestApiDomain());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CrDataStorageConfig.CR_DATA_STORAGE_WAY, setting.getStorageWay().getDesc());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CrDataStorageConfig.MYSQL_URL, setting.getDbUrl());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CrDataStorageConfig.MYSQL_USERNAME, setting.getDbUsername());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CrDataStorageConfig.MYSQL_PWD, setting.getDbPwd());
+        SingletonBeanFactory.getPropertiesComponent().setValue(PersistentKeys.CrDataStorageConfig.REST_API_DOMAIN, setting.getRestApiDomain());
         if (setting.getStorageWay() == CrDataStorageEnum.MYSQL_DB || setting.getStorageWay() == CrDataStorageEnum.SQLITE_DB) {
             IDatabaseService database = SingletonBeanFactory.getDatabaseService();
             database.reInitConnect();
@@ -67,15 +67,15 @@ public class CrQuestionSetting {
     }
 
     public static CrQuestionSetting getCrQuestionSettingFromCache() {
-        String way = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        String way = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.CR_DATA_STORAGE_WAY);
         CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(way);
 
         CrQuestionSetting setting = new CrQuestionSetting();
         setting.setStorageWay(storageEnum);
-        setting.setDbUrl(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.MYSQL_URL));
-        setting.setDbUsername(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.MYSQL_USERNAME));
-        setting.setDbPwd(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.MYSQL_PWD));
-        setting.setRestApiDomain(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.REST_API_DOMAIN));
+        setting.setDbUrl(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.MYSQL_URL));
+        setting.setDbUsername(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.MYSQL_USERNAME));
+        setting.setDbPwd(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.MYSQL_PWD));
+        setting.setRestApiDomain(SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.REST_API_DOMAIN));
         return setting;
     }
 
@@ -112,7 +112,7 @@ public class CrQuestionSetting {
     }
 
     public static boolean checkValid() {
-        String storageWay = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CR_DATA_STORAGE_WAY);
+        String storageWay = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.CR_DATA_STORAGE_WAY);
         CrDataStorageEnum storageEnum = CrDataStorageEnum.getByDesc(storageWay);
         if (storageEnum == null) {
             return false;
@@ -130,7 +130,7 @@ public class CrQuestionSetting {
             return database.getConnectDirectly() != AbstractIDatabaseService.INVALID_CONNECT;
         }
         if (CrDataStorageEnum.REST_API == storageEnum) {
-            String domain = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.REST_API_DOMAIN);
+            String domain = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.CrDataStorageConfig.REST_API_DOMAIN);
             return StringUtils.isNotBlank(domain);
         }
         return false;

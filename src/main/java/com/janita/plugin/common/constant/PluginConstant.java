@@ -25,6 +25,18 @@ public class PluginConstant {
      */
     public final String PLEASE_MANUAL_ASSIGN = "--请手动指派--";
 
+    /**
+     * https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ddee8635-2f3c-4316-996d-fc512625fb46
+     */
+    public final String WE_CHAT_SEND_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=";
+
+    /**
+     * 群聊
+     *
+     * 80403b99-179c-4a9c-a0cc-3160c705f53a
+     */
+    public static final String WE_CHAT_GROUP_ROBOT_ID = "80403b99-179c-4a9c-a0cc-3160c705f53a";
+
     public static class DbDrivers {
 
         public static final String MYSQL_DATABASE_DRIVER = "com.mysql.jdbc.Driver";
