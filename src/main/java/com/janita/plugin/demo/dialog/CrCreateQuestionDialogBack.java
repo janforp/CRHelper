@@ -213,9 +213,9 @@ public class CrCreateQuestionDialogBack extends JDialog {
             return;
         }
         if (update) {
-            CrQuestionHouse.update(editIndex, question);
+            CrQuestionHouse.update(editIndex, question, false);
         } else {
-            CrQuestionHouse.add(question);
+            CrQuestionHouse.add(question, false);
         }
         dispose();
     }

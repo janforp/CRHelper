@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class CrQuestionHouse {
 
-    public static void add(CrQuestion question) {
+    public static void add(CrQuestion question, boolean sendWeChatMsg) {
         boolean success = SingletonBeanFactory.getCrQuestionService().insert(question);
         if (!success) {
             return;
@@ -27,7 +27,9 @@ public class CrQuestionHouse {
         CrQuestionTable.getCrQuestionList().add(question);
         String[] raw = CrQuestionTable.convertToRaw(question);
         CrQuestionTable.TABLE_MODEL.addRow(raw);
-        WeChatService.sendByMarkDown(question);
+        if (sendWeChatMsg) {
+            WeChatService.sendByMarkDown(question);
+        }
     }
 
     public static void delete(int row, CrQuestion question) {
@@ -40,7 +42,7 @@ public class CrQuestionHouse {
         CrQuestionTable.TABLE_MODEL.removeRow(row);
     }
 
-    public static void update(Integer editIndex, CrQuestion question) {
+    public static void update(Integer editIndex, CrQuestion question, boolean sendWeChatMsg) {
         boolean update = SingletonBeanFactory.getCrQuestionService().update(question);
         if (!update) {
             return;

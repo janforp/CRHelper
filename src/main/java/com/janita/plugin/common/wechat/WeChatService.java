@@ -27,17 +27,23 @@ public class WeChatService {
         markDown.setMentionedList(Lists.newArrayList(""));
         markDown.setMentionedMobileList(Lists.newArrayList("13738053603"));
         markdownMsg.setMarkdown(markDown);
-        String content = buildMarkdownContent("CodeReview问题指派", Lists.newArrayList(
+        String content = buildMarkdownContent("CodeReview问题", Lists.newArrayList(
                 new MsgTip("工程", MsgColor.info, question.getProjectName()),
                 new MsgTip("文件", MsgColor.info, question.getFileName()),
                 new MsgTip("分支", MsgColor.info, question.getCreateGitBranchName()),
                 new MsgTip("类型", MsgColor.warning, question.getType()),
                 new MsgTip("级别", MsgColor.warning, question.getLevel()),
+                new MsgTip("状态", MsgColor.warning, question.getState()),
                 new MsgTip("指派给", MsgColor.info, question.getAssignTo()),
                 new MsgTip("创建人", MsgColor.info, question.getAssignFrom())));
         markDown.setContent(content);
         WeChatUtils.sendPost(PluginConstant.WeChatConstants.WE_CHAT_GROUP_ROBOT_ID, JSON.toJSONString(markdownMsg));
-        sendByText("你有新的CodeReview问题，请注意", null, Lists.newArrayList("13738053603", "17858963631", "18738322951"));
+        sendByText("你有新的CodeReview消息，请注意", null, Lists.newArrayList(getPhoneOfAssignTo(question.getAssignTo())));
+    }
+
+    private static String getPhoneOfAssignTo(String assignTo) {
+        // TODO 需要输入
+        return "17858963631";
     }
 
     private static void sendByText(String content, List<String> mentionedList, List<String> mentionedMobileList) {
@@ -62,5 +68,4 @@ public class WeChatService {
     private static String buildOneTip(MsgTip tip) {
         return "\n" + tip.getTitle() + "：<font color=" + PluginConstant.COLON + tip.getColor().name() + PluginConstant.COLON + ">" + tip.getContent() + "</font>";
     }
-
 }

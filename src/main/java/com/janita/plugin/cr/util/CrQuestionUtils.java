@@ -24,7 +24,7 @@ public class CrQuestionUtils {
         question.setState(CrQuestionState.SOLVED.getDesc());
         question.setSolveTime(DateUtils.getCurrentDateTime());
         question.setSolveGitBranchName(branchName);
-        CrQuestionHouse.update(index, question);
+        CrQuestionHouse.update(index, question, false);
     }
 
     public static List<CrQuestionExportVO> processBeforeExport(List<CrQuestion> crQuestionList) {

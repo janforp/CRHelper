@@ -9,6 +9,7 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.ValidationInfo;
 import com.intellij.openapi.util.Disposer;
 import com.intellij.ui.JBSplitter;
+import com.intellij.ui.components.JBCheckBox;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTabbedPane;
 import com.intellij.ui.components.JBTextField;
@@ -56,6 +57,8 @@ public class CrQuestionEditDialog extends DialogWrapper {
 
     private final Editor descCodeEditor;
 
+    private final JBCheckBox sendWeChatBox = new JBCheckBox("发送消息");
+
     private final ComboBox<String> typeBox = new ComboBox<>(DataToInit.QUESTION_TYPE_LIST.toArray(new String[0]));
 
     private final ComboBox<String> levelBox = new ComboBox<>(DataToInit.LEVEL_LIST.toArray(new String[0]));
@@ -72,6 +75,7 @@ public class CrQuestionEditDialog extends DialogWrapper {
 
     public CrQuestionEditDialog(Project project, CrQuestion question, Set<String> assignToSet, boolean add, Integer editIndex) {
         super(true);
+        sendWeChatBox.setSelected(add);
         this.question = question;
         this.rawQuestionCode = question.getQuestionCode();
         this.add = add;
@@ -121,10 +125,11 @@ public class CrQuestionEditDialog extends DialogWrapper {
 
     @Override
     protected void doOKAction() {
+        boolean sendWeChatMsg = sendWeChatBox.isSelected();
         if (add) {
-            CrQuestionHouse.add(question);
+            CrQuestionHouse.add(question, sendWeChatMsg);
         } else {
-            CrQuestionHouse.update(editIndex, question);
+            CrQuestionHouse.update(editIndex, question, sendWeChatMsg);
         }
         super.doOKAction();
         dispose();
@@ -225,6 +230,7 @@ public class CrQuestionEditDialog extends DialogWrapper {
         westPanel.add(new JBLabel("指派"));
         westPanel.add(assignBox);
         westPanel.add(manualAssignerField);
+        westPanel.add(sendWeChatBox);
         topPanel.add(westPanel, BorderLayout.WEST);
         return topPanel;
     }
