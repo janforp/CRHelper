@@ -49,7 +49,7 @@ public class WeChatUtils {
         String weChatGroupRobotId = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.WeChatRobotConfig.WE_CHAT_GROUP_ROBOT_ID);
         weChatGroupRobotId = ObjectUtils.defaultIfNull(weChatGroupRobotId, PluginConstant.WE_CHAT_GROUP_ROBOT_ID);
         try {
-            JSONObject result = sendPost(weChatGroupRobotId, content);
+            sendPost(weChatGroupRobotId, content);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -62,6 +62,7 @@ public class WeChatUtils {
      * @param content 参数
      * @return 发送结果
      */
+    @SuppressWarnings("all")
     public static JSONObject sendPost(String robotKey, String content) {
         String url = PluginConstant.WE_CHAT_SEND_URL + robotKey;
         PrintWriter out = null;
@@ -102,7 +103,6 @@ public class WeChatUtils {
                 ex.printStackTrace();
             }
         }
-
         return jsonObject;
     }
 }
