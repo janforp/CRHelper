@@ -21,16 +21,6 @@ import java.util.List;
 @SuppressWarnings("all")
 public class WeChatService {
 
-    private static void sendByText(String content, List<String> mentionedList, List<String> mentionedMobileList) {
-        TextMsg textMsg = new TextMsg();
-        TextMsg.Text text = new TextMsg.Text();
-        text.setMentionedList(mentionedList);
-        text.setMentionedMobileList(mentionedMobileList);
-        text.setContent(content);
-        textMsg.setText(text);
-        WeChatUtils.sendPost(PluginConstant.WE_CHAT_GROUP_ROBOT_ID, JSON.toJSONString(textMsg));
-    }
-
     public static void sendByMarkDown(CrQuestion question) {
         MarkdownMsg markdownMsg = new MarkdownMsg();
         MarkdownMsg.MarkDown markDown = new MarkdownMsg.MarkDown();
@@ -46,19 +36,31 @@ public class WeChatService {
                 new MsgTip("指派给", MsgColor.info, question.getAssignTo()),
                 new MsgTip("创建人", MsgColor.info, question.getAssignFrom())));
         markDown.setContent(content);
-        WeChatUtils.sendPost(PluginConstant.WE_CHAT_GROUP_ROBOT_ID, JSON.toJSONString(markdownMsg));
+        WeChatUtils.sendPost(PluginConstant.WeChatConstants.WE_CHAT_GROUP_ROBOT_ID, JSON.toJSONString(markdownMsg));
         sendByText("你有新的CodeReview问题，请注意", null, Lists.newArrayList("13738053603", "17858963631", "18738322951"));
+    }
+
+    private static void sendByText(String content, List<String> mentionedList, List<String> mentionedMobileList) {
+        TextMsg textMsg = new TextMsg();
+        TextMsg.Text text = new TextMsg.Text();
+        text.setMentionedList(mentionedList);
+        text.setMentionedMobileList(mentionedMobileList);
+        text.setContent(content);
+        textMsg.setText(text);
+        WeChatUtils.sendPost(PluginConstant.WeChatConstants.WE_CHAT_GROUP_ROBOT_ID, JSON.toJSONString(textMsg));
     }
 
     private static String buildMarkdownContent(String title, List<MsgTip> tipList) {
         StringBuilder content = new StringBuilder(title);
         for (MsgTip msgTip : tipList) {
-            content.append(buildOneTip(msgTip));
+            String oneTip = buildOneTip(msgTip);
+            content.append(oneTip);
         }
         return content.toString();
     }
 
     private static String buildOneTip(MsgTip tip) {
-        return "\n" + tip.getTitle() + "：<font color=\\\"" + tip.getColor().name() + "\\\">" + tip.getContent() + "</font>";
+        return "\n" + tip.getTitle() + "：<font color=" + PluginConstant.COLON + tip.getColor().name() + PluginConstant.COLON + ">" + tip.getContent() + "</font>";
     }
+
 }

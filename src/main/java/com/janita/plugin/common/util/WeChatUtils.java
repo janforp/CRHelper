@@ -31,7 +31,7 @@ public class WeChatUtils {
      */
     @SuppressWarnings("all")
     public static JSONObject sendPost(String robotKey, String content) {
-        String url = PluginConstant.WE_CHAT_SEND_URL + robotKey;
+        String url = PluginConstant.WeChatConstants.WE_CHAT_SEND_URL + robotKey;
         PrintWriter out = null;
         BufferedReader in = null;
         JSONObject jsonObject = null;

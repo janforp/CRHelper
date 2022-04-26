@@ -20,22 +20,20 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @UtilityClass
 public class PluginConstant {
 
-    /**
-     * 请手动指派
-     */
-    public final String PLEASE_MANUAL_ASSIGN = "--请手动指派--";
+    public static class WeChatConstants {
 
-    /**
-     * https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ddee8635-2f3c-4316-996d-fc512625fb46
-     */
-    public final String WE_CHAT_SEND_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=";
+        /**
+         * https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=ddee8635-2f3c-4316-996d-fc512625fb46
+         */
+        public static final String WE_CHAT_SEND_URL = "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=";
 
-    /**
-     * 群聊
-     *
-     * 80403b99-179c-4a9c-a0cc-3160c705f53a
-     */
-    public static final String WE_CHAT_GROUP_ROBOT_ID = "80403b99-179c-4a9c-a0cc-3160c705f53a";
+        /**
+         * 群聊
+         *
+         * 80403b99-179c-4a9c-a0cc-3160c705f53a
+         */
+        public static final String WE_CHAT_GROUP_ROBOT_ID = "80403b99-179c-4a9c-a0cc-3160c705f53a";
+    }
 
     public static class DbDrivers {
 
@@ -43,6 +41,16 @@ public class PluginConstant {
 
         public static final String SQLITE_DATABASE_DRIVER = "org.sqlite.JDBC";
     }
+
+    /**
+     * 请手动指派
+     */
+    public final String PLEASE_MANUAL_ASSIGN = "--请手动指派--";
+
+    /**
+     * 冒号 colon
+     */
+    public static final String COLON = "\"";
 
     String TOOLWINDOW_ID = "Notebook";
 
