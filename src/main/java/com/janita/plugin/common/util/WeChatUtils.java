@@ -1,11 +1,8 @@
 package com.janita.plugin.common.util;
 
 import com.alibaba.fastjson.JSONObject;
-import com.janita.plugin.common.constant.PersistentKeys;
 import com.janita.plugin.common.constant.PluginConstant;
-import com.janita.plugin.cr.domain.CrQuestion;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,36 +21,6 @@ import java.nio.charset.StandardCharsets;
  */
 @UtilityClass
 public class WeChatUtils {
-
-    public static String buildContent(CrQuestion question) {
-
-        String content = "CodeReview 问题指派："
-                + "\n工程：<font color=\\\"info\\\">" + question.getProjectName() + "</font>"
-                + "\n文件：<font color=\\\"info\\\">" + question.getFileName() + "</font>"
-                + "\n分支：<font color=\\\"info\\\">" + question.getCreateGitBranchName() + "</font>"
-                + "\n类型：<font color=\\\"error\\\">" + question.getType() + "</font>"
-                + "\n级别：<font color=\\\"warning\\\">" + question.getLevel() + "</font>"
-                + "\n指派给：<font color=\\\"comment\\\">" + question.getAssignTo() + "</font>"
-                + "\n创建人：<font color=\\\"comment\\\">" + question.getAssignFrom() + "</font>";
-
-        return "{\n" +
-                "  \"msgtype\": \"markdown\",\n" +
-                "  \"markdown\": {\n" +
-                "    \"content\": \"" + content + "\"\n" +
-                "  }\n" +
-                "}";
-    }
-
-    public static void setWeChatMsg(CrQuestion question) {
-        String content = buildContent(question);
-        String weChatGroupRobotId = SingletonBeanFactory.getPropertiesComponent().getValue(PersistentKeys.WeChatRobotConfig.WE_CHAT_GROUP_ROBOT_ID);
-        weChatGroupRobotId = ObjectUtils.defaultIfNull(weChatGroupRobotId, PluginConstant.WE_CHAT_GROUP_ROBOT_ID);
-        try {
-            sendPost(weChatGroupRobotId, content);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     /**
      * 发送post请求

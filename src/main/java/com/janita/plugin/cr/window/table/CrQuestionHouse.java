@@ -5,7 +5,7 @@ import com.janita.plugin.common.domain.Pair;
 import com.janita.plugin.common.enums.CrQuestionState;
 import com.janita.plugin.common.util.CommonUtils;
 import com.janita.plugin.common.util.SingletonBeanFactory;
-import com.janita.plugin.common.util.WeChatUtils;
+import com.janita.plugin.common.wechat.WeChatService;
 import com.janita.plugin.cr.domain.CrQuestion;
 import com.janita.plugin.cr.domain.CrQuestionQueryRequest;
 
@@ -27,7 +27,7 @@ public class CrQuestionHouse {
         CrQuestionTable.getCrQuestionList().add(question);
         String[] raw = CrQuestionTable.convertToRaw(question);
         CrQuestionTable.TABLE_MODEL.addRow(raw);
-        WeChatUtils.setWeChatMsg(question);
+        WeChatService.sendByMarkDown(question);
     }
 
     public static void delete(int row, CrQuestion question) {
