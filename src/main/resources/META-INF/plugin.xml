@@ -43,5 +43,8 @@
         <action id="CreateCrQuestionAction" class="com.janita.plugin.cr.CrCreateCrQuestionAction" text="Create CR Question" description="Create a CR question" icon="/img/mark.png">
             <add-to-group group-id="EditorPopupMenu" anchor="first"/>
         </action>
+        <action id="EditorTextFieldAction" class="com.janita.plugin.demo.editortextfield.EditorTextFieldAction" text="EditorTextFieldAction" description="EditorTextFieldAction">
+            <add-to-group group-id="HelpMenu" anchor="first"/>
+        </action>
     </actions>
 </idea-plugin>
